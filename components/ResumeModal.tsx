@@ -88,9 +88,9 @@ export const ResumeModal: React.FC = () => {
 
   const handleAdminLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const correctPassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || "bimbok2026";
+    const correctPassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || "65535";
     
-    if (adminPassInput === correctPassword || adminPassInput === "bimbok" || adminPassInput === "bimbokmkj") {
+    if (adminPassInput === correctPassword || adminPassInput === "65535") {
       setIsAdmin(true);
       setShowAdminLogin(false);
       setAdminPassInput("");
