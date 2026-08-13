@@ -226,7 +226,12 @@ export const DiscordActivityWidget: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-1.5">
-            <Sparkles className="w-3.5 h-3.5 text-neutral-400" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="https://skillicons.dev/icons?i=discord&theme=dark"
+              alt="Discord Logo"
+              className="w-4.5 h-4.5 object-contain shrink-0"
+            />
             <span className="font-extrabold text-[11px] uppercase tracking-wider text-white font-sans">
               Discord Activity Presence
             </span>
