@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { PORTFOLIO_DATA } from "../lib/portfolio-data";
 import { useThemeContext } from "../lib/theme-context";
 import { audioEngine } from "../lib/audio";
-import { Mail, Send, ShieldCheck, Copy, Check, Phone, UserPlus, Download } from "lucide-react";
+import { Mail, Send, ShieldCheck, Copy, Check, Phone, UserPlus, PhoneCall } from "lucide-react";
 
 export const ContactSection: React.FC = () => {
   const { showToast } = useThemeContext();
@@ -15,6 +15,7 @@ export const ContactSection: React.FC = () => {
   const [sentSuccess, setSentSuccess] = useState(false);
 
   const phoneNum = PORTFOLIO_DATA.profile.socials.phone || "+91 9883593295";
+  const telLink = "tel:+919883593295";
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(PORTFOLIO_DATA.profile.socials.email);
@@ -114,7 +115,7 @@ END:VCARD`;
             </div>
           </div>
 
-          {/* Phone & vCard Download Card */}
+          {/* Phone & Recruiter Contact Box */}
           <div className="p-3.5 rounded-xl bg-neutral-900/60 border border-neutral-800/70 space-y-2.5">
             <div className="flex items-center justify-between text-[11px] text-neutral-400">
               <span className="flex items-center gap-1.5 text-neutral-300 font-semibold">
@@ -124,8 +125,15 @@ END:VCARD`;
               <span className="text-[10px] text-neutral-500">+91 9883593295</span>
             </div>
 
+            {/* Direct Phone Number Box - Tapping opens dialer on mobile */}
             <div className="flex items-center justify-between p-2 rounded bg-neutral-950 border border-neutral-800 text-xs">
-              <code className="text-white font-bold">{phoneNum}</code>
+              <a
+                href={telLink}
+                className="text-white font-bold hover:underline flex items-center gap-1.5"
+                title="Tap to call +91 9883593295"
+              >
+                <code>{phoneNum}</code>
+              </a>
               <button
                 onClick={handleCopyPhone}
                 className="p-1 text-neutral-400 hover:text-white transition-colors"
@@ -135,14 +143,26 @@ END:VCARD`;
               </button>
             </div>
 
-            {/* 1-Click vCard Download CTA */}
-            <button
-              onClick={handleDownloadVCard}
-              className="w-full py-2 px-3 rounded-lg bg-white text-black font-extrabold hover:bg-neutral-200 transition-all flex items-center justify-center gap-2 shadow-md text-xs font-mono"
-            >
-              <UserPlus className="w-3.5 h-3.5 text-black" />
-              <span>Save Contact (Download .vcf vCard)</span>
-            </button>
+            {/* Dual CTA Buttons: Direct Mobile Dialer + Save vCard */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-0.5 font-mono text-xs">
+              <a
+                href={telLink}
+                className="py-2 px-3 rounded-lg bg-white text-black font-extrabold hover:bg-neutral-200 transition-all flex items-center justify-center gap-1.5 shadow-md text-xs"
+                title="Open Phone Dialer directly"
+              >
+                <PhoneCall className="w-3.5 h-3.5 text-black" />
+                <span>Call Phone</span>
+              </a>
+
+              <button
+                onClick={handleDownloadVCard}
+                className="py-2 px-3 rounded-lg bg-neutral-900 text-neutral-200 border border-neutral-800 hover:text-white hover:bg-neutral-800 transition-all flex items-center justify-center gap-1.5 text-xs font-bold"
+                title="Download vCard (.vcf)"
+              >
+                <UserPlus className="w-3.5 h-3.5 text-white" />
+                <span>Save vCard</span>
+              </button>
+            </div>
           </div>
 
           {/* GPG Fingerprint Card */}
