@@ -86,25 +86,32 @@ export const ResumeModal: React.FC = () => {
 
   if (!resumeOpen) return null;
 
-  const handleAdminLoginSubmit = (e: React.FormEvent) => {
+  const handleAdminLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const cleanInput = adminPassInput.trim();
-    const envPass = (process.env.NEXT_PUBLIC_ADMIN_PASSWORD || "65535").trim();
-    
-    if (
-      cleanInput === envPass ||
-      cleanInput === "65535" ||
-      cleanInput === "bimbok" ||
-      cleanInput === "bimbokmkj" ||
-      cleanInput === "bimbok2026"
-    ) {
-      setIsAdmin(true);
-      setShowAdminLogin(false);
-      setAdminPassInput("");
-      setPassError(false);
-      audioEngine.playChime();
-      showToast("👑 Admin Mode Authenticated! You can now select any PDF resume.");
-    } else {
+    if (!cleanInput) return;
+
+    try {
+      const res = await fetch("/api/admin/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: cleanInput }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        setIsAdmin(true);
+        setShowAdminLogin(false);
+        setAdminPassInput("");
+        setPassError(false);
+        audioEngine.playChime();
+        showToast("👑 Admin Mode Authenticated! You can now select any PDF resume.");
+      } else {
+        setPassError(true);
+        audioEngine.playError();
+      }
+    } catch {
       setPassError(true);
       audioEngine.playError();
     }
