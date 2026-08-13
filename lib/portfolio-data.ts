@@ -84,6 +84,7 @@ export const PORTFOLIO_DATA = {
     sshCommand: "ssh connect@bimbok.dev",
     gpgFingerprint: "2B4F 89A1 990C E1E4 F7A9 8B90 4F2E 119A C401 773B",
     calUrl: "https://cal.com/bimbok",
+    discordUserId: "1059779383617306634",
     socials: {
       github: "https://github.com/Bimbok",
       linkedin: "https://linkedin.com/in/bimbok",
