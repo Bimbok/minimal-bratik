@@ -8,17 +8,17 @@ import { Mail, Send, ShieldCheck, Copy, Check } from "lucide-react";
 
 export const ContactSection: React.FC = () => {
   const { showToast } = useThemeContext();
-  const [copiedSsh, setCopiedSsh] = useState(false);
+  const [copiedEmail, setCopiedEmail] = useState(false);
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [isSending, setIsSending] = useState(false);
   const [sentSuccess, setSentSuccess] = useState(false);
 
-  const handleCopySsh = () => {
-    navigator.clipboard.writeText(PORTFOLIO_DATA.profile.sshCommand);
-    setCopiedSsh(true);
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText(PORTFOLIO_DATA.profile.socials.email);
+    setCopiedEmail(true);
     audioEngine.playKeyClick("enter");
-    showToast("SSH Command copied!");
-    setTimeout(() => setCopiedSsh(false), 2000);
+    showToast("Email address copied to clipboard!");
+    setTimeout(() => setCopiedEmail(false), 2000);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -53,19 +53,19 @@ export const ContactSection: React.FC = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
         
-        {/* Left Info & SSH Box */}
+        {/* Left Info & Email Copy Box */}
         <div className="space-y-3">
-          {/* SSH Copy Box */}
+          {/* Email Copy Box */}
           <div className="p-3.5 rounded-xl bg-neutral-900/60 border border-neutral-800/70 space-y-2">
-            <div className="text-[11px] text-neutral-400 font-medium">Direct SSH Terminal Connection</div>
+            <div className="text-[11px] text-neutral-400 font-medium">Direct Email Contact</div>
             <div className="flex items-center justify-between p-2 rounded bg-neutral-950 border border-neutral-800 text-xs">
-              <code className="text-white font-bold">{PORTFOLIO_DATA.profile.sshCommand}</code>
+              <code className="text-white font-bold">{PORTFOLIO_DATA.profile.socials.email}</code>
               <button
-                onClick={handleCopySsh}
+                onClick={handleCopyEmail}
                 className="p-1 text-neutral-400 hover:text-white transition-colors"
-                title="Copy SSH Command"
+                title="Copy Email Address"
               >
-                {copiedSsh ? <Check className="w-3.5 h-3.5 text-white" /> : <Copy className="w-3.5 h-3.5" />}
+                {copiedEmail ? <Check className="w-3.5 h-3.5 text-white" /> : <Copy className="w-3.5 h-3.5" />}
               </button>
             </div>
           </div>
