@@ -4,14 +4,17 @@ import React, { useState } from "react";
 import { PORTFOLIO_DATA } from "../lib/portfolio-data";
 import { useThemeContext } from "../lib/theme-context";
 import { audioEngine } from "../lib/audio";
-import { Mail, Send, ShieldCheck, Copy, Check } from "lucide-react";
+import { Mail, Send, ShieldCheck, Copy, Check, Phone, UserPlus, Download } from "lucide-react";
 
 export const ContactSection: React.FC = () => {
   const { showToast } = useThemeContext();
   const [copiedEmail, setCopiedEmail] = useState(false);
+  const [copiedPhone, setCopiedPhone] = useState(false);
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [isSending, setIsSending] = useState(false);
   const [sentSuccess, setSentSuccess] = useState(false);
+
+  const phoneNum = PORTFOLIO_DATA.profile.socials.phone || "+91 9883593295";
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(PORTFOLIO_DATA.profile.socials.email);
@@ -19,6 +22,44 @@ export const ContactSection: React.FC = () => {
     audioEngine.playKeyClick("enter");
     showToast("Email address copied to clipboard!");
     setTimeout(() => setCopiedEmail(false), 2000);
+  };
+
+  const handleCopyPhone = () => {
+    navigator.clipboard.writeText("+919883593295");
+    setCopiedPhone(true);
+    audioEngine.playKeyClick("enter");
+    showToast("Phone number copied to clipboard!");
+    setTimeout(() => setCopiedPhone(false), 2000);
+  };
+
+  const handleDownloadVCard = () => {
+    const vcardContent = `BEGIN:VCARD
+VERSION:3.0
+FN:Bratik Mukherjee
+N:Mukherjee;Bratik;;;
+NICKNAME:Bimbok
+TITLE:Full Stack & Software Developer — System Architect
+EMAIL;TYPE=INTERNET,HOME:bimbokmkj@gmail.com
+TEL;TYPE=CELL,VOICE:+919883593295
+URL:https://bimbok-portfolio.vercel.app
+URL;TYPE=GitHub:https://github.com/Bimbok
+URL;TYPE=LinkedIn:https://linkedin.com/in/bimbok
+ADR;TYPE=HOME:;;West Bengal;India;;;
+NOTE:Full Stack & Software Developer specializing in C++, Go, Python, React, and Linux Systems.
+END:VCARD`;
+
+    const blob = new Blob([vcardContent], { type: "text/vcard;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", "Bratik_Mukherjee.vcf");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    audioEngine.playChime();
+    showToast("Downloaded Bratik Mukherjee vCard (.vcf)!");
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -41,7 +82,7 @@ export const ContactSection: React.FC = () => {
   return (
     <section id="contact" className="space-y-4 pt-6 border-t border-neutral-800/80 font-mono text-xs">
       {/* Section Header */}
-      <div className="flex items-center justify-between font-sans">
+      <div className="flex items-center justify-between font-sans flex-wrap gap-2">
         <h2 className="text-xl font-bold tracking-tight text-white flex items-center gap-2">
           <Mail className="w-5 h-5 text-neutral-300" />
           <span>Get in Touch</span>
@@ -53,11 +94,14 @@ export const ContactSection: React.FC = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
         
-        {/* Left Info & Email Copy Box */}
+        {/* Left Info & Contact Cards */}
         <div className="space-y-3">
           {/* Email Copy Box */}
           <div className="p-3.5 rounded-xl bg-neutral-900/60 border border-neutral-800/70 space-y-2">
-            <div className="text-[11px] text-neutral-400 font-medium">Direct Email Contact</div>
+            <div className="text-[11px] text-neutral-400 font-medium flex items-center justify-between">
+              <span>Direct Email Contact</span>
+              <span className="text-[10px] text-neutral-500">bimbokmkj@gmail.com</span>
+            </div>
             <div className="flex items-center justify-between p-2 rounded bg-neutral-950 border border-neutral-800 text-xs">
               <code className="text-white font-bold">{PORTFOLIO_DATA.profile.socials.email}</code>
               <button
@@ -68,6 +112,37 @@ export const ContactSection: React.FC = () => {
                 {copiedEmail ? <Check className="w-3.5 h-3.5 text-white" /> : <Copy className="w-3.5 h-3.5" />}
               </button>
             </div>
+          </div>
+
+          {/* Phone & vCard Download Card */}
+          <div className="p-3.5 rounded-xl bg-neutral-900/60 border border-neutral-800/70 space-y-2.5">
+            <div className="flex items-center justify-between text-[11px] text-neutral-400">
+              <span className="flex items-center gap-1.5 text-neutral-300 font-semibold">
+                <Phone className="w-3.5 h-3.5 text-white" />
+                Phone & Recruiter Contact
+              </span>
+              <span className="text-[10px] text-neutral-500">+91 9883593295</span>
+            </div>
+
+            <div className="flex items-center justify-between p-2 rounded bg-neutral-950 border border-neutral-800 text-xs">
+              <code className="text-white font-bold">{phoneNum}</code>
+              <button
+                onClick={handleCopyPhone}
+                className="p-1 text-neutral-400 hover:text-white transition-colors"
+                title="Copy Phone Number"
+              >
+                {copiedPhone ? <Check className="w-3.5 h-3.5 text-white" /> : <Copy className="w-3.5 h-3.5" />}
+              </button>
+            </div>
+
+            {/* 1-Click vCard Download CTA */}
+            <button
+              onClick={handleDownloadVCard}
+              className="w-full py-2 px-3 rounded-lg bg-white text-black font-extrabold hover:bg-neutral-200 transition-all flex items-center justify-center gap-2 shadow-md text-xs font-mono"
+            >
+              <UserPlus className="w-3.5 h-3.5 text-black" />
+              <span>Save Contact (Download .vcf vCard)</span>
+            </button>
           </div>
 
           {/* GPG Fingerprint Card */}
