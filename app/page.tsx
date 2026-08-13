@@ -4,7 +4,7 @@ import React from "react";
 import { useGlobalShortcuts } from "../lib/use-global-shortcuts";
 import { SmoothScrollProvider } from "../components/SmoothScrollProvider";
 import { HeroSection } from "../components/HeroSection";
-import { SpotifyStatusWidget } from "../components/SpotifyStatusWidget";
+import { DiscordActivityWidget } from "../components/DiscordActivityWidget";
 import { ExperienceSection } from "../components/ExperienceSection";
 import { ProjectsSection } from "../components/ProjectsSection";
 import { GithubHeatmap } from "../components/GithubHeatmap";
@@ -54,7 +54,7 @@ export default function Home() {
             {/* Main Content Column */}
             <main className="relative z-10 space-y-8">
               <HeroSection />
-              <SpotifyStatusWidget />
+              <DiscordActivityWidget />
               <ExperienceSection />
               <ProjectsSection />
               <GithubHeatmap />

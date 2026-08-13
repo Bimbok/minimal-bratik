@@ -85,6 +85,7 @@ export const PORTFOLIO_DATA = {
     gpgFingerprint: "2B4F 89A1 990C E1E4 F7A9 8B90 4F2E 119A C401 773B",
     calUrl: "https://cal.com/bimbok",
     discordUserId: "1059779383617306634",
+    discordUsername: "bimbokmkj",
     socials: {
       github: "https://github.com/Bimbok",
       linkedin: "https://linkedin.com/in/bimbok",
