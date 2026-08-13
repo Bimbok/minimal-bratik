@@ -40,6 +40,24 @@ export function useGlobalShortcuts() {
   const lastGKeyTimeRef = useRef<number>(0);
   const konamiIndexRef = useRef<number>(0);
 
+  // Global mouse click listener for realistic tactile click feedback across all interactive elements
+  useEffect(() => {
+    const handleMouseDown = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (!target) return;
+
+      const isInteractive = target.closest(
+        "button, a, input, [role='button'], .cursor-pointer, summary, select, textarea"
+      );
+      if (isInteractive) {
+        audioEngine.playMouseClick("down");
+      }
+    };
+
+    window.addEventListener("mousedown", handleMouseDown, { capture: true });
+    return () => window.removeEventListener("mousedown", handleMouseDown, { capture: true });
+  }, []);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement | null;

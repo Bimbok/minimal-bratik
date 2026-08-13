@@ -28,6 +28,65 @@ class AudioEngine {
     return this.isMuted;
   }
 
+  /**
+   * Crisp, tactile mouse click sound effect (Logitech MX / Apple Magic Mouse style)
+   */
+  public playMouseClick(type: "down" | "up" = "down") {
+    if (this.isMuted) return;
+    try {
+      this.initCtx();
+      if (!this.ctx) return;
+
+      const now = this.ctx.currentTime;
+
+      // High frequency crisp mouse switch noise tick
+      const bufferSize = Math.floor(this.ctx.sampleRate * 0.006); // 6ms snap
+      const noiseBuffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+      const output = noiseBuffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        output[i] = (Math.random() * 2 - 1) * (1 - i / bufferSize);
+      }
+
+      const noise = this.ctx.createBufferSource();
+      noise.buffer = noiseBuffer;
+
+      const filter = this.ctx.createBiquadFilter();
+      filter.type = "highpass";
+      filter.frequency.setValueAtTime(type === "down" ? 3200 : 4200, now);
+
+      const gain = this.ctx.createGain();
+      const vol = type === "down" ? 0.16 : 0.08;
+      gain.gain.setValueAtTime(vol, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.008);
+
+      noise.connect(filter);
+      filter.connect(gain);
+      gain.connect(this.ctx.destination);
+
+      // Micro sine pop for switch tactile feel
+      const osc = this.ctx.createOscillator();
+      const oscGain = this.ctx.createGain();
+
+      osc.type = "triangle";
+      const startFreq = type === "down" ? 1600 : 2200;
+      osc.frequency.setValueAtTime(startFreq, now);
+      osc.frequency.exponentialRampToValueAtTime(500, now + 0.006);
+
+      oscGain.gain.setValueAtTime(vol * 0.7, now);
+      oscGain.gain.exponentialRampToValueAtTime(0.001, now + 0.006);
+
+      osc.connect(oscGain);
+      oscGain.connect(this.ctx.destination);
+
+      noise.start(now);
+      noise.stop(now + 0.008);
+      osc.start(now);
+      osc.stop(now + 0.006);
+    } catch {
+      // Ignore audio context errors silently
+    }
+  }
+
   public playKeyClick(type: "down" | "up" | "enter" | "backspace" = "down") {
     if (this.isMuted) return;
     try {
@@ -39,7 +98,7 @@ class AudioEngine {
       const gain = this.ctx.createGain();
 
       // Noise buffer for mechanical switch tactile click
-      const bufferSize = this.ctx.sampleRate * 0.008; // 8ms noise tick
+      const bufferSize = Math.floor(this.ctx.sampleRate * 0.008); // 8ms noise tick
       const noiseBuffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
       const output = noiseBuffer.getChannelData(0);
       for (let i = 0; i < bufferSize; i++) {
