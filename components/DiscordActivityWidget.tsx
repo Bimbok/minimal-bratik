@@ -61,7 +61,7 @@ export const DiscordActivityWidget: React.FC = () => {
   const [durationStr, setDurationStr] = useState<string>("0:00");
 
   const discordUsername = PORTFOLIO_DATA.profile.discordUsername || "bimbokmkj";
-  const discordUserId = PORTFOLIO_DATA.profile.discordUserId || "1059779383617306634";
+  const discordUserId = PORTFOLIO_DATA.profile.discordUserId || "1282246489430818827";
 
   useEffect(() => {
     let isMounted = true;
@@ -131,7 +131,38 @@ export const DiscordActivityWidget: React.FC = () => {
     return () => clearInterval(timer);
   }, [lanyardData]);
 
-  // If Lanyard is not monitored yet, render 1-click notice to join Lanyard server
+  // Helper to map activity names (Neovim, Obsidian, VS Code, Arch, etc.) to skillicons.dev icons
+  const getActivityIconUrl = (act: ActivityItem): string | null => {
+    const name = act.name.toLowerCase();
+    if (name.includes("neovim") || name.includes("nvim") || name.includes("vim")) {
+      return "https://skillicons.dev/icons?i=vim&theme=dark";
+    }
+    if (name.includes("obsidian")) {
+      return "https://skillicons.dev/icons?i=obsidian&theme=dark";
+    }
+    if (name.includes("visual studio code") || name.includes("vscode") || name.includes("code")) {
+      return "https://skillicons.dev/icons?i=vscode&theme=dark";
+    }
+    if (name.includes("arch") || name.includes("linux")) {
+      return "https://skillicons.dev/icons?i=arch&theme=dark";
+    }
+    if (name.includes("github")) {
+      return "https://skillicons.dev/icons?i=github&theme=dark";
+    }
+
+    // Try parsing Discord rich presence large image asset if available
+    if (act.assets?.large_image) {
+      if (act.assets.large_image.startsWith("mp:external/")) {
+        const match = act.assets.large_image.match(/https\/(.*)$/);
+        if (match) return `https://${match[1]}`;
+      } else if (act.assets.large_image.startsWith("https://")) {
+        return act.assets.large_image;
+      }
+    }
+    return null;
+  };
+
+  // If Lanyard is not monitored yet, render notice
   if (isNotMonitored) {
     return (
       <div className="rounded-2xl bg-[#0d0e11] border border-neutral-800 p-4 sm:p-5 shadow-2xl font-mono space-y-3">
@@ -143,7 +174,7 @@ export const DiscordActivityWidget: React.FC = () => {
           <span className="text-[10px] text-neutral-500">@{discordUsername}</span>
         </div>
         <p className="text-xs text-neutral-300 font-sans">
-          To show your live Discord activity (Neovim, Spotify, Games & Status) on your portfolio, join the Lanyard Discord server once:
+          To show your live Discord activity (Neovim, Obsidian, Spotify, Games & Status) on your portfolio, join the Lanyard Discord server once:
         </p>
         <div className="pt-1">
           <a
@@ -212,34 +243,49 @@ export const DiscordActivityWidget: React.FC = () => {
         </div>
       )}
 
-      {/* Render All Active App Activities (e.g. Neovim, VS Code) */}
-      {activeAppActivities.map((act) => (
-        <div key={act.id} className="flex items-center gap-3.5 bg-neutral-950/80 p-3 rounded-xl border border-neutral-800/80">
-          <div className="p-2.5 rounded-xl bg-neutral-900 border border-neutral-800 text-white shrink-0">
-            {act.name.toLowerCase().includes("code") || act.name.toLowerCase().includes("vim") ? (
-              <Code2 className="w-5 h-5 text-white" />
-            ) : (
-              <Activity className="w-5 h-5 text-white" />
-            )}
-          </div>
+      {/* Render All Active App Activities (Neovim, Obsidian, VS Code, etc.) with skillicons.dev */}
+      {activeAppActivities.map((act) => {
+        const iconUrl = getActivityIconUrl(act);
 
-          <div className="flex-1 min-w-0 space-y-0.5">
-            <h4 className="text-xs sm:text-sm font-bold text-white font-sans truncate">
-              {act.name}
-            </h4>
-            {act.details && (
-              <p className="text-[11px] text-neutral-300 truncate">
-                {act.details}
-              </p>
+        return (
+          <div key={act.id} className="flex items-center gap-3.5 bg-neutral-950/80 p-3 rounded-xl border border-neutral-800/80">
+            {iconUrl ? (
+              <div className="w-10 h-10 rounded-xl overflow-hidden border border-neutral-800 bg-neutral-900 shrink-0 p-1 flex items-center justify-center">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={iconUrl}
+                  alt={act.name}
+                  className="w-full h-full object-contain"
+                />
+              </div>
+            ) : (
+              <div className="p-2.5 rounded-xl bg-neutral-900 border border-neutral-800 text-white shrink-0">
+                {act.name.toLowerCase().includes("code") || act.name.toLowerCase().includes("vim") ? (
+                  <Code2 className="w-5 h-5 text-white" />
+                ) : (
+                  <Activity className="w-5 h-5 text-white" />
+                )}
+              </div>
             )}
-            {act.state && (
-              <p className="text-[10px] text-neutral-500 truncate">
-                {act.state}
-              </p>
-            )}
+
+            <div className="flex-1 min-w-0 space-y-0.5">
+              <h4 className="text-xs sm:text-sm font-bold text-white font-sans truncate flex items-center gap-2">
+                <span>{act.name}</span>
+              </h4>
+              {act.details && (
+                <p className="text-[11px] text-neutral-300 truncate font-mono">
+                  {act.details}
+                </p>
+              )}
+              {act.state && (
+                <p className="text-[10px] text-neutral-500 truncate font-mono">
+                  {act.state}
+                </p>
+              )}
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
 
       {/* Render Spotify Activity (if listening) */}
       {isListeningSpotify && lanyardData.spotify && (

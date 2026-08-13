@@ -291,6 +291,13 @@ export const PORTFOLIO_DATA = {
           tags: ["Lua", "LSP", "Treesitter", "Telescope"],
         },
         {
+          name: "Obsidian & PKM",
+          level: 95,
+          experience: "4 Yrs",
+          description: "Personal Knowledge Management, Zettelkasten note-taking, markdown linking & graph view.",
+          tags: ["Obsidian", "Markdown", "Zettelkasten", "PKM"],
+        },
+        {
           name: "Arch Linux & Hyprland",
           level: 94,
           experience: "5 Yrs",

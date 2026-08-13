@@ -35,6 +35,7 @@ export const SkillsSection: React.FC = () => {
     "Tailwind CSS & D3.js": "tailwind",
     Kotlin: "kotlin",
     "Neovim & Lua": "vim",
+    "Obsidian & PKM": "obsidian",
     "Arch Linux & Hyprland": "arch",
     "Docker & Kubernetes": "docker",
   };
