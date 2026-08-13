@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { PORTFOLIO_DATA } from "../lib/portfolio-data";
-import { Code2, Disc, ExternalLink, Activity } from "lucide-react";
+import { Code2, Disc, ExternalLink, Activity, Radio } from "lucide-react";
 
 interface SpotifyData {
   track_id: string;
@@ -32,10 +32,6 @@ interface ActivityItem {
     small_image?: string;
     small_text?: string;
   };
-  emoji?: {
-    name?: string;
-    id?: string;
-  };
 }
 
 interface LanyardResponse {
@@ -50,11 +46,16 @@ interface LanyardResponse {
       avatar: string;
     };
   };
+  error?: {
+    code?: string;
+    message?: string;
+  };
   success?: boolean;
 }
 
 export const DiscordActivityWidget: React.FC = () => {
   const [lanyardData, setLanyardData] = useState<LanyardResponse["data"] | null>(null);
+  const [isNotMonitored, setIsNotMonitored] = useState<boolean>(false);
   const [progress, setProgress] = useState<number>(0);
   const [elapsedStr, setElapsedStr] = useState<string>("0:00");
   const [durationStr, setDurationStr] = useState<string>("0:00");
@@ -62,23 +63,26 @@ export const DiscordActivityWidget: React.FC = () => {
   const discordUsername = PORTFOLIO_DATA.profile.discordUsername || "bimbokmkj";
   const discordUserId = PORTFOLIO_DATA.profile.discordUserId || "1059779383617306634";
 
-  // Fetch Lanyard API for live Discord status & all active rich presence activities
   useEffect(() => {
     let isMounted = true;
 
     const fetchLanyardStatus = async () => {
       try {
-        // Try numeric ID first, then fallback to username if configured
         let res = await fetch(`https://api.lanyard.rest/v1/users/${discordUserId}`);
         if (!res.ok) {
           res = await fetch(`https://api.lanyard.rest/v1/users/${discordUsername}`);
         }
-        if (!res.ok) return;
-
+        
         const data: LanyardResponse = await res.json();
 
-        if (isMounted && data.success && data.data) {
-          setLanyardData(data.data);
+        if (isMounted) {
+          if (data.error?.code === "user_not_monitored") {
+            setIsNotMonitored(true);
+            setLanyardData(null);
+          } else if (data.success && data.data) {
+            setIsNotMonitored(false);
+            setLanyardData(data.data);
+          }
         }
       } catch {
         // Ignore network errors silently
@@ -94,7 +98,7 @@ export const DiscordActivityWidget: React.FC = () => {
     };
   }, [discordUserId, discordUsername]);
 
-  // Real-time track progress timer if listening to Spotify
+  // Real-time track progress timer for Spotify
   useEffect(() => {
     if (!lanyardData?.listening_to_spotify || !lanyardData?.spotify?.timestamps) return;
 
@@ -127,33 +131,60 @@ export const DiscordActivityWidget: React.FC = () => {
     return () => clearInterval(timer);
   }, [lanyardData]);
 
-  // Filter valid active activities excluding pure status text if empty
-  const activeActivities = lanyardData?.activities?.filter((act) => act.type !== 4) || [];
+  // If Lanyard is not monitored yet, render 1-click notice to join Lanyard server
+  if (isNotMonitored) {
+    return (
+      <div className="rounded-2xl bg-[#0d0e11] border border-neutral-800 p-4 sm:p-5 shadow-2xl font-mono space-y-3">
+        <div className="flex items-center justify-between text-xs border-b border-neutral-800 pb-2">
+          <div className="flex items-center gap-2 text-amber-400 font-bold">
+            <Radio className="w-4 h-4 animate-pulse" />
+            <span>Discord Presence Setup Required</span>
+          </div>
+          <span className="text-[10px] text-neutral-500">@{discordUsername}</span>
+        </div>
+        <p className="text-xs text-neutral-300 font-sans">
+          To show your live Discord activity (Neovim, Spotify, Games & Status) on your portfolio, join the Lanyard Discord server once:
+        </p>
+        <div className="pt-1">
+          <a
+            href="https://discord.gg/lanyard"
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-white text-black font-extrabold text-xs hover:bg-neutral-200 transition-all shadow-md"
+          >
+            <span>Join Lanyard Discord Server (1-Click)</span>
+            <ExternalLink className="w-3.5 h-3.5 text-black" />
+          </a>
+        </div>
+      </div>
+    );
+  }
+
+  // Filter activities
+  const activeAppActivities = lanyardData?.activities?.filter((act) => act.type === 0 || act.type === 1 || act.type === 3) || [];
   const customStatus = lanyardData?.activities?.find((act) => act.type === 4);
   const isListeningSpotify = lanyardData?.listening_to_spotify && lanyardData?.spotify;
-  const codingOrAppActivity = activeActivities.find((act) => act.type === 0 || act.type === 1 || act.type === 3);
 
-  // RULE: If there is NO active activity currently happening on Discord, HIDE THE WIDGET COMPLETELY!
-  if (!isListeningSpotify && !codingOrAppActivity && !customStatus?.state) {
+  // RULE: If nothing active is happening on Discord, HIDE COMPLETELY!
+  if (!isListeningSpotify && activeAppActivities.length === 0 && !customStatus?.state) {
     return null;
   }
 
-  // Get Discord Status Indicator color
   const statusColorMap = {
     online: "bg-emerald-400 border-emerald-950",
     idle: "bg-amber-400 border-amber-950",
     dnd: "bg-red-500 border-red-950",
     offline: "bg-neutral-600 border-neutral-950",
   };
-  const statusColor = statusColorMap[lanyardData?.discord_status || "offline"];
+  const statusColor = statusColorMap[lanyardData?.discord_status || "online"];
 
   return (
-    <div className="rounded-2xl bg-[#0d0e11] border border-neutral-800/90 p-4 sm:p-5 shadow-2xl space-y-3.5 font-mono relative overflow-hidden group">
+    <div className="rounded-2xl bg-[#0d0e11] border border-neutral-800/90 p-4 sm:p-5 shadow-2xl space-y-4 font-mono relative overflow-hidden group">
       
-      {/* Background Subtle Pulsing Glow */}
+      {/* Background Subtle Glow */}
       <div className="absolute -top-12 -right-12 w-36 h-36 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none group-hover:bg-emerald-500/10 transition-all duration-700" />
 
-      {/* Top Header Row */}
+      {/* Top Header */}
       <div className="flex items-center justify-between text-xs border-b border-neutral-800/80 pb-2.5">
         <div className="flex items-center gap-2">
           <div className="relative flex items-center justify-center">
@@ -164,114 +195,104 @@ export const DiscordActivityWidget: React.FC = () => {
           </div>
 
           <span className="font-extrabold text-[11px] uppercase tracking-wider text-neutral-200">
-            {isListeningSpotify
-              ? "Live on Spotify"
-              : codingOrAppActivity
-              ? `Discord Activity: ${codingOrAppActivity.name}`
-              : "Discord Presence"}
+            Discord Activity Presence
           </span>
         </div>
 
-        {isListeningSpotify ? (
-          <span className="text-[10px] text-neutral-400 font-mono">
-            {elapsedStr} / {durationStr}
-          </span>
-        ) : (
-          <span className="text-[10px] text-neutral-500 font-mono capitalize">
-            @{discordUsername} • {lanyardData?.discord_status || "online"}
-          </span>
-        )}
+        <span className="text-[10px] text-neutral-400 font-mono">
+          @{discordUsername} • {lanyardData?.discord_status || "online"}
+        </span>
       </div>
 
-      {/* 1. SPOTIFY ACTIVITY DISPLAY */}
-      {isListeningSpotify && lanyardData.spotify ? (
-        <div className="flex items-center gap-3.5 pt-0.5">
-          {/* Album Cover Art */}
-          <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden border border-neutral-800 bg-neutral-950 shrink-0 shadow-lg group-hover:scale-105 transition-transform duration-300">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={lanyardData.spotify.album_art_url}
-              alt={lanyardData.spotify.album}
-              className="w-full h-full object-cover"
+      {/* Custom Status Quote (if set) */}
+      {customStatus?.state && (
+        <div className="flex items-center gap-2 text-xs font-sans text-neutral-300 bg-neutral-950/60 p-2.5 rounded-xl border border-neutral-800/60 italic">
+          <Disc className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
+          <span>&ldquo;{customStatus.state}&rdquo;</span>
+        </div>
+      )}
+
+      {/* Render All Active App Activities (e.g. Neovim, VS Code) */}
+      {activeAppActivities.map((act) => (
+        <div key={act.id} className="flex items-center gap-3.5 bg-neutral-950/80 p-3 rounded-xl border border-neutral-800/80">
+          <div className="p-2.5 rounded-xl bg-neutral-900 border border-neutral-800 text-white shrink-0">
+            {act.name.toLowerCase().includes("code") || act.name.toLowerCase().includes("vim") ? (
+              <Code2 className="w-5 h-5 text-white" />
+            ) : (
+              <Activity className="w-5 h-5 text-white" />
+            )}
+          </div>
+
+          <div className="flex-1 min-w-0 space-y-0.5">
+            <h4 className="text-xs sm:text-sm font-bold text-white font-sans truncate">
+              {act.name}
+            </h4>
+            {act.details && (
+              <p className="text-[11px] text-neutral-300 truncate">
+                {act.details}
+              </p>
+            )}
+            {act.state && (
+              <p className="text-[10px] text-neutral-500 truncate">
+                {act.state}
+              </p>
+            )}
+          </div>
+        </div>
+      ))}
+
+      {/* Render Spotify Activity (if listening) */}
+      {isListeningSpotify && lanyardData.spotify && (
+        <div className="space-y-2 bg-neutral-950/80 p-3 rounded-xl border border-neutral-800/80">
+          <div className="flex items-center justify-between text-[11px] text-neutral-400 pb-1">
+            <span className="font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+              Listening to Spotify
+            </span>
+            <span>{elapsedStr} / {durationStr}</span>
+          </div>
+
+          <div className="flex items-center gap-3.5">
+            <div className="relative w-12 h-12 rounded-lg overflow-hidden border border-neutral-800 bg-neutral-950 shrink-0 shadow-lg">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={lanyardData.spotify.album_art_url}
+                alt={lanyardData.spotify.album}
+                className="w-full h-full object-cover"
+              />
+            </div>
+
+            <div className="flex-1 min-w-0 space-y-0.5">
+              <h4 className="text-xs font-bold text-white font-sans truncate hover:text-emerald-400 transition-colors">
+                <a
+                  href={`https://open.spotify.com/track/${lanyardData.spotify.track_id}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {lanyardData.spotify.song}
+                </a>
+              </h4>
+              <p className="text-[11px] text-neutral-400 truncate">
+                {lanyardData.spotify.artist}
+              </p>
+            </div>
+
+            <a
+              href={`https://open.spotify.com/track/${lanyardData.spotify.track_id}`}
+              target="_blank"
+              rel="noreferrer"
+              className="p-1.5 rounded-lg bg-neutral-900 border border-neutral-800 text-neutral-300 hover:text-white transition-all shrink-0"
+            >
+              <ExternalLink className="w-3.5 h-3.5 text-emerald-400" />
+            </a>
+          </div>
+
+          <div className="w-full bg-neutral-900 rounded-full h-1 overflow-hidden border border-neutral-800/60 mt-1">
+            <div
+              className="bg-emerald-400 h-full transition-all duration-1000 ease-linear"
+              style={{ width: `${progress}%` }}
             />
           </div>
-
-          {/* Song & Artist Meta */}
-          <div className="flex-1 min-w-0 space-y-1">
-            <h4 className="text-xs sm:text-sm font-bold text-white font-sans truncate hover:text-emerald-400 transition-colors">
-              <a
-                href={`https://open.spotify.com/track/${lanyardData.spotify.track_id}`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                {lanyardData.spotify.song}
-              </a>
-            </h4>
-            <p className="text-[11px] text-neutral-400 truncate">
-              {lanyardData.spotify.artist}
-            </p>
-            <p className="text-[10px] text-neutral-500 truncate font-mono">
-              {lanyardData.spotify.album}
-            </p>
-          </div>
-
-          {/* Open in Spotify button */}
-          <a
-            href={`https://open.spotify.com/track/${lanyardData.spotify.track_id}`}
-            target="_blank"
-            rel="noreferrer"
-            className="p-2 rounded-lg bg-neutral-900 border border-neutral-800 text-neutral-300 hover:text-white hover:bg-neutral-800 transition-all shrink-0"
-            title="Open in Spotify"
-          >
-            <ExternalLink className="w-4 h-4 text-emerald-400" />
-          </a>
-        </div>
-      ) : codingOrAppActivity ? (
-        /* 2. CODING / APP / GAME ACTIVITY DISPLAY */
-        <div className="flex items-center gap-3.5 pt-0.5">
-          <div className="p-3 rounded-xl bg-neutral-900 border border-neutral-800 text-white shrink-0">
-            {codingOrAppActivity.name.toLowerCase().includes("code") || codingOrAppActivity.name.toLowerCase().includes("vim") ? (
-              <Code2 className="w-6 h-6 text-white" />
-            ) : (
-              <Activity className="w-6 h-6 text-white" />
-            )}
-          </div>
-
-          <div className="flex-1 min-w-0 space-y-1">
-            <h4 className="text-xs sm:text-sm font-bold text-white font-sans truncate">
-              {codingOrAppActivity.name}
-            </h4>
-            {codingOrAppActivity.details && (
-              <p className="text-[11px] text-neutral-300 truncate">
-                {codingOrAppActivity.details}
-              </p>
-            )}
-            {codingOrAppActivity.state && (
-              <p className="text-[10px] text-neutral-500 truncate">
-                {codingOrAppActivity.state}
-              </p>
-            )}
-          </div>
-        </div>
-      ) : customStatus?.state ? (
-        /* 3. CUSTOM DISCORD STATUS DISPLAY */
-        <div className="flex items-center gap-3 pt-0.5">
-          <div className="p-2.5 rounded-xl bg-neutral-900 border border-neutral-800 text-neutral-300 shrink-0">
-            <Disc className="w-4 h-4 text-white" />
-          </div>
-          <p className="text-xs font-medium text-neutral-200 font-sans italic">
-            &ldquo;{customStatus.state}&rdquo;
-          </p>
-        </div>
-      ) : null}
-
-      {/* Progress Bar (when listening to Spotify) */}
-      {isListeningSpotify && (
-        <div className="w-full bg-neutral-900 rounded-full h-1 overflow-hidden border border-neutral-800/60">
-          <div
-            className="bg-emerald-400 h-full transition-all duration-1000 ease-linear"
-            style={{ width: `${progress}%` }}
-          />
         </div>
       )}
 
