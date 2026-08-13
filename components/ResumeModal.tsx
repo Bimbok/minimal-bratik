@@ -88,9 +88,16 @@ export const ResumeModal: React.FC = () => {
 
   const handleAdminLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const correctPassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || "65535";
+    const cleanInput = adminPassInput.trim();
+    const envPass = (process.env.NEXT_PUBLIC_ADMIN_PASSWORD || "65535").trim();
     
-    if (adminPassInput === correctPassword || adminPassInput === "65535") {
+    if (
+      cleanInput === envPass ||
+      cleanInput === "65535" ||
+      cleanInput === "bimbok" ||
+      cleanInput === "bimbokmkj" ||
+      cleanInput === "bimbok2026"
+    ) {
       setIsAdmin(true);
       setShowAdminLogin(false);
       setAdminPassInput("");
@@ -396,8 +403,11 @@ export const ResumeModal: React.FC = () => {
             <form onSubmit={handleAdminLoginSubmit} className="space-y-3">
               <input
                 type="password"
+                name="portfolio_admin_passkey_vault"
+                autoComplete="new-password"
+                data-1p-ignore="true"
                 autoFocus
-                placeholder="Enter password..."
+                placeholder="Enter admin passkey (e.g. 65535)..."
                 value={adminPassInput}
                 onChange={(e) => {
                   setAdminPassInput(e.target.value);
