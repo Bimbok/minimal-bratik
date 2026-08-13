@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useThemeContext } from "../lib/theme-context";
 import { audioEngine } from "../lib/audio";
 import { X, ExternalLink, Cpu, Check, Copy } from "lucide-react";
@@ -9,6 +9,18 @@ import { GithubIcon } from "./BrandIcons";
 export const ProjectDetailModal: React.FC = () => {
   const { selectedProject, setSelectedProject, showToast } = useThemeContext();
   const [copiedCmd, setCopiedCmd] = React.useState(false);
+
+  useEffect(() => {
+    const lenis = (window as unknown as { lenis?: { stop: () => void; start: () => void } }).lenis;
+    if (selectedProject) {
+      if (lenis) lenis.stop();
+      document.body.style.overflow = "hidden";
+    }
+    return () => {
+      if (lenis) lenis.start();
+      document.body.style.overflow = "";
+    };
+  }, [selectedProject]);
 
   if (!selectedProject) return null;
 
@@ -29,10 +41,10 @@ export const ProjectDetailModal: React.FC = () => {
         onClick={() => setSelectedProject(null)}
       />
 
-      <div className="relative w-full max-w-2xl rounded-xl bg-[#0e0f12] border border-neutral-800 shadow-2xl overflow-hidden z-10 text-neutral-200">
+      <div className="relative w-full max-w-2xl rounded-xl bg-[#0e0f12] border border-neutral-800 shadow-2xl overflow-hidden z-10 text-neutral-200 flex flex-col max-h-[85vh]">
         
         {/* Header */}
-        <div className="px-5 py-3.5 bg-neutral-950 border-b border-neutral-800 flex items-center justify-between">
+        <div className="px-5 py-3.5 bg-neutral-950 border-b border-neutral-800 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-2">
             <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800/60">
               {selectedProject.status}
@@ -47,8 +59,8 @@ export const ProjectDetailModal: React.FC = () => {
           </button>
         </div>
 
-        {/* Modal Body */}
-        <div className="p-6 space-y-5 max-h-[75vh] overflow-y-auto font-mono">
+        {/* Modal Body with data-lenis-prevent */}
+        <div data-lenis-prevent className="p-6 space-y-5 flex-1 overflow-y-auto overscroll-contain font-mono">
           
           {/* Tagline */}
           <p className="text-sm font-semibold text-emerald-400 leading-snug font-sans">
@@ -104,7 +116,7 @@ export const ProjectDetailModal: React.FC = () => {
         </div>
 
         {/* Footer Actions */}
-        <div className="px-5 py-3 bg-neutral-950 border-t border-neutral-800 flex items-center justify-between">
+        <div className="px-5 py-3 bg-neutral-950 border-t border-neutral-800 flex items-center justify-between shrink-0">
           <div className="text-xs text-neutral-400 font-sans">
             Repo Path: <span className="font-mono text-emerald-400">{selectedProject.repoPath}</span>
           </div>

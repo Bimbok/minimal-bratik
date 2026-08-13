@@ -27,6 +27,18 @@ export interface ExperienceItem {
   type?: string;
 }
 
+export interface CertificationItem {
+  id: string;
+  title: string;
+  issuer: string;
+  date: string;
+  credentialId?: string;
+  credentialUrl?: string;
+  imagePath: string;
+  details: string[];
+  tags: string[];
+}
+
 export interface SkillCategory {
   category: "Languages" | "Frameworks" | "Tools & Linux";
   icon: string;
@@ -151,6 +163,35 @@ export const PORTFOLIO_DATA = {
       tech: ["C++", "Kotlin", "Go", "SQLite", "Android MVVM"],
     },
   ] as ExperienceItem[],
+
+  certifications: [
+    {
+      id: "sih-2025",
+      title: "Smart India Hackathon '25 — Certificate of Participation",
+      issuer: "Ministry of Education (MoE's Innovation Cell, Govt of India) & AICTE",
+      date: "September 13, 2025",
+      imagePath: "/certificates/sih_2025_certificate.png",
+      details: [
+        "Participated in Internal Hackathon'25 organized by Techno Main Salt Lake under MoE Innovation Cell & AICTE guidelines.",
+        "Built and presented innovative technical project prototype evaluated by academic and industry judges.",
+      ],
+      tags: ["Hackathon", "MoE Innovation Cell", "AICTE", "System Architecture"],
+    },
+    {
+      id: "udemy-datascience-2025",
+      title: "Data Science Mastery 2025: Excel, Python & Tableau",
+      issuer: "Udemy / Meritshot Academy",
+      date: "April 1, 2025",
+      credentialId: "UC-ab4602b8-67b1-4f5b-abad-9a2d261f17ae",
+      credentialUrl: "https://ude.my/UC-ab4602b8-67b1-4f5b-abad-9a2d261f17ae",
+      imagePath: "/certificates/udemy_datascience_certificate.png",
+      details: [
+        "Completed 21.5 hours of comprehensive coursework covering Python data analysis, Tableau visualization, and advanced statistics.",
+        "Mastered hands-on data cleaning, regression models, exploratory data analysis (EDA), and interactive dashboards.",
+      ],
+      tags: ["Python", "Data Science", "Tableau", "Excel", "Statistics"],
+    },
+  ] as CertificationItem[],
 
   systemSpecs: {
     user: "bratik",

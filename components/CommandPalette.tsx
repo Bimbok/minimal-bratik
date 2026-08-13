@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Command } from "cmdk";
 import { useThemeContext, SectionId, ThemeMode } from "../lib/theme-context";
 import { audioEngine } from "../lib/audio";
@@ -32,6 +32,18 @@ export const CommandPalette: React.FC = () => {
     showToast,
   } = useThemeContext();
 
+  useEffect(() => {
+    const lenis = (window as unknown as { lenis?: { stop: () => void; start: () => void } }).lenis;
+    if (commandPaletteOpen) {
+      if (lenis) lenis.stop();
+      document.body.style.overflow = "hidden";
+    }
+    return () => {
+      if (lenis) lenis.start();
+      document.body.style.overflow = "";
+    };
+  }, [commandPaletteOpen]);
+
   if (!commandPaletteOpen) return null;
 
   const handleSelectSection = (id: SectionId) => {
@@ -39,7 +51,14 @@ export const CommandPalette: React.FC = () => {
     setCommandPaletteOpen(false);
     audioEngine.playKeyClick("enter");
     const elem = document.getElementById(id);
-    if (elem) elem.scrollIntoView({ behavior: "smooth" });
+    if (elem) {
+      const lenis = (window as unknown as { lenis?: { scrollTo: (el: HTMLElement, opts: object) => void } }).lenis;
+      if (lenis) {
+        lenis.scrollTo(elem, { duration: 1.5, offset: -20 });
+      } else {
+        elem.scrollIntoView({ behavior: "smooth" });
+      }
+    }
   };
 
   const handleSelectTheme = (t: ThemeMode) => {
@@ -71,8 +90,8 @@ export const CommandPalette: React.FC = () => {
             </kbd>
           </div>
 
-          {/* Command Options List */}
-          <Command.List className="max-h-80 overflow-y-auto p-2 space-y-1">
+          {/* Command Options List with data-lenis-prevent */}
+          <Command.List data-lenis-prevent className="max-h-80 overflow-y-auto overscroll-contain p-2 space-y-1">
             <Command.Empty className="p-4 text-center text-neutral-500">
               No matching commands found.
             </Command.Empty>

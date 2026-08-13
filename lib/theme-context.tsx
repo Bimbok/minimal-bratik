@@ -27,6 +27,8 @@ interface ThemeContextType {
   setNeofetchOpen: (open: boolean) => void;
   resumeOpen: boolean;
   setResumeOpen: (open: boolean) => void;
+  certificationsOpen: boolean;
+  setCertificationsOpen: (open: boolean) => void;
   keyboardHelpOpen: boolean;
   setKeyboardHelpOpen: (open: boolean) => void;
   matrixRainActive: boolean;
@@ -51,6 +53,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [vimPromptOpen, setVimPromptOpen] = useState(false);
   const [neofetchOpen, setNeofetchOpen] = useState(false);
   const [resumeOpen, setResumeOpen] = useState(false);
+  const [certificationsOpen, setCertificationsOpen] = useState(false);
   const [keyboardHelpOpen, setKeyboardHelpOpen] = useState(false);
   const [matrixRainActive, setMatrixRainActive] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -132,6 +135,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         setNeofetchOpen,
         resumeOpen,
         setResumeOpen,
+        certificationsOpen,
+        setCertificationsOpen,
         keyboardHelpOpen,
         setKeyboardHelpOpen,
         matrixRainActive,

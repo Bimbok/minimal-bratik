@@ -5,23 +5,15 @@ import { PORTFOLIO_DATA } from "../lib/portfolio-data";
 import { useThemeContext } from "../lib/theme-context";
 import { audioEngine } from "../lib/audio";
 import { GithubHoverCard } from "./GithubHoverCard";
-import { Mail, FileText, Command, Sun, FolderGit2 } from "lucide-react";
+import { Mail, FileText, Command, Sun, Award } from "lucide-react";
 
 export const HeroSection: React.FC = () => {
-  const { setResumeOpen, setCommandPaletteOpen, theme, setTheme } = useThemeContext();
-
-  const handleExploreProjects = () => {
-    audioEngine.playKeyClick("down");
-    const elem = document.getElementById("projects");
-    if (elem) {
-      elem.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+  const { setResumeOpen, setCommandPaletteOpen, setCertificationsOpen, theme, setTheme } = useThemeContext();
 
   return (
     <section id="home" className="space-y-6">
       
-      {/* Top Rectangular Banner Image (Solo Leveling Wallpaper) with Un-cut Top & Seamless Bottom Gradient Blend */}
+      {/* Top Rectangular Banner Image (Solo Leveling Wallpaper) with Monochrome Filter & Seamless Gradient */}
       <div className="relative w-full h-64 sm:h-80 md:h-96 rounded-2xl overflow-hidden border border-neutral-800/80 shadow-2xl bg-[#08090b] group">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -104,14 +96,17 @@ export const HeroSection: React.FC = () => {
           </ul>
         </div>
 
-        {/* Call to Action Buttons */}
+        {/* Call to Action Buttons: Certifications Button instead of Explore Projects */}
         <div className="flex flex-wrap gap-2.5 pt-2 text-xs">
           <button
-            onClick={handleExploreProjects}
-            className="px-3.5 py-2 rounded-lg bg-white text-black font-extrabold hover:bg-neutral-200 transition-all flex items-center gap-2 shadow-md"
+            onClick={() => {
+              audioEngine.playKeyClick("down");
+              setCertificationsOpen(true);
+            }}
+            className="px-3.5 py-2 rounded-lg bg-white text-black font-extrabold hover:bg-neutral-200 transition-all flex items-center gap-2 shadow-md cursor-pointer"
           >
-            <FolderGit2 className="w-3.5 h-3.5" />
-            <span>Explore Projects</span>
+            <Award className="w-4 h-4 text-black shrink-0" />
+            <span>Certifications</span>
           </button>
 
           <a

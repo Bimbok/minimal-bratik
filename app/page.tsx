@@ -15,6 +15,7 @@ import { CommandPalette } from "../components/CommandPalette";
 import { VimCommandPrompt } from "../components/VimCommandPrompt";
 import { NeofetchModal } from "../components/NeofetchModal";
 import { ResumeModal } from "../components/ResumeModal";
+import { CertificationsModal } from "../components/CertificationsModal";
 import { KeyboardHelpModal } from "../components/KeyboardHelpModal";
 import { ProjectDetailModal } from "../components/ProjectDetailModal";
 import { ToastNotification } from "../components/ToastNotification";
@@ -71,6 +72,7 @@ export default function Home() {
         <VimCommandPrompt />
         <NeofetchModal />
         <ResumeModal />
+        <CertificationsModal />
         <KeyboardHelpModal />
         <ProjectDetailModal />
         <ToastNotification />
