@@ -324,7 +324,7 @@ export const PORTFOLIO_DATA = {
       tagline: "C++ Based Filemanager for Linux handling 10,000+ files seamlessly",
       description: "Developed a high-performance terminal file manager leveraging C++ and system-level APIs to handle 10,000+ files seamlessly with 40% reduced rendering latency.",
       imagePath: "/projects/fyzenor.png",
-      logoUrl: "https://avatars.githubusercontent.com/u/132834022?v=4",
+      logoUrl: "/fyzenor.png",
       architecture: [
         "Modern C++17 filesystem library integration",
         "Asynchronous multi-pane ncurses TUI event loop",
@@ -383,7 +383,7 @@ export const PORTFOLIO_DATA = {
       tagline: "AWS Hackathon Top 15% Finalist — AI platform for digital creators & educators",
       description: "AI-driven platform facilitating content generation and workflow automation for 100+ simulated users, placing in top 15% among 500+ teams in AWS Hackathon.",
       imagePath: "/projects/creaitr.png",
-      logoUrl: "https://avatars.githubusercontent.com/u/250792693?v=4",
+      logoUrl: "/creAItr.png",
       architecture: [
         "Flask & Python backend with LLM API orchestration",
         "ChromaDB vector database integration for semantic retrieval",
