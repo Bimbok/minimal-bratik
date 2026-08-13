@@ -95,6 +95,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://bimbok-portfolio.vercel.app",
   },
+  verification: {
+    google: "gFurputTJW0d-GTnJHv-VcLR0X_g7NSB-N2VV71rMno",
+  },
 };
 
 export default function RootLayout({
@@ -156,6 +159,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
+        <meta name="google-site-verification" content="gFurputTJW0d-GTnJHv-VcLR0X_g7NSB-N2VV71rMno" />
         <link rel="icon" href="https://avatars.githubusercontent.com/u/132834022?v=4" />
         <link rel="apple-touch-icon" href="https://avatars.githubusercontent.com/u/132834022?v=4" />
         <script
