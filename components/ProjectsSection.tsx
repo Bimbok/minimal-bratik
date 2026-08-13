@@ -95,9 +95,17 @@ export const ProjectsSection: React.FC = () => {
                     audioEngine.playKeyClick("down");
                     setSelectedProject(project);
                   }}
-                  className="text-base font-bold text-neutral-100 group-hover:text-white transition-colors font-sans cursor-pointer"
+                  className="text-base font-bold text-neutral-100 group-hover:text-white transition-colors font-sans cursor-pointer flex items-center gap-2"
                 >
-                  {project.title}
+                  {project.logoUrl && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={project.logoUrl}
+                      alt={`${project.title} logo`}
+                      className="w-5 h-5 rounded-full object-cover border border-neutral-800 shrink-0 group-hover:scale-110 transition-transform"
+                    />
+                  )}
+                  <span>{project.title}</span>
                 </h3>
 
                 <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-neutral-950 border border-neutral-800 text-[10px] font-mono text-neutral-300">

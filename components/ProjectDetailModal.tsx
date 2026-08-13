@@ -76,11 +76,19 @@ export const ProjectDetailModal: React.FC = () => {
         {/* Top Header */}
         <div className="px-5 py-4 bg-neutral-950 border-b border-neutral-800 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-2.5">
-            <span className="text-[10px] uppercase font-mono font-extrabold px-2.5 py-0.5 rounded-md bg-neutral-900 text-white border border-neutral-700 shadow-sm">
-              {selectedProject.status}
-            </span>
+            {selectedProject.logoUrl && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={selectedProject.logoUrl}
+                alt={`${selectedProject.title} logo`}
+                className="w-6 h-6 rounded-full object-cover border border-neutral-800 shrink-0"
+              />
+            )}
             <span className="font-extrabold text-base text-white font-sans tracking-tight">
               {selectedProject.title}
+            </span>
+            <span className="text-[10px] uppercase font-mono font-extrabold px-2 py-0.5 rounded-md bg-neutral-900 text-neutral-300 border border-neutral-800">
+              {selectedProject.status}
             </span>
           </div>
           <button
