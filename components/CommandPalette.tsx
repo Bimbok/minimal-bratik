@@ -1,0 +1,204 @@
+"use client";
+
+import React from "react";
+import { Command } from "cmdk";
+import { useThemeContext, SectionId, ThemeMode } from "../lib/theme-context";
+import { audioEngine } from "../lib/audio";
+import {
+  Search,
+  Terminal,
+  Palette,
+  Volume2,
+  VolumeX,
+  Sparkles,
+  Layers,
+  Code2,
+  Mail,
+  Cpu,
+  Download,
+} from "lucide-react";
+
+export const CommandPalette: React.FC = () => {
+  const {
+    commandPaletteOpen,
+    setCommandPaletteOpen,
+    setActiveSection,
+    setTheme,
+    toggleAudio,
+    isMuted,
+    setResumeOpen,
+    setNeofetchOpen,
+    setMatrixRainActive,
+    showToast,
+  } = useThemeContext();
+
+  if (!commandPaletteOpen) return null;
+
+  const handleSelectSection = (id: SectionId) => {
+    setActiveSection(id);
+    setCommandPaletteOpen(false);
+    audioEngine.playKeyClick("enter");
+    const elem = document.getElementById(id);
+    if (elem) elem.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const handleSelectTheme = (t: ThemeMode) => {
+    setTheme(t);
+    setCommandPaletteOpen(false);
+    showToast(`Switched theme to ${t.toUpperCase()}`);
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 px-4 bg-black/70 backdrop-blur-md animate-in fade-in duration-150 font-mono">
+      <div
+        className="fixed inset-0"
+        onClick={() => setCommandPaletteOpen(false)}
+      />
+
+      <div className="relative w-full max-w-xl rounded-xl bg-[#0e0f12] border border-neutral-700 shadow-2xl overflow-hidden z-10 text-xs text-neutral-200">
+        <Command label="Command Palette" className="w-full">
+          
+          {/* Input Header */}
+          <div className="flex items-center gap-2 px-4 py-3 border-b border-neutral-800 bg-neutral-950">
+            <Search className="w-4 h-4 text-white shrink-0" />
+            <Command.Input
+              autoFocus
+              placeholder="Type a command, search section, or change theme..."
+              className="w-full bg-transparent text-white focus:outline-none placeholder:text-neutral-500 text-xs font-mono"
+            />
+            <kbd className="px-1.5 py-0.5 rounded bg-neutral-900 border border-neutral-800 text-[10px] text-neutral-400">
+              ESC
+            </kbd>
+          </div>
+
+          {/* Command Options List */}
+          <Command.List className="max-h-80 overflow-y-auto p-2 space-y-1">
+            <Command.Empty className="p-4 text-center text-neutral-500">
+              No matching commands found.
+            </Command.Empty>
+
+            {/* Navigation Group */}
+            <Command.Group heading="Navigate Sections" className="text-[10px] uppercase font-bold text-neutral-500 px-2 py-1">
+              <Command.Item
+                onSelect={() => handleSelectSection("home")}
+                className="flex items-center justify-between p-2.5 rounded-md hover:bg-neutral-800 text-neutral-200 cursor-pointer aria-selected:bg-neutral-800 aria-selected:text-white"
+              >
+                <div className="flex items-center gap-2">
+                  <Terminal className="w-4 h-4 text-neutral-300" />
+                  <span>/home (Overview & Bio)</span>
+                </div>
+                <kbd className="text-[10px] text-neutral-500">1</kbd>
+              </Command.Item>
+
+              <Command.Item
+                onSelect={() => handleSelectSection("skills")}
+                className="flex items-center justify-between p-2.5 rounded-md hover:bg-neutral-800 text-neutral-200 cursor-pointer aria-selected:bg-neutral-800 aria-selected:text-white"
+              >
+                <div className="flex items-center gap-2">
+                  <Code2 className="w-4 h-4 text-neutral-300" />
+                  <span>~/.config/skills (Tech Stack)</span>
+                </div>
+                <kbd className="text-[10px] text-neutral-500">2</kbd>
+              </Command.Item>
+
+              <Command.Item
+                onSelect={() => handleSelectSection("projects")}
+                className="flex items-center justify-between p-2.5 rounded-md hover:bg-neutral-800 text-neutral-200 cursor-pointer aria-selected:bg-neutral-800 aria-selected:text-white"
+              >
+                <div className="flex items-center gap-2">
+                  <Layers className="w-4 h-4 text-neutral-300" />
+                  <span>/projects (Featured Repos)</span>
+                </div>
+                <kbd className="text-[10px] text-neutral-500">3</kbd>
+              </Command.Item>
+
+              <Command.Item
+                onSelect={() => handleSelectSection("contact")}
+                className="flex items-center justify-between p-2.5 rounded-md hover:bg-neutral-800 text-neutral-200 cursor-pointer aria-selected:bg-neutral-800 aria-selected:text-white"
+              >
+                <div className="flex items-center gap-2">
+                  <Mail className="w-4 h-4 text-neutral-300" />
+                  <span>/contact (SSH & Email)</span>
+                </div>
+                <kbd className="text-[10px] text-neutral-500">4</kbd>
+              </Command.Item>
+            </Command.Group>
+
+            {/* Actions & Utilities */}
+            <Command.Group heading="Actions & System" className="text-[10px] uppercase font-bold text-neutral-500 px-2 py-1 mt-2">
+              <Command.Item
+                onSelect={() => {
+                  setCommandPaletteOpen(false);
+                  setResumeOpen(true);
+                  audioEngine.playKeyClick("enter");
+                }}
+                className="flex items-center justify-between p-2.5 rounded-md hover:bg-neutral-800 text-neutral-200 cursor-pointer aria-selected:bg-neutral-800 aria-selected:text-white"
+              >
+                <div className="flex items-center gap-2">
+                  <Download className="w-4 h-4 text-neutral-300" />
+                  <span>cat resume (View Developer Resume)</span>
+                </div>
+              </Command.Item>
+
+              <Command.Item
+                onSelect={() => {
+                  setCommandPaletteOpen(false);
+                  setNeofetchOpen(true);
+                  audioEngine.playKeyClick("enter");
+                }}
+                className="flex items-center justify-between p-2.5 rounded-md hover:bg-neutral-800 text-neutral-200 cursor-pointer aria-selected:bg-neutral-800 aria-selected:text-white"
+              >
+                <div className="flex items-center gap-2">
+                  <Cpu className="w-4 h-4 text-neutral-300" />
+                  <span>neofetch (Display System Specs)</span>
+                </div>
+              </Command.Item>
+
+              <Command.Item
+                onSelect={() => {
+                  setCommandPaletteOpen(false);
+                  setMatrixRainActive((prev) => !prev);
+                  audioEngine.playChime();
+                }}
+                className="flex items-center justify-between p-2.5 rounded-md hover:bg-neutral-800 text-neutral-200 cursor-pointer aria-selected:bg-neutral-800 aria-selected:text-white"
+              >
+                <div className="flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-neutral-300" />
+                  <span>matrix (Toggle Code Rain Canvas)</span>
+                </div>
+              </Command.Item>
+
+              <Command.Item
+                onSelect={() => {
+                  toggleAudio();
+                  setCommandPaletteOpen(false);
+                }}
+                className="flex items-center justify-between p-2.5 rounded-md hover:bg-neutral-800 text-neutral-200 cursor-pointer aria-selected:bg-neutral-800 aria-selected:text-white"
+              >
+                <div className="flex items-center gap-2">
+                  {isMuted ? <VolumeX className="w-4 h-4 text-neutral-400" /> : <Volume2 className="w-4 h-4 text-white" />}
+                  <span>{isMuted ? "Unmute Key Audio" : "Mute Key Audio"}</span>
+                </div>
+              </Command.Item>
+            </Command.Group>
+
+            {/* Themes Group */}
+            <Command.Group heading="Themes" className="text-[10px] uppercase font-bold text-neutral-500 px-2 py-1 mt-2">
+              <Command.Item
+                onSelect={() => handleSelectTheme("dark")}
+                className="flex items-center justify-between p-2.5 rounded-md hover:bg-neutral-800 text-neutral-200 cursor-pointer aria-selected:bg-neutral-800 aria-selected:text-white"
+              >
+                <div className="flex items-center gap-2">
+                  <Palette className="w-4 h-4 text-white" />
+                  <span>theme dark (Deep Monochrome Blackish Default)</span>
+                </div>
+              </Command.Item>
+            </Command.Group>
+
+          </Command.List>
+
+        </Command>
+      </div>
+    </div>
+  );
+};
