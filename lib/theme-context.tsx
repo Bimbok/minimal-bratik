@@ -18,6 +18,12 @@ interface ThemeContextType {
   activeSection: SectionId;
   setActiveSection: (sec: SectionId) => void;
   
+  // Admin & Dynamic Resume Management
+  isAdmin: boolean;
+  setIsAdmin: (val: boolean) => void;
+  activeResumeId: string;
+  setActiveResumeId: (id: string) => void;
+
   // Modals
   commandPaletteOpen: boolean;
   setCommandPaletteOpen: (open: boolean) => void;
@@ -49,6 +55,9 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [vimMode, setVimMode] = useState<VimMode>("NORMAL");
   const [activeSection, setActiveSection] = useState<SectionId>("home");
 
+  const [isAdmin, setIsAdminState] = useState<boolean>(false);
+  const [activeResumeId, setActiveResumeIdState] = useState<string>("1PRPbcnMlDVuROMaDTuqLgVOV4BhmcFHr");
+
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
   const [vimPromptOpen, setVimPromptOpen] = useState(false);
   const [neofetchOpen, setNeofetchOpen] = useState(false);
@@ -60,7 +69,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  // Load stored theme or audio settings
+  // Load stored settings from localStorage
   useEffect(() => {
     const savedTheme = localStorage.getItem("mini_portfolio_theme") as ThemeMode | null;
     if (savedTheme && ["dark", "gruvbox", "crt"].includes(savedTheme)) {
@@ -72,7 +81,25 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       setIsMuted(muted);
       audioEngine.setMuted(muted);
     }
+    const savedAdmin = localStorage.getItem("bimbok_admin_authenticated");
+    if (savedAdmin === "true") {
+      setIsAdminState(true);
+    }
+    const savedResumeId = localStorage.getItem("bimbok_active_resume_id");
+    if (savedResumeId) {
+      setActiveResumeIdState(savedResumeId);
+    }
   }, []);
+
+  const setIsAdmin = (val: boolean) => {
+    setIsAdminState(val);
+    localStorage.setItem("bimbok_admin_authenticated", String(val));
+  };
+
+  const setActiveResumeId = (id: string) => {
+    setActiveResumeIdState(id);
+    localStorage.setItem("bimbok_active_resume_id", id);
+  };
 
   const setTheme = (newTheme: ThemeMode) => {
     setThemeState(newTheme);
@@ -127,6 +154,10 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         setVimMode,
         activeSection,
         setActiveSection,
+        isAdmin,
+        setIsAdmin,
+        activeResumeId,
+        setActiveResumeId,
         commandPaletteOpen,
         setCommandPaletteOpen,
         vimPromptOpen,

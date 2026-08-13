@@ -394,9 +394,91 @@ export const PORTFOLIO_DATA = {
     },
   ] as Project[],
 
+  resumeDriveFiles: [
+    {
+      id: "1PRPbcnMlDVuROMaDTuqLgVOV4BhmcFHr",
+      name: "v5.3 - Fullstack Engineer (Personal)",
+      tag: "v5 Fullstack",
+      fileTitle: "Bratik_Mukherjee_v5_fullstack_personal.pdf",
+    },
+    {
+      id: "1Ur9MzIff8CflELUV0Vy0ZTIO7FSawNLn",
+      name: "v5.2 - Backend Engineer (Personal)",
+      tag: "v5 Backend",
+      fileTitle: "Bratik_Mukherjee_v5_Backend_Engineer_personal.pdf",
+    },
+    {
+      id: "1NuNE2-qYO0rwXC5zgtahv0SP3L85D50n",
+      name: "v5.1 - Frontend Engineer (Personal)",
+      tag: "v5 Frontend",
+      fileTitle: "Bratik_Mukherjee_v5_frontend_personal.pdf",
+    },
+    {
+      id: "1erKJpKa-twmge63KqwkNIBwbN0qlSrim",
+      name: "v5.0 - Data Engineer (Personal)",
+      tag: "v5 Data Eng",
+      fileTitle: "Bratik_Mukherjee_v5_Data_Engineer_personal.pdf",
+    },
+    {
+      id: "1j3Yr6qxC0tgUjH_ic-MgjUki9AhbvN7-",
+      name: "v5.0 - Gameberry Systems (Personal)",
+      tag: "v5 Gameberry",
+      fileTitle: "Bratik_Mukherjee_v5_Gameberry_personal.pdf",
+    },
+    {
+      id: "1JLD6NOms2y1yPMhHHUrwDBr-LVv5C7Ik",
+      name: "v5.0 - Visual Photo Resume (Personal)",
+      tag: "v5 Visual",
+      fileTitle: "Bratik_Mukherjee_v5_image_personal.pdf",
+    },
+    {
+      id: "1mt_w8KPAfe0l-kb7r8Y7_9LM3hSJotkx",
+      name: "v5.0 - College Edition (Photo)",
+      tag: "v5 College",
+      fileTitle: "Bratik_Mukherjee_v5_image_college.pdf",
+    },
+    {
+      id: "1Gf_oaCumZybqLcL5DHJ-a_pp5Rqo18_V",
+      name: "v4.0 - College Data Analytics",
+      tag: "v4 Data Analytics",
+      fileTitle: "Bratik_Mukherjee_v4_college_data_analytics.pdf",
+    },
+    {
+      id: "1c72XvepCBUx9ePhSgM-NaFPiMm4Zttb-",
+      name: "v4.0 - Personal Data Analytics",
+      tag: "v4 Personal",
+      fileTitle: "Bratik_Mukherjee_v4_persoal_data_analytics.pdf",
+    },
+    {
+      id: "1DfTXgHDBPaRnmmI_rlb4_HvdEgOP3-jl",
+      name: "v3.0 - Personal Systems",
+      tag: "v3 Personal",
+      fileTitle: "Bratik_Mukherjee_v3_personal.pdf",
+    },
+    {
+      id: "1sh9cEbkFnVL0y7kSULVPK4zTKRDAiQJZ",
+      name: "v3.0 - College Academic",
+      tag: "v3 College",
+      fileTitle: "Bratik_Mukherjee_v3_college.pdf",
+    },
+    {
+      id: "1EwrnMX9RF1UCO5V8nXv549N5ko9vydpn",
+      name: "v2.0 - Core Fullstack",
+      tag: "v2 Legacy",
+      fileTitle: "Bratik_Mukherjee_v2.pdf",
+    },
+    {
+      id: "1OLjiuT5jBTkM8xo6AgmVYnIIGlbTfaf4",
+      name: "v1.0 - Foundation Resume",
+      tag: "v1 Initial",
+      fileTitle: "Bratik_Mukherjee_v1_image.pdf",
+    },
+  ],
+
   resumeText: `===================================================================
 BRATIK MUKHERJEE - FULL STACK & SOFTWARE DEVELOPER — SYSTEM ARCHITECT
 Email: bimbokmkj@gmail.com | Phone: +91 9883593295 | West Bengal, India
 GitHub: github.com/Bimbok | LinkedIn: linkedin.com/in/bimbok
 ===================================================================`,
 };
+
