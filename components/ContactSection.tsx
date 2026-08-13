@@ -216,8 +216,6 @@ END:VCARD`;
         </div>
         <div className="flex items-center gap-3">
           <span>Press <kbd className="px-1 py-0.5 rounded bg-neutral-900 border border-neutral-800 text-neutral-300">?</kbd> for Vim Shortcuts</span>
-          <span>•</span>
-          <span className="text-neutral-400 font-semibold">Ready for production</span>
         </div>
       </div>
     </section>
