@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import Lenis from "lenis";
 import { useThemeContext } from "../lib/theme-context";
 import { audioEngine } from "../lib/audio";
 import { PORTFOLIO_DATA } from "../lib/portfolio-data";
+import { ResumeDriveFile } from "../app/api/resumes/route";
 import {
   FileText,
   X,
@@ -18,6 +19,7 @@ import {
   CheckCircle2,
   ExternalLink,
   ShieldCheck,
+  RefreshCw,
 } from "lucide-react";
 
 export const ResumeModal: React.FC = () => {
@@ -38,12 +40,46 @@ export const ResumeModal: React.FC = () => {
   const [adminPassInput, setAdminPassInput] = useState("");
   const [passError, setPassError] = useState(false);
 
+  // Live resumes state fetched from Google Drive API
+  const [liveResumes, setLiveResumes] = useState<ResumeDriveFile[]>(PORTFOLIO_DATA.resumeDriveFiles);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
   const wrapperRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  // Default fallback active resume if ID not found
+  // Fetch live resumes from Google Drive API route
+  const fetchLiveResumes = useCallback(async (forceRefresh = false) => {
+    setIsRefreshing(true);
+    try {
+      const url = forceRefresh ? "/api/resumes?refresh=true" : "/api/resumes";
+      const res = await fetch(url);
+      const data = await res.json();
+
+      if (res.ok && data.success && Array.isArray(data.resumes) && data.resumes.length > 0) {
+        setLiveResumes(data.resumes);
+        if (forceRefresh) {
+          audioEngine.playChime();
+          showToast(`Synced ${data.resumes.length} live files from Google Drive!`);
+        }
+      }
+    } catch {
+      // Fallback to pre-indexed list if fetch fails
+    } finally {
+      setIsRefreshing(false);
+    }
+  }, [showToast]);
+
+  // Trigger live fetch when modal opens or when Admin logs in
+  useEffect(() => {
+    if (resumeOpen) {
+      fetchLiveResumes(false);
+    }
+  }, [resumeOpen, fetchLiveResumes]);
+
+  // Default active resume or fallback to top item
   const activeResume =
-    PORTFOLIO_DATA.resumeDriveFiles.find((r) => r.id === activeResumeId) ||
+    liveResumes.find((r) => r.id === activeResumeId) ||
+    liveResumes[0] ||
     PORTFOLIO_DATA.resumeDriveFiles[0];
 
   useEffect(() => {
@@ -82,7 +118,7 @@ export const ResumeModal: React.FC = () => {
       cancelAnimationFrame(rafId);
       modalLenis.destroy();
     };
-  }, [resumeOpen, activeTab, isAdmin]);
+  }, [resumeOpen, activeTab, isAdmin, liveResumes]);
 
   if (!resumeOpen) return null;
 
@@ -106,7 +142,8 @@ export const ResumeModal: React.FC = () => {
         setAdminPassInput("");
         setPassError(false);
         audioEngine.playChime();
-        showToast("👑 Admin Mode Authenticated! You can now select any PDF resume.");
+        showToast("👑 Admin Mode Authenticated! Live Drive Vault Active.");
+        fetchLiveResumes(true);
       } else {
         setPassError(true);
         audioEngine.playError();
@@ -248,15 +285,22 @@ export const ResumeModal: React.FC = () => {
                 <div className="flex items-center justify-between border-b border-neutral-800 pb-2">
                   <div className="flex items-center gap-2 text-white font-bold font-sans">
                     <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                    <span>Google Drive Resume Vault ({PORTFOLIO_DATA.resumeDriveFiles.length} Versions Available)</span>
+                    <span>Google Drive Live Vault ({liveResumes.length} Files Detected)</span>
                   </div>
-                  <span className="text-[10px] text-emerald-400 font-mono">
-                    Select active version for public visitors
-                  </span>
+
+                  <button
+                    onClick={() => fetchLiveResumes(true)}
+                    disabled={isRefreshing}
+                    className="px-2.5 py-1 rounded bg-neutral-900 border border-neutral-800 hover:border-neutral-700 text-neutral-200 font-mono text-[10px] flex items-center gap-1.5 transition-all"
+                    title="Re-scan Google Drive Folder for newly uploaded files"
+                  >
+                    <RefreshCw className={`w-3 h-3 text-emerald-400 ${isRefreshing ? "animate-spin" : ""}`} />
+                    <span>{isRefreshing ? "Scanning Drive..." : "Refresh Drive Files"}</span>
+                  </button>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5">
-                  {PORTFOLIO_DATA.resumeDriveFiles.map((item) => {
+                  {liveResumes.map((item) => {
                     const isActive = item.id === activeResumeId;
                     return (
                       <div
@@ -414,7 +458,7 @@ export const ResumeModal: React.FC = () => {
                 autoComplete="new-password"
                 data-1p-ignore="true"
                 autoFocus
-                placeholder="Enter admin passkey (e.g. 65535)..."
+                placeholder="Enter admin passkey..."
                 value={adminPassInput}
                 onChange={(e) => {
                   setAdminPassInput(e.target.value);
