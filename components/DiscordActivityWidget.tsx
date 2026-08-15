@@ -22,6 +22,7 @@ interface ActivityItem {
   type: number; // 0: Game/Coding, 1: Streaming, 2: Listening, 3: Watching, 4: Custom Status
   state?: string;
   details?: string;
+  application_id?: string;
   timestamps?: {
     start?: number;
     end?: number;
@@ -131,9 +132,17 @@ export const DiscordActivityWidget: React.FC = () => {
     return () => clearInterval(timer);
   }, [lanyardData]);
 
-  // Helper to map activity names (Neovim, Obsidian, VS Code, Arch, etc.) to skillicons.dev icons
+  // Helper to map activity names (Neovim, Android Studio, ArchiveTune, Obsidian, VS Code, Arch, etc.) to icons
   const getActivityIconUrl = (act: ActivityItem): string | null => {
     const name = act.name.toLowerCase();
+
+    // Check application specific icons first
+    if (name.includes("android studio") || name.includes("androidstudio") || name.includes("android")) {
+      return "https://skillicons.dev/icons?i=androidstudio&theme=dark";
+    }
+    if (name.includes("archivetune") || name.includes("archive tune")) {
+      return "https://avatars.githubusercontent.com/u/161427771?s=200";
+    }
     if (name.includes("neovim") || name.includes("nvim") || name.includes("vim")) {
       return "https://skillicons.dev/icons?i=vim&theme=dark";
     }
@@ -150,12 +159,16 @@ export const DiscordActivityWidget: React.FC = () => {
       return "https://skillicons.dev/icons?i=github&theme=dark";
     }
 
+    // Resolve Discord RPC Assets
     if (act.assets?.large_image) {
-      if (act.assets.large_image.startsWith("mp:external/")) {
-        const match = act.assets.large_image.match(/https\/(.*)$/);
+      const img = act.assets.large_image;
+      if (img.startsWith("mp:external/")) {
+        const match = img.match(/https\/(.*)$/);
         if (match) return `https://${match[1]}`;
-      } else if (act.assets.large_image.startsWith("https://")) {
-        return act.assets.large_image;
+      } else if (img.startsWith("https://") || img.startsWith("http://")) {
+        return img;
+      } else if (act.application_id) {
+        return `https://cdn.discordapp.com/app-assets/${act.application_id}/${img}.png`;
       }
     }
     return null;
@@ -173,7 +186,7 @@ export const DiscordActivityWidget: React.FC = () => {
           <span className="text-[10px] text-neutral-500">@{discordUsername}</span>
         </div>
         <p className="text-xs text-neutral-300 font-sans">
-          To show your live Discord activity (Neovim, Obsidian, Spotify, Games & Status) on your portfolio, join the Lanyard Discord server once:
+          To show your live Discord activity (Neovim, Android Studio, ArchiveTune, Obsidian, Spotify, Games & Status) on your portfolio, join the Lanyard Discord server once:
         </p>
         <div className="pt-1">
           <a
@@ -190,8 +203,13 @@ export const DiscordActivityWidget: React.FC = () => {
     );
   }
 
-  // Filter activities
-  const activeAppActivities = lanyardData?.activities?.filter((act) => act.type === 0 || act.type === 1 || act.type === 3) || [];
+  // Filter activities: include type 0 (App/Game), 1 (Streaming), 2 (Listening/ArchiveTune), 3 (Watching), excluding Spotify (which has dedicated UI)
+  const activeAppActivities =
+    lanyardData?.activities?.filter(
+      (act) =>
+        (act.type === 0 || act.type === 1 || act.type === 2 || act.type === 3) &&
+        act.name.toLowerCase() !== "spotify"
+    ) || [];
   const customStatus = lanyardData?.activities?.find((act) => act.type === 4);
   const isListeningSpotify = lanyardData?.listening_to_spotify && lanyardData?.spotify;
 
@@ -257,13 +275,14 @@ export const DiscordActivityWidget: React.FC = () => {
         </div>
       )}
 
-      {/* Render Active App Activities (Neovim, Obsidian, VS Code) */}
+      {/* Render Active App & Listening Activities (Neovim, Android Studio, ArchiveTune, Obsidian, VS Code) */}
       {activeAppActivities.map((act) => {
         const iconUrl = getActivityIconUrl(act);
+        const isListening = act.type === 2 || act.name.toLowerCase().includes("archivetune") || act.name.toLowerCase().includes("music");
 
         return (
           <div
-            key={act.id}
+            key={act.id || act.name}
             className="flex items-center gap-4 bg-neutral-950/80 p-3.5 rounded-xl border border-neutral-800/80 hover:border-neutral-700 hover:bg-neutral-950 transition-all duration-300 shadow-md group/card"
           >
             {iconUrl ? (
@@ -277,7 +296,9 @@ export const DiscordActivityWidget: React.FC = () => {
               </div>
             ) : (
               <div className="p-3 rounded-xl bg-neutral-900 border border-neutral-800 text-white shrink-0 shadow-lg group-hover/card:scale-105 transition-transform duration-300">
-                {act.name.toLowerCase().includes("code") || act.name.toLowerCase().includes("vim") ? (
+                {isListening ? (
+                  <Disc className="w-5 h-5 text-white animate-spin" />
+                ) : act.name.toLowerCase().includes("code") || act.name.toLowerCase().includes("vim") || act.name.toLowerCase().includes("studio") ? (
                   <Code2 className="w-5 h-5 text-white" />
                 ) : (
                   <Activity className="w-5 h-5 text-white" />
@@ -286,12 +307,23 @@ export const DiscordActivityWidget: React.FC = () => {
             )}
 
             <div className="flex-1 min-w-0 space-y-1">
-              <div className="flex items-center justify-between">
-                <h4 className="text-xs sm:text-sm font-bold text-white font-sans tracking-tight">
+              <div className="flex items-center justify-between gap-2">
+                <h4 className="text-xs sm:text-sm font-bold text-white font-sans tracking-tight truncate flex items-center gap-1.5">
                   {act.name}
                 </h4>
-                <span className="text-[9px] px-1.5 py-0.5 rounded bg-neutral-900 border border-neutral-800 text-neutral-400 font-mono">
-                  ACTIVE APP
+                <span className="text-[9px] px-1.5 py-0.5 rounded bg-neutral-900 border border-neutral-800 text-neutral-300 font-mono flex items-center gap-1 shrink-0">
+                  {isListening ? (
+                    <>
+                      <span className="flex items-center gap-0.5 h-2">
+                        <span className="w-0.5 h-full bg-white rounded-full animate-pulse" />
+                        <span className="w-0.5 h-2/3 bg-white rounded-full animate-pulse [animation-delay:200ms]" />
+                        <span className="w-0.5 h-4/5 bg-white rounded-full animate-pulse [animation-delay:400ms]" />
+                      </span>
+                      <span>LISTENING</span>
+                    </>
+                  ) : (
+                    <span>ACTIVE APP</span>
+                  )}
                 </span>
               </div>
 
