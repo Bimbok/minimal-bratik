@@ -143,7 +143,7 @@ export const DiscordActivityWidget: React.FC = () => {
       return "https://upload.wikimedia.org/wikipedia/commons/6/6a/Youtube_Music_icon.svg";
     }
     if (name.includes("youtube") || name.includes("yt")) {
-      return "https://skillicons.dev/icons?i=youtube&theme=dark";
+      return "/youtube.svg";
     }
     if (name.includes("zed")) {
       return "https://avatars.githubusercontent.com/u/100072895?s=200";
