@@ -96,18 +96,23 @@ export const HeroSection: React.FC = () => {
           </ul>
         </div>
 
-        {/* Call to Action Buttons: Certifications Button instead of Explore Projects */}
-        <div className="flex flex-wrap gap-2.5 pt-2 text-xs">
-          <button
-            onClick={() => {
-              audioEngine.playKeyClick("down");
-              setCertificationsOpen(true);
-            }}
-            className="px-3.5 py-2 rounded-lg bg-white text-black font-extrabold hover:bg-neutral-200 transition-all flex items-center gap-2 shadow-md cursor-pointer"
-          >
-            <Award className="w-4 h-4 text-black shrink-0" />
-            <span>Certifications</span>
-          </button>
+        {/* Call to Action Buttons: Certifications Button with sleek gradient border & ambient glow */}
+        <div className="flex flex-wrap items-center gap-2.5 pt-2 text-xs">
+          <div className="relative group/cert inline-flex rounded-xl p-[1.5px] bg-gradient-to-r from-neutral-400 via-white to-neutral-500 hover:from-white hover:via-neutral-200 hover:to-neutral-400 transition-all duration-500 shadow-md hover:shadow-lg hover:shadow-white/10">
+            {/* Ambient Background Glow */}
+            <div className="absolute -inset-0.5 rounded-xl bg-gradient-to-r from-white/30 via-neutral-300/20 to-white/10 blur-sm opacity-40 group-hover/cert:opacity-100 transition duration-500 pointer-events-none" />
+            
+            <button
+              onClick={() => {
+                audioEngine.playKeyClick("down");
+                setCertificationsOpen(true);
+              }}
+              className="relative px-3.5 py-2 rounded-[10px] bg-white text-black font-extrabold hover:bg-neutral-100 transition-all flex items-center gap-2 cursor-pointer z-10"
+            >
+              <Award className="w-4 h-4 text-black shrink-0" />
+              <span>Certifications</span>
+            </button>
+          </div>
 
           <a
             href={`mailto:${PORTFOLIO_DATA.profile.socials.email}`}
