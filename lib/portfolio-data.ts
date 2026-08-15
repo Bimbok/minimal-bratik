@@ -405,7 +405,7 @@ export const PORTFOLIO_DATA = {
       repoPath: "bimagic/bimagic-go",
       tagline: "Go-powered Git automation CLI wizard, Shell engine & interactive docs suite",
       description: "High-performance Git workflow automation CLI tool. Rebuilt in Go for sub-second execution with cross-platform binary distributions, complemented by the original POSIX Shell implementation and dedicated Docusaurus technical documentation portal.",
-      imagePath: "https://raw.githubusercontent.com/bimagic/bimagic-go/main/Sample/logo.png",
+      imagePath: "/projects/bimagic.png",
       logoUrl: "https://avatars.githubusercontent.com/u/283110310?v=4",
       architecture: [
         "Multi-threaded Go architecture with sub-millisecond Git operation dispatch",
@@ -429,7 +429,7 @@ export const PORTFOLIO_DATA = {
       repoPath: "Bimbok/bDoci-app",
       tagline: "Native Android documentation app in Kotlin + dynamic MongoDB web portal",
       description: "A complete developer documentation ecosystem featuring a native Android Kotlin application with offline SQLite caching, ViewBinding, and dynamic Markdown rendering, integrated with a MongoDB-powered documentation web portal.",
-      imagePath: "https://raw.githubusercontent.com/Bimbok/bDoci-app/master/Sample/Screenshot_20260422_215212_bDoci.jpg",
+      imagePath: "/projects/bdoci.jpg",
       logoUrl: "https://raw.githubusercontent.com/Bimbok/bDoci-app/master/app/src/main/res/drawable/logo.png",
       architecture: [
         "Native Android client built with Kotlin, ViewBinding, and Material Components",
@@ -452,7 +452,7 @@ export const PORTFOLIO_DATA = {
       repoPath: "Bimbok/myshell",
       tagline: "Feature-rich Unix CLI interpreter in C with Tab completion & arithmetic evaluator",
       description: "Custom Unix-like command-line interpreter written in C. Features complete process control (fork/execvp), multi-stage piping, I/O redirection, signal trapping, history navigation, Tab autocompletion, and an integrated recursive-descent math evaluator.",
-      imagePath: "https://github.com/user-attachments/assets/85f5bbe8-776c-4218-88fd-c2954721403c",
+      imagePath: "/projects/myshell.png",
       logoUrl: "https://skillicons.dev/icons?i=c&theme=dark",
       architecture: [
         "POSIX process lifecycle management via fork(), execvp(), and waitpid()",
@@ -472,7 +472,7 @@ export const PORTFOLIO_DATA = {
       repoPath: "aasaan-hainn/Ping",
       tagline: "Real-time communication and networking platform for gamers & developers",
       description: "A high-concurrency real-time messaging and social network for gamers and developers, featuring instant WebSockets messaging, 3D interactive graphics with Three.js, and MongoDB persistence.",
-      imagePath: "https://avatars.githubusercontent.com/u/250792693?v=4",
+      imagePath: "/projects/ping.png",
       logoUrl: "https://avatars.githubusercontent.com/u/250792693?v=4",
       architecture: [
         "Full-duplex WebSocket communication pipeline powered by Socket.IO",
@@ -493,7 +493,7 @@ export const PORTFOLIO_DATA = {
       repoPath: "kodo-kaze/avis",
       tagline: "AI-driven stakeholder insight and telemetry intelligence platform",
       description: "High-performance intelligence workspace for analyzing customer, investor, and team feedback with real-time sentiment scoring, thematic cluster modeling, and glassmorphic telemetry dashboards.",
-      imagePath: "https://raw.githubusercontent.com/kodo-kaze/avis/main/public/logo.png",
+      imagePath: "/projects/avis.png",
       logoUrl: "https://raw.githubusercontent.com/kodo-kaze/avis/main/public/logo.png",
       architecture: [
         "Synapse-AI intelligence engine for automated sentiment analysis and thematic categorization",
