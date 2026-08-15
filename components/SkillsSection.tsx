@@ -27,16 +27,20 @@ export const SkillsSection: React.FC = () => {
   const skillIconMap: Record<string, string> = {
     TypeScript: "ts",
     "C++": "cpp",
+    C: "c",
     Go: "go",
     Rust: "rust",
+    Kotlin: "kotlin",
+    Java: "java",
     Python: "py",
     "Next.js & React 19": "nextjs",
     "Node.js & Express": "nodejs",
+    "MongoDB & PostgreSQL": "mongodb",
     "Tailwind CSS & D3.js": "tailwind",
-    Kotlin: "kotlin",
     "Neovim & Lua": "vim",
     "Obsidian & PKM": "obsidian",
     "Arch Linux & Hyprland": "arch",
+    "Git & GitHub Automation": "git",
     "Docker & Kubernetes": "docker",
   };
 
