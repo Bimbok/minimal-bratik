@@ -165,12 +165,12 @@ export const ProjectDetailModal: React.FC = () => {
         </div>
 
         {/* Footer Actions */}
-        <div className="px-5 py-3.5 bg-neutral-950 border-t border-neutral-800 flex items-center justify-between shrink-0">
+        <div className="px-5 py-3.5 bg-neutral-950 border-t border-neutral-800 flex flex-wrap items-center justify-between gap-3 shrink-0">
           <div className="text-xs text-neutral-400 font-mono">
             Repo Path: <span className="text-white font-bold">{selectedProject.repoPath}</span>
           </div>
 
-          <div className="flex items-center gap-2.5 font-mono text-xs">
+          <div className="flex flex-wrap items-center gap-2 font-mono text-xs">
             <a
               href={selectedProject.githubUrl}
               target="_blank"
@@ -178,8 +178,33 @@ export const ProjectDetailModal: React.FC = () => {
               className="px-3.5 py-1.5 rounded-lg bg-neutral-900 border border-neutral-800 text-neutral-200 hover:text-white hover:bg-neutral-800 transition-all flex items-center gap-2 font-bold"
             >
               <GithubIcon className="w-4 h-4 text-white" />
-              <span>GitHub Repo</span>
+              <span>{selectedProject.secondaryGithubUrl ? "Main Repo" : "GitHub Repo"}</span>
             </a>
+
+            {selectedProject.secondaryGithubUrl && (
+              <a
+                href={selectedProject.secondaryGithubUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="px-3 py-1.5 rounded-lg bg-neutral-900 border border-neutral-800 text-neutral-300 hover:text-white hover:bg-neutral-800 transition-all flex items-center gap-2 font-medium"
+              >
+                <GithubIcon className="w-3.5 h-3.5 text-neutral-300" />
+                <span>{selectedProject.secondaryRepoLabel || "Secondary Repo"}</span>
+              </a>
+            )}
+
+            {selectedProject.docsUrl && selectedProject.docsUrl !== selectedProject.liveUrl && (
+              <a
+                href={selectedProject.docsUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="px-3 py-1.5 rounded-lg bg-neutral-900 border border-neutral-800 text-neutral-300 hover:text-white hover:bg-neutral-800 transition-all flex items-center gap-2 font-medium"
+              >
+                <ExternalLink className="w-3.5 h-3.5 text-neutral-300" />
+                <span>Documentation</span>
+              </a>
+            )}
+
             {selectedProject.liveUrl && (
               <a
                 href={selectedProject.liveUrl}
