@@ -557,7 +557,6 @@ export const PORTFOLIO_DATA = {
       tagline: "Glassmorphic knowledge exploration platform with Markdown, LaTeX & admin suite",
       description: "A modern, visually stunning web application for sharing and exploring topics, fun facts, and technical articles. Built with Next.js 15, featuring glassmorphism UI, full-screen video backdrops, Markdown & KaTeX LaTeX mathematical rendering, and a secure MongoDB Atlas admin dashboard.",
       imagePath: "/projects/softy.png",
-      logoUrl: "/softy.svg",
       architecture: [
         "Next.js 15 App Router architecture with React 19 and Framer Motion micro-animations",
         "Mathematical equation rendering engine powered by KaTeX and Markdown AST parsing",
