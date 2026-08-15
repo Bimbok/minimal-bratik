@@ -137,11 +137,17 @@ export const DiscordActivityWidget: React.FC = () => {
     const name = act.name.toLowerCase();
 
     // Check application specific icons first
-    if (name.includes("zed")) {
-      return "https://avatars.githubusercontent.com/u/100072895?s=200";
+    if (name.includes("crunchyroll") || name.includes("cranchiroll")) {
+      return "https://avatars.githubusercontent.com/u/799638?s=200";
     }
     if (name.includes("youtube music") || name.includes("yt music") || name.includes("youtubemusic")) {
       return "https://upload.wikimedia.org/wikipedia/commons/6/6a/Youtube_Music_icon.svg";
+    }
+    if (name.includes("youtube") || name.includes("yt")) {
+      return "https://skillicons.dev/icons?i=youtube&theme=dark";
+    }
+    if (name.includes("zed")) {
+      return "https://avatars.githubusercontent.com/u/100072895?s=200";
     }
     if (name.includes("android studio") || name.includes("androidstudio") || name.includes("android")) {
       return "https://skillicons.dev/icons?i=androidstudio&theme=dark";
@@ -281,10 +287,15 @@ export const DiscordActivityWidget: React.FC = () => {
         </div>
       )}
 
-      {/* Render Active App & Listening Activities (Neovim, Android Studio, ArchiveTune, Obsidian, VS Code) */}
+      {/* Render Active App, Watching & Listening Activities (Neovim, Android Studio, ArchiveTune, YouTube, Crunchyroll, Zed, Obsidian, VS Code) */}
       {activeAppActivities.map((act) => {
         const iconUrl = getActivityIconUrl(act);
         const isListening = act.type === 2 || act.name.toLowerCase().includes("archivetune") || act.name.toLowerCase().includes("music");
+        const isWatching =
+          act.type === 3 ||
+          act.name.toLowerCase().includes("crunchyroll") ||
+          act.name.toLowerCase().includes("cranchiroll") ||
+          (act.name.toLowerCase().includes("youtube") && !act.name.toLowerCase().includes("music"));
 
         return (
           <div
@@ -326,6 +337,11 @@ export const DiscordActivityWidget: React.FC = () => {
                         <span className="w-0.5 h-4/5 bg-white rounded-full animate-pulse [animation-delay:400ms]" />
                       </span>
                       <span>LISTENING</span>
+                    </>
+                  ) : isWatching ? (
+                    <>
+                      <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                      <span>WATCHING</span>
                     </>
                   ) : (
                     <span>ACTIVE APP</span>
