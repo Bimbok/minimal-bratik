@@ -165,6 +165,54 @@ export function useGlobalShortcuts() {
 
       const lenis = (window as unknown as { lenis?: { scrollTo: (target: number | HTMLElement, opts?: object) => void } }).lenis;
 
+      // PageUp / PageDown Smooth Scrolling (Keyboard)
+      if (e.key === "PageDown") {
+        e.preventDefault();
+        const pageAmount = window.innerHeight * 0.85;
+        if (lenis) {
+          lenis.scrollTo(window.scrollY + pageAmount, { duration: 1.2 });
+        } else {
+          window.scrollBy({ top: pageAmount, behavior: "smooth" });
+        }
+        return;
+      } else if (e.key === "PageUp") {
+        e.preventDefault();
+        const pageAmount = window.innerHeight * 0.85;
+        if (lenis) {
+          lenis.scrollTo(Math.max(0, window.scrollY - pageAmount), { duration: 1.2 });
+        } else {
+          window.scrollBy({ top: -pageAmount, behavior: "smooth" });
+        }
+        return;
+      } else if (e.key === "Home" && !isInput) {
+        e.preventDefault();
+        if (lenis) {
+          lenis.scrollTo(0, { duration: 1.6 });
+        } else {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+        return;
+      } else if (e.key === "End" && !isInput) {
+        e.preventDefault();
+        if (lenis) {
+          lenis.scrollTo(document.body.scrollHeight, { duration: 1.6 });
+        } else {
+          window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+        }
+        return;
+      } else if (e.key === " " && !isInput) {
+        e.preventDefault();
+        const pageAmount = window.innerHeight * 0.85;
+        if (e.shiftKey) {
+          if (lenis) lenis.scrollTo(Math.max(0, window.scrollY - pageAmount), { duration: 1.2 });
+          else window.scrollBy({ top: -pageAmount, behavior: "smooth" });
+        } else {
+          if (lenis) lenis.scrollTo(window.scrollY + pageAmount, { duration: 1.2 });
+          else window.scrollBy({ top: pageAmount, behavior: "smooth" });
+        }
+        return;
+      }
+
       // Vim Navigation: j / k / gg / G with Lenis 60FPS smooth momentum easing
       if (e.key === "j") {
         if (lenis) {

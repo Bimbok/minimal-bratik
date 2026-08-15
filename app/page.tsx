@@ -20,6 +20,7 @@ import { CertificationsModal } from "../components/CertificationsModal";
 import { KeyboardHelpModal } from "../components/KeyboardHelpModal";
 import { ProjectDetailModal } from "../components/ProjectDetailModal";
 import { ToastNotification } from "../components/ToastNotification";
+import { FloatingScrollButtons } from "../components/FloatingScrollButtons";
 import { MatrixRainCanvas } from "../components/MatrixRainCanvas";
 
 export default function Home() {
@@ -78,6 +79,7 @@ export default function Home() {
         <KeyboardHelpModal />
         <ProjectDetailModal />
         <ToastNotification />
+        <FloatingScrollButtons />
 
       </div>
     </SmoothScrollProvider>
