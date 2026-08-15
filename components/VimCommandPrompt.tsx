@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import { PORTFOLIO_DATA } from "../lib/portfolio-data";
 import { useThemeContext, ThemeMode } from "../lib/theme-context";
 import { audioEngine } from "../lib/audio";
 import { Terminal, X } from "lucide-react";
@@ -9,6 +10,7 @@ export const VimCommandPrompt: React.FC = () => {
   const {
     vimPromptOpen,
     setVimPromptOpen,
+    setSelectedProject,
     setTheme,
     setResumeOpen,
     setNeofetchOpen,
@@ -53,6 +55,30 @@ export const VimCommandPrompt: React.FC = () => {
       setVimPromptOpen(false);
       setNeofetchOpen(true);
       showToast("Opened system specs neofetch");
+    } else if (main === "home" || main === "skills" || main === "projects" || main === "contact") {
+      setVimPromptOpen(false);
+      const elem = document.getElementById(main);
+      if (elem) {
+        elem.scrollIntoView({ behavior: "smooth" });
+        showToast(`Navigated to /${main}`);
+      }
+    } else if (main === "p" || main === "project") {
+      setVimPromptOpen(false);
+      if (arg) {
+        const found = PORTFOLIO_DATA.projects.find(
+          (p) => p.id.toLowerCase().includes(arg) || p.title.toLowerCase().includes(arg)
+        );
+        if (found) {
+          setSelectedProject(found);
+          showToast(`Opened ${found.title}`);
+        } else {
+          audioEngine.playError();
+          showToast(`Project "${arg}" not found. Type :projects`);
+        }
+      } else {
+        const elem = document.getElementById("projects");
+        if (elem) elem.scrollIntoView({ behavior: "smooth" });
+      }
     } else if (main === "theme") {
       if (arg === "dark" || arg === "gruvbox" || arg === "crt") {
         setTheme(arg as ThemeMode);

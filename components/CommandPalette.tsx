@@ -2,6 +2,7 @@
 
 import React, { useEffect } from "react";
 import { Command } from "cmdk";
+import { PORTFOLIO_DATA } from "../lib/portfolio-data";
 import { useThemeContext, SectionId, ThemeMode } from "../lib/theme-context";
 import { audioEngine } from "../lib/audio";
 import {
@@ -16,6 +17,7 @@ import {
   Mail,
   Cpu,
   Download,
+  FolderGit2,
 } from "lucide-react";
 
 export const CommandPalette: React.FC = () => {
@@ -23,6 +25,7 @@ export const CommandPalette: React.FC = () => {
     commandPaletteOpen,
     setCommandPaletteOpen,
     setActiveSection,
+    setSelectedProject,
     setTheme,
     toggleAudio,
     isMuted,
@@ -199,6 +202,35 @@ export const CommandPalette: React.FC = () => {
                   <span>{isMuted ? "Unmute Key Audio" : "Mute Key Audio"}</span>
                 </div>
               </Command.Item>
+            </Command.Group>
+
+            {/* Projects Group */}
+            <Command.Group heading="Projects & Repositories" className="text-[10px] uppercase font-bold text-neutral-500 px-2 py-1 mt-2">
+              {PORTFOLIO_DATA.projects.map((proj) => (
+                <Command.Item
+                  key={proj.id}
+                  onSelect={() => {
+                    setCommandPaletteOpen(false);
+                    setSelectedProject(proj);
+                    audioEngine.playKeyClick("enter");
+                  }}
+                  className="flex items-center justify-between p-2.5 rounded-md hover:bg-neutral-800 text-neutral-200 cursor-pointer aria-selected:bg-neutral-800 aria-selected:text-white"
+                >
+                  <div className="flex items-center gap-2.5 min-w-0 pr-2">
+                    {proj.logoUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={proj.logoUrl} alt="" className="w-4 h-4 rounded-full object-cover shrink-0 border border-neutral-800" />
+                    ) : (
+                      <FolderGit2 className="w-4 h-4 text-neutral-400 shrink-0" />
+                    )}
+                    <span className="font-bold text-white whitespace-nowrap">{proj.title}</span>
+                    <span className="text-neutral-400 text-[11px] truncate hidden sm:inline">— {proj.tagline}</span>
+                  </div>
+                  <span className="text-[9px] px-1.5 py-0.5 rounded bg-neutral-900 border border-neutral-800 text-neutral-400 font-mono shrink-0">
+                    {proj.status}
+                  </span>
+                </Command.Item>
+              ))}
             </Command.Group>
 
             {/* Themes Group */}
