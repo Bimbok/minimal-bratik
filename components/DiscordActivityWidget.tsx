@@ -191,6 +191,28 @@ export const DiscordActivityWidget: React.FC = () => {
     return getAppIconUrl(act);
   };
 
+  // Helper to resolve small corner badge (e.g. play icon, Neovim icon over Lua, or app logo)
+  const getSmallBadgeUrl = (act: ActivityItem): string | null => {
+    if (act.assets?.small_image) {
+      const img = act.assets.small_image;
+      if (img.startsWith("mp:external/")) {
+        const match = img.match(/https\/(.*)$/);
+        if (match) return `https://${match[1]}`;
+      } else if (img.startsWith("https://") || img.startsWith("http://")) {
+        return img;
+      } else if (act.application_id) {
+        return `https://cdn.discordapp.com/app-assets/${act.application_id}/${img}.png`;
+      }
+    }
+
+    const appIcon = getAppIconUrl(act);
+    const thumb = getActivityThumbnailUrl(act);
+    if (appIcon && thumb && appIcon !== thumb) {
+      return appIcon;
+    }
+    return null;
+  };
+
   // If Lanyard is not monitored yet, render notice
   if (isNotMonitored) {
     return (
@@ -203,7 +225,7 @@ export const DiscordActivityWidget: React.FC = () => {
           <span className="text-[10px] text-neutral-500">@{discordUsername}</span>
         </div>
         <p className="text-xs text-neutral-300 font-sans">
-          To show your live Discord activity (Neovim, Android Studio, ArchiveTune, Spotify, Games & Status) on your portfolio, join the Lanyard Discord server once:
+          To show your live Discord activity (Neovim, Android Studio, ArchiveTune, YouTube, Crunchyroll, Spotify, Games & Status) on your portfolio, join the Lanyard Discord server once:
         </p>
         <div className="pt-1">
           <a
@@ -220,13 +242,36 @@ export const DiscordActivityWidget: React.FC = () => {
     );
   }
 
-  // Filter activities: include type 0 (App/Game), 1 (Streaming), 2 (Listening/ArchiveTune), 3 (Watching), excluding Spotify (which has dedicated UI)
-  const activeAppActivities =
+  // Filter activities: include type 0, 1, 2, 3 excluding Spotify (handled in dedicated player)
+  const rawActivities =
     lanyardData?.activities?.filter(
       (act) =>
         (act.type === 0 || act.type === 1 || act.type === 2 || act.type === 3) &&
         act.name.toLowerCase() !== "spotify"
     ) || [];
+
+  // Deduplicate activities by application_id and name, prioritizing richer activities (with details/assets/timestamps)
+  const activityMap = new Map<string, ActivityItem>();
+  for (const act of rawActivities) {
+    const key = (act.application_id || act.name).toLowerCase();
+    const existing = activityMap.get(key);
+
+    if (!existing) {
+      activityMap.set(key, act);
+    } else {
+      const existingScore = (existing.details ? 3 : 0) + (existing.assets?.large_image ? 3 : 0) + (existing.state ? 2 : 0) + (existing.type === 3 || existing.type === 2 ? 1 : 0);
+      const currentScore = (act.details ? 3 : 0) + (act.assets?.large_image ? 3 : 0) + (act.state ? 2 : 0) + (act.type === 3 || act.type === 2 ? 1 : 0);
+      if (currentScore > existingScore) {
+        activityMap.set(key, act);
+      }
+    }
+  }
+
+  // Drop empty stub activities that have no details, state, or assets
+  const activeAppActivities = Array.from(activityMap.values()).filter(
+    (act) => act.details || act.state || act.assets?.large_image
+  );
+
   const customStatus = lanyardData?.activities?.find((act) => act.type === 4);
   const isListeningSpotify = lanyardData?.listening_to_spotify && lanyardData?.spotify;
 
@@ -296,6 +341,7 @@ export const DiscordActivityWidget: React.FC = () => {
       {activeAppActivities.map((act) => {
         const appIconUrl = getAppIconUrl(act);
         const thumbnailUrl = getActivityThumbnailUrl(act);
+        const smallBadgeUrl = getSmallBadgeUrl(act);
         const isListening = act.type === 2 || act.name.toLowerCase().includes("archivetune") || act.name.toLowerCase().includes("music");
         const isWatching =
           act.type === 3 ||
@@ -303,79 +349,129 @@ export const DiscordActivityWidget: React.FC = () => {
           act.name.toLowerCase().includes("cranchiroll") ||
           (act.name.toLowerCase().includes("youtube") && !act.name.toLowerCase().includes("music"));
 
+        // Calculate progress percentage if start & end timestamps exist
+        let activityProgress: number | null = null;
+        let activityTimeStr: string | null = null;
+        if (act.timestamps?.start && act.timestamps?.end) {
+          const now = Date.now();
+          const total = act.timestamps.end - act.timestamps.start;
+          const current = Math.max(0, now - act.timestamps.start);
+          activityProgress = Math.min(100, Math.max(0, (current / total) * 100));
+
+          const formatSec = (ms: number) => {
+            const totalSec = Math.floor(ms / 1000);
+            const hrs = Math.floor(totalSec / 3600);
+            const mins = Math.floor((totalSec % 3600) / 60);
+            const secs = totalSec % 60;
+            if (hrs > 0) {
+              return `${hrs}:${mins < 10 ? "0" : ""}${mins}:${secs < 10 ? "0" : ""}${secs}`;
+            }
+            return `${mins}:${secs < 10 ? "0" : ""}${secs}`;
+          };
+          activityTimeStr = `${formatSec(current)} / ${formatSec(total)}`;
+        }
+
         return (
           <div
             key={act.id || act.name}
-            className="flex items-center gap-4 bg-neutral-950/80 p-3.5 rounded-xl border border-neutral-800/80 hover:border-neutral-700 hover:bg-neutral-950 transition-all duration-300 shadow-md group/card"
+            className="space-y-2.5 bg-neutral-950/80 p-3.5 rounded-xl border border-neutral-800/80 hover:border-neutral-700 hover:bg-neutral-950 transition-all duration-300 shadow-md group/card"
           >
-            {/* Left Thumbnail Box */}
-            {thumbnailUrl ? (
-              <div className="w-12 h-12 rounded-xl overflow-hidden border border-neutral-800 bg-neutral-900 shrink-0 p-1 flex items-center justify-center shadow-lg group-hover/card:scale-105 transition-transform duration-300">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={thumbnailUrl}
-                  alt={act.name}
-                  className="w-full h-full object-cover rounded-lg"
-                />
-              </div>
-            ) : (
-              <div className="w-12 h-12 rounded-xl bg-neutral-900 border border-neutral-800 text-white shrink-0 shadow-lg group-hover/card:scale-105 transition-transform duration-300 flex items-center justify-center">
-                {isListening ? (
-                  <Disc className="w-5 h-5 text-white animate-spin" />
-                ) : act.name.toLowerCase().includes("code") || act.name.toLowerCase().includes("vim") || act.name.toLowerCase().includes("studio") ? (
-                  <Code2 className="w-5 h-5 text-white" />
+            <div className="flex items-center gap-4">
+              {/* Left Thumbnail Box with Corner Badge */}
+              <div className="relative w-12 h-12 rounded-xl overflow-hidden border border-neutral-800 bg-neutral-900 shrink-0 p-1 flex items-center justify-center shadow-lg group-hover/card:scale-105 transition-transform duration-300">
+                {thumbnailUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={thumbnailUrl}
+                    alt={act.name}
+                    className="w-full h-full object-cover rounded-lg"
+                  />
                 ) : (
-                  <Activity className="w-5 h-5 text-white" />
+                  <div className="w-full h-full rounded-lg bg-neutral-900 flex items-center justify-center text-white">
+                    {isListening ? (
+                      <Disc className="w-5 h-5 text-white animate-spin" />
+                    ) : (
+                      <Code2 className="w-5 h-5 text-white" />
+                    )}
+                  </div>
+                )}
+
+                {/* Small Corner Badge overlay (e.g. Neovim logo on Lua icon, Play icon on YouTube) */}
+                {smallBadgeUrl && (
+                  <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-neutral-950 border border-neutral-700 p-0.5 flex items-center justify-center shadow-md">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={smallBadgeUrl}
+                      alt="badge"
+                      className="w-full h-full object-contain rounded-full"
+                    />
+                  </div>
                 )}
               </div>
-            )}
 
-            <div className="flex-1 min-w-0 space-y-1">
-              <div className="flex items-center justify-between gap-2">
-                {/* App Title with App Icon before Title */}
-                <h4 className="text-xs sm:text-sm font-bold text-white font-sans tracking-tight truncate flex items-center gap-1.5">
-                  {appIconUrl && (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={appIconUrl}
-                      alt=""
-                      className="w-4 h-4 object-contain shrink-0"
-                    />
-                  )}
-                  <span>{act.name}</span>
-                </h4>
-                <span className="text-[9px] px-1.5 py-0.5 rounded bg-neutral-900 border border-neutral-800 text-neutral-300 font-mono flex items-center gap-1 shrink-0">
-                  {isListening ? (
-                    <>
-                      <span className="flex items-center gap-0.5 h-2">
-                        <span className="w-0.5 h-full bg-white rounded-full animate-pulse" />
-                        <span className="w-0.5 h-2/3 bg-white rounded-full animate-pulse [animation-delay:200ms]" />
-                        <span className="w-0.5 h-4/5 bg-white rounded-full animate-pulse [animation-delay:400ms]" />
-                      </span>
-                      <span>LISTENING</span>
-                    </>
-                  ) : isWatching ? (
-                    <>
-                      <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-                      <span>WATCHING</span>
-                    </>
-                  ) : (
-                    <span>ACTIVE APP</span>
-                  )}
-                </span>
+              <div className="flex-1 min-w-0 space-y-1">
+                <div className="flex items-center justify-between gap-2">
+                  {/* App Title with App Icon before Title */}
+                  <h4 className="text-xs sm:text-sm font-bold text-white font-sans tracking-tight truncate flex items-center gap-1.5">
+                    {appIconUrl && (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={appIconUrl}
+                        alt=""
+                        className="w-4 h-4 object-contain shrink-0"
+                      />
+                    )}
+                    <span>{act.name}</span>
+                  </h4>
+                  <span className="text-[9px] px-1.5 py-0.5 rounded bg-neutral-900 border border-neutral-800 text-neutral-300 font-mono flex items-center gap-1 shrink-0">
+                    {isListening ? (
+                      <>
+                        <span className="flex items-center gap-0.5 h-2">
+                          <span className="w-0.5 h-full bg-white rounded-full animate-pulse" />
+                          <span className="w-0.5 h-2/3 bg-white rounded-full animate-pulse [animation-delay:200ms]" />
+                          <span className="w-0.5 h-4/5 bg-white rounded-full animate-pulse [animation-delay:400ms]" />
+                        </span>
+                        <span>LISTENING</span>
+                      </>
+                    ) : isWatching ? (
+                      <>
+                        <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                        <span>WATCHING</span>
+                      </>
+                    ) : (
+                      <span>ACTIVE APP</span>
+                    )}
+                  </span>
+                </div>
+
+                {act.details && (
+                  <p className="text-[11px] text-neutral-200 font-mono truncate font-medium">
+                    {act.details}
+                  </p>
+                )}
+                {act.state && (
+                  <p className="text-[10px] text-neutral-400 font-mono truncate">
+                    {act.state}
+                  </p>
+                )}
               </div>
-
-              {act.details && (
-                <p className="text-[11px] text-neutral-200 font-mono truncate font-medium">
-                  {act.details}
-                </p>
-              )}
-              {act.state && (
-                <p className="text-[10px] text-neutral-400 font-mono truncate">
-                  {act.state}
-                </p>
-              )}
             </div>
+
+            {/* Live Progress Bar for Video / Timed Media (like YouTube & PreMiD) */}
+            {activityProgress !== null && (
+              <div className="space-y-1 pt-1 border-t border-neutral-900">
+                <div className="flex items-center justify-between text-[10px] text-neutral-400 font-mono">
+                  <span className="text-neutral-300">Progress</span>
+                  <span>{activityTimeStr}</span>
+                </div>
+                <div className="w-full bg-neutral-900 rounded-full h-1.5 overflow-hidden border border-neutral-800">
+                  <div
+                    className="bg-gradient-to-r from-neutral-300 to-white h-full rounded-full transition-all duration-1000 ease-linear shadow-[0_0_8px_rgba(255,255,255,0.4)]"
+                    style={{ width: `${activityProgress}%` }}
+                  />
+                </div>
+              </div>
+            )}
           </div>
         );
       })}
