@@ -567,6 +567,7 @@ export const PORTFOLIO_DATA = {
       techIcons: ["nextjs", "react", "ts", "tailwind", "mongodb"],
       status: "Live",
       githubUrl: "https://github.com/Bimbok/Softy",
+      liveUrl: "https://softy-fawn.vercel.app",
       featured: false,
     },
   ] as Project[],
