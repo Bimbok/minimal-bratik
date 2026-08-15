@@ -58,7 +58,7 @@ export const ProjectsSection: React.FC = () => {
                   <img
                     src={project.imagePath}
                     alt={project.title}
-                    className="w-full h-full object-cover object-top group-hover/img:scale-110 group-hover/img:brightness-110 transition-transform duration-500 ease-out filter contrast-105"
+                    className="w-full h-full object-cover object-center group-hover/img:scale-110 group-hover/img:brightness-110 transition-transform duration-500 ease-out filter contrast-105"
                   />
                 ) : (
                   /* Fallback code canvas for Sizuka / Code projects */
