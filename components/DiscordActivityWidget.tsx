@@ -132,11 +132,10 @@ export const DiscordActivityWidget: React.FC = () => {
     return () => clearInterval(timer);
   }, [lanyardData]);
 
-  // Helper to map activity names (Neovim, Android Studio, ArchiveTune, Obsidian, VS Code, Arch, etc.) to icons
-  const getActivityIconUrl = (act: ActivityItem): string | null => {
+  // Helper to map application brand icon
+  const getAppIconUrl = (act: ActivityItem): string | null => {
     const name = act.name.toLowerCase();
 
-    // Check application specific icons first
     if (name.includes("crunchyroll") || name.includes("cranchiroll")) {
       return "https://avatars.githubusercontent.com/u/799638?s=200";
     }
@@ -170,8 +169,12 @@ export const DiscordActivityWidget: React.FC = () => {
     if (name.includes("github")) {
       return "https://skillicons.dev/icons?i=github&theme=dark";
     }
+    return null;
+  };
 
-    // Resolve Discord RPC Assets
+  // Helper to resolve track / video / media artwork thumbnail
+  const getActivityThumbnailUrl = (act: ActivityItem): string | null => {
+    // Check Discord RPC dynamic large image first (e.g. song cover art, video thumbnail)
     if (act.assets?.large_image) {
       const img = act.assets.large_image;
       if (img.startsWith("mp:external/")) {
@@ -183,7 +186,9 @@ export const DiscordActivityWidget: React.FC = () => {
         return `https://cdn.discordapp.com/app-assets/${act.application_id}/${img}.png`;
       }
     }
-    return null;
+
+    // Fallback to app brand icon
+    return getAppIconUrl(act);
   };
 
   // If Lanyard is not monitored yet, render notice
@@ -198,7 +203,7 @@ export const DiscordActivityWidget: React.FC = () => {
           <span className="text-[10px] text-neutral-500">@{discordUsername}</span>
         </div>
         <p className="text-xs text-neutral-300 font-sans">
-          To show your live Discord activity (Neovim, Android Studio, ArchiveTune, Obsidian, Spotify, Games & Status) on your portfolio, join the Lanyard Discord server once:
+          To show your live Discord activity (Neovim, Android Studio, ArchiveTune, Spotify, Games & Status) on your portfolio, join the Lanyard Discord server once:
         </p>
         <div className="pt-1">
           <a
@@ -289,7 +294,8 @@ export const DiscordActivityWidget: React.FC = () => {
 
       {/* Render Active App, Watching & Listening Activities (Neovim, Android Studio, ArchiveTune, YouTube, Crunchyroll, Zed, Obsidian, VS Code) */}
       {activeAppActivities.map((act) => {
-        const iconUrl = getActivityIconUrl(act);
+        const appIconUrl = getAppIconUrl(act);
+        const thumbnailUrl = getActivityThumbnailUrl(act);
         const isListening = act.type === 2 || act.name.toLowerCase().includes("archivetune") || act.name.toLowerCase().includes("music");
         const isWatching =
           act.type === 3 ||
@@ -302,17 +308,18 @@ export const DiscordActivityWidget: React.FC = () => {
             key={act.id || act.name}
             className="flex items-center gap-4 bg-neutral-950/80 p-3.5 rounded-xl border border-neutral-800/80 hover:border-neutral-700 hover:bg-neutral-950 transition-all duration-300 shadow-md group/card"
           >
-            {iconUrl ? (
-              <div className="w-11 h-11 rounded-xl overflow-hidden border border-neutral-800 bg-neutral-900 shrink-0 p-1 flex items-center justify-center shadow-lg group-hover/card:scale-105 transition-transform duration-300">
+            {/* Left Thumbnail Box */}
+            {thumbnailUrl ? (
+              <div className="w-12 h-12 rounded-xl overflow-hidden border border-neutral-800 bg-neutral-900 shrink-0 p-1 flex items-center justify-center shadow-lg group-hover/card:scale-105 transition-transform duration-300">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={iconUrl}
+                  src={thumbnailUrl}
                   alt={act.name}
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-cover rounded-lg"
                 />
               </div>
             ) : (
-              <div className="p-3 rounded-xl bg-neutral-900 border border-neutral-800 text-white shrink-0 shadow-lg group-hover/card:scale-105 transition-transform duration-300">
+              <div className="w-12 h-12 rounded-xl bg-neutral-900 border border-neutral-800 text-white shrink-0 shadow-lg group-hover/card:scale-105 transition-transform duration-300 flex items-center justify-center">
                 {isListening ? (
                   <Disc className="w-5 h-5 text-white animate-spin" />
                 ) : act.name.toLowerCase().includes("code") || act.name.toLowerCase().includes("vim") || act.name.toLowerCase().includes("studio") ? (
@@ -325,8 +332,17 @@ export const DiscordActivityWidget: React.FC = () => {
 
             <div className="flex-1 min-w-0 space-y-1">
               <div className="flex items-center justify-between gap-2">
+                {/* App Title with App Icon before Title */}
                 <h4 className="text-xs sm:text-sm font-bold text-white font-sans tracking-tight truncate flex items-center gap-1.5">
-                  {act.name}
+                  {appIconUrl && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={appIconUrl}
+                      alt=""
+                      className="w-4 h-4 object-contain shrink-0"
+                    />
+                  )}
+                  <span>{act.name}</span>
                 </h4>
                 <span className="text-[9px] px-1.5 py-0.5 rounded bg-neutral-900 border border-neutral-800 text-neutral-300 font-mono flex items-center gap-1 shrink-0">
                   {isListening ? (
