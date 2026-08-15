@@ -515,7 +515,7 @@ export const PORTFOLIO_DATA = {
       tagline: "Real-time communication and networking platform for gamers & developers",
       description: "A high-concurrency real-time messaging and social network for gamers and developers, featuring instant WebSockets messaging, 3D interactive graphics with Three.js, and MongoDB persistence.",
       imagePath: "/projects/ping.png",
-      logoUrl: "https://avatars.githubusercontent.com/u/250792693?v=4",
+      logoUrl: "/ping-logo.png",
       architecture: [
         "Full-duplex WebSocket communication pipeline powered by Socket.IO",
         "React 18 & Vite SPA architecture with Tailwind CSS and Material UI",
