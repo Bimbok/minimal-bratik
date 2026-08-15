@@ -137,6 +137,12 @@ export const DiscordActivityWidget: React.FC = () => {
     const name = act.name.toLowerCase();
 
     // Check application specific icons first
+    if (name.includes("zed")) {
+      return "https://avatars.githubusercontent.com/u/100072895?s=200";
+    }
+    if (name.includes("youtube music") || name.includes("yt music") || name.includes("youtubemusic")) {
+      return "https://upload.wikimedia.org/wikipedia/commons/6/6a/Youtube_Music_icon.svg";
+    }
     if (name.includes("android studio") || name.includes("androidstudio") || name.includes("android")) {
       return "https://skillicons.dev/icons?i=androidstudio&theme=dark";
     }
