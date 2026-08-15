@@ -536,6 +536,26 @@ export const PORTFOLIO_DATA = {
       liveUrl: "https://avis-hq.vercel.app",
       featured: false,
     },
+    {
+      id: "softy",
+      title: "Softy",
+      repoPath: "Bimbok/Softy",
+      tagline: "Glassmorphic knowledge exploration platform with Markdown, LaTeX & admin suite",
+      description: "A modern, visually stunning web application for sharing and exploring topics, fun facts, and technical articles. Built with Next.js 15, featuring glassmorphism UI, full-screen video backdrops, Markdown & KaTeX LaTeX mathematical rendering, and a secure MongoDB Atlas admin dashboard.",
+      imagePath: "/projects/softy.png",
+      logoUrl: "/softy.svg",
+      architecture: [
+        "Next.js 15 App Router architecture with React 19 and Framer Motion micro-animations",
+        "Mathematical equation rendering engine powered by KaTeX and Markdown AST parsing",
+        "Secure password-protected admin dashboard with real-time topic publication workflows",
+        "MongoDB Atlas database cluster modeling articles, collections, and metadata",
+      ],
+      tech: ["Next.js", "React", "TypeScript", "Tailwind CSS", "MongoDB", "KaTeX"],
+      techIcons: ["nextjs", "react", "ts", "tailwind", "mongodb"],
+      status: "Live",
+      githubUrl: "https://github.com/Bimbok/Softy",
+      featured: false,
+    },
   ] as Project[],
 
   resumeDriveFiles: [
