@@ -37,10 +37,12 @@ export const SkillsSection: React.FC = () => {
     "Node.js & Express": "nodejs",
     "MongoDB & PostgreSQL": "mongodb",
     "Tailwind CSS & D3.js": "tailwind",
+    "Framer Motion & Three.js": "threejs",
     "Neovim & Lua": "vim",
     "Obsidian & PKM": "obsidian",
     "Arch Linux & Hyprland": "arch",
     "Git & GitHub Automation": "git",
+    "CMake & Linux Toolchains": "cmake",
     "Docker & Kubernetes": "docker",
   };
 

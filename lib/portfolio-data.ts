@@ -302,6 +302,13 @@ export const PORTFOLIO_DATA = {
           description: "Interactive algorithm execution visualizations (AlgoScope) and custom design systems.",
           tags: ["D3.js", "PostCSS", "Design Tokens", "Responsive"],
         },
+        {
+          name: "Framer Motion & Three.js",
+          level: 90,
+          experience: "4 Yrs",
+          description: "Interactive 3D WebGL scenes (Ping), fluid spring physics transitions (Softy), and micro-interactions.",
+          tags: ["Three.js", "Framer Motion", "WebGL", "Anime.js"],
+        },
       ],
     },
     {
@@ -335,6 +342,13 @@ export const PORTFOLIO_DATA = {
           experience: "6 Yrs",
           description: "Advanced Git workflows, multi-threaded CLI automation (Bimagic), interactive rebasing & OSS admin.",
           tags: ["Git", "GitHub Actions", "CI/CD", "OSS Admin"],
+        },
+        {
+          name: "CMake & Linux Toolchains",
+          level: 90,
+          experience: "5 Yrs",
+          description: "C/C++ compilation pipelines (Fyzenor, MyShell), GDB debugging, Makefiles, and POSIX system calls.",
+          tags: ["CMake", "GDB", "Clang", "Toolchains"],
         },
         {
           name: "Docker & Kubernetes",
