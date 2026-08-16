@@ -640,6 +640,26 @@ export const PORTFOLIO_DATA = {
       youtubeId: "l6-UArXPgnU",
       featured: false,
     },
+    {
+      id: "healthsync",
+      title: "HealthSync",
+      repoPath: "aasaan-hainn/HealthSync",
+      tagline: "Your Health is Our Priority — Patient-Doctor Healthcare & Telemetry Platform",
+      description: "A full-stack healthcare coordination ecosystem bridging patients and medical professionals. Features real-time appointment scheduling, daily vitals telemetry logging with interactive Recharts trends, digital prescription management, and secure dual-token JWT authentication.",
+      imagePath: "/projects/healthsync.png",
+      architecture: [
+        "Full-stack MERN & React 19 architecture with dedicated client and Express.js REST API workspaces",
+        "Dual-role portals tailored for Patients (vitals logging, prescription tracking) and Doctors (telemetry monitoring, digital prescriptions)",
+        "Interactive Recharts data visualization tracking blood pressure, heart rate, and health metrics over time",
+        "Secure dual-token authentication pipeline with short-lived JWTs and HttpOnly SameSite refresh cookies",
+      ],
+      tech: ["React 19", "Vite", "Node.js", "Express", "MongoDB", "Tailwind CSS", "Recharts", "Socket.IO"],
+      techIcons: ["react", "nodejs", "express", "mongodb", "tailwind", "vite"],
+      status: "Live",
+      githubUrl: "https://github.com/aasaan-hainn/HealthSync",
+      liveUrl: "https://healthsync-0n0d.onrender.com/",
+      featured: false,
+    },
   ] as Project[],
 
   resumeDriveFiles: [
