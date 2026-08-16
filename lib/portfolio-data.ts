@@ -618,6 +618,28 @@ export const PORTFOLIO_DATA = {
       liveUrl: "https://softy-fawn.vercel.app",
       featured: false,
     },
+    {
+      id: "nyayaconnect",
+      title: "NyayaConnect",
+      repoPath: "kodo-kaze/nyayaconnect",
+      tagline: "Redefining Judicial Trust — Next-gen tamper-proof digital justice ecosystem",
+      description: "A unified, high-security ecosystem connecting citizens, law enforcement, and courts through tamper-proof digital infrastructure with cryptographic audit trails, case tracking, and secure document vaults.",
+      imagePath: "/projects/nyayaconnect.png",
+      architecture: [
+        "Next-gen judicial portal architecture with cryptographic tamper-proof verification",
+        "Unified case resolution pipeline connecting citizens, law enforcement, and legal courts",
+        "High-performance Next.js and TypeScript full-stack workspace with server actions",
+        "Secure document vault with immutable audit logs and sub-second multi-agency query index",
+      ],
+      tech: ["Next.js", "React", "TypeScript", "Tailwind CSS", "PostgreSQL", "Security"],
+      techIcons: ["nextjs", "react", "ts", "tailwind", "postgres"],
+      status: "Live",
+      githubUrl: "https://github.com/kodo-kaze/nyayaconnect",
+      liveUrl: "https://nyayaconnect.vercel.app/",
+      videoUrl: "https://youtu.be/l6-UArXPgnU?si=qThdGMZaZqNCDo1L",
+      youtubeId: "l6-UArXPgnU",
+      featured: false,
+    },
   ] as Project[],
 
   resumeDriveFiles: [
