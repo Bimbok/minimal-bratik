@@ -660,6 +660,7 @@ export const PORTFOLIO_DATA = {
       tagline: "Redefining Judicial Trust — Intelligent Law & Justice Management Platform",
       description: "A comprehensive digital justice workflow ecosystem bridging fragmented court systems. Connects citizens, law enforcement, lawyers, and judges through a secure microservices architecture with LLaMA 3.1 AI legal intelligence and SHA-256 cryptographic evidence vaults.",
       imagePath: "/projects/nyayaconnect.png",
+      logoUrl: "/projects/nyayaconnect-logo.png",
       architecture: [
         "Modular microservices architecture uniting Node.js Express core backend, Python Flask AI engine, evidence vault, and React 19 frontend",
         "NyayaAI legal intelligence layer powered by Meta LLaMA 3.1 405B via NVIDIA API for IPC/BNS insights, urgency scoring & case summarization",
