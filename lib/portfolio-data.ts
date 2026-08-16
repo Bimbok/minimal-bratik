@@ -184,6 +184,31 @@ export const PORTFOLIO_DATA = {
       tags: ["Hackathon", "MoE Innovation Cell", "AICTE", "System Architecture"],
     },
     {
+      id: "gfg-aiml-2025",
+      title: "GeeksforGeeks AI & Machine Learning Technical Workshop",
+      issuer: "GeeksforGeeks (Founder & CEO Sandeep Jain)",
+      date: "February 2025",
+      credentialUrl: "https://media.geeksforgeeks.org/certificates/1745586883/67a7c4ad1ebf9109681d59747c9f4632.pdf",
+      imagePath: "/certificates/gfg_aiml_certificate.png",
+      details: [
+        "Completed intensive technical workshop on Artificial Intelligence and Machine Learning architecture conducted by GeeksforGeeks.",
+        "Covered foundational ML algorithms, neural architectures, data preprocessing, and model deployment strategies.",
+      ],
+      tags: ["AI", "Machine Learning", "GeeksforGeeks", "Algorithms", "Neural Networks"],
+    },
+    {
+      id: "gfg-c-workshop-2025",
+      title: "C Language & Algorithmic Mastery Workshop",
+      issuer: "GeeksforGeeks Student Chapter & Geekonix (Techno Main Salt Lake / IIC)",
+      date: "February 1, 2025",
+      imagePath: "/certificates/gfg_c_workshop_certificate.png",
+      details: [
+        "Participated in advanced C language and computational excellence workshop organized by GFG Student Chapter & Geekonix.",
+        "Focused on low-level memory management, pointer arithmetic, data structures, and algorithmic optimization.",
+      ],
+      tags: ["C", "Low-Level Programming", "Algorithms", "Data Structures", "GFG"],
+    },
+    {
       id: "udemy-datascience-2025",
       title: "Data Science Mastery 2025: Excel, Python & Tableau",
       issuer: "Udemy / Meritshot Academy",
