@@ -46,6 +46,7 @@ export const SkillsSection: React.FC = () => {
     "Docker & Kubernetes": "docker",
     "Bash & POSIX Shell": "bash",
     "LLM & Applied AI (LLaMA 3.1)": "py",
+    "LangChain & AI Agents": "py",
     "WebSockets & Real-Time Telemetry": "react",
     "Microservices & Security Architecture": "linux",
   };

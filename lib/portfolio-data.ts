@@ -364,6 +364,13 @@ export const PORTFOLIO_DATA = {
           tags: ["LLaMA 3.1", "ChromaDB", "NVIDIA AI", "Vector Search"],
         },
         {
+          name: "LangChain & AI Agents",
+          level: 92,
+          experience: "2 Yrs",
+          description: "RAG architectures, recursive document splitting, LangChain memory chains, ChromaDB vector indexing, and autonomous agent workflows.",
+          tags: ["LangChain", "RAG", "AI Agents", "Vector Stores"],
+        },
+        {
           name: "WebSockets & Real-Time Telemetry",
           level: 89,
           experience: "2 Yrs",
