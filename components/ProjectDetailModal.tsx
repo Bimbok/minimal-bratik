@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from "react";
 import Lenis from "lenis";
 import { useThemeContext } from "../lib/theme-context";
 import { audioEngine } from "../lib/audio";
-import { X, ExternalLink, Cpu, Check, Copy } from "lucide-react";
+import { X, ExternalLink, Cpu, Check, Copy, Play } from "lucide-react";
 import { GithubIcon } from "./BrandIcons";
 
 export const ProjectDetailModal: React.FC = () => {
@@ -120,6 +120,25 @@ export const ProjectDetailModal: React.FC = () => {
               {selectedProject.description}
             </p>
 
+            {/* Embedded YouTube Demo Video (if available) */}
+            {selectedProject.youtubeId && (
+              <div className="space-y-2 pt-1">
+                <div className="font-bold text-[11px] text-neutral-400 uppercase tracking-wider flex items-center gap-2 font-mono">
+                  <Play className="w-3.5 h-3.5 text-red-500 fill-current" />
+                  <span>Video Demonstration</span>
+                </div>
+                <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-neutral-800 bg-black shadow-lg">
+                  <iframe
+                    src={`https://www.youtube-nocookie.com/embed/${selectedProject.youtubeId}?rel=0`}
+                    title={`${selectedProject.title} Demo Video`}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="w-full h-full border-0"
+                  />
+                </div>
+              </div>
+            )}
+
             {/* Architecture Highlights */}
             <div className="space-y-2.5 pt-1">
               <div className="font-bold text-[11px] text-neutral-400 uppercase tracking-wider flex items-center gap-2 font-mono">
@@ -171,6 +190,18 @@ export const ProjectDetailModal: React.FC = () => {
           </div>
 
           <div className="flex flex-wrap items-center gap-2 font-mono text-xs">
+            {selectedProject.videoUrl && (
+              <a
+                href={selectedProject.videoUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="px-3.5 py-1.5 rounded-lg bg-red-600/90 hover:bg-red-500 text-white font-bold transition-all flex items-center gap-1.5 shadow-md shadow-red-950/40"
+              >
+                <Play className="w-3.5 h-3.5 fill-current text-white" />
+                <span>YouTube Demo</span>
+              </a>
+            )}
+
             <a
               href={selectedProject.githubUrl}
               target="_blank"

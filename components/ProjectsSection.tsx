@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { PORTFOLIO_DATA } from "../lib/portfolio-data";
 import { useThemeContext } from "../lib/theme-context";
 import { audioEngine } from "../lib/audio";
-import { ArrowUpRight, Pin, Code2, FolderGit2, ChevronDown } from "lucide-react";
+import { ArrowUpRight, Pin, Code2, FolderGit2, ChevronDown, Play } from "lucide-react";
 import { ProjectGithubHoverCard } from "./ProjectGithubHoverCard";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -86,6 +86,14 @@ export const ProjectsSection: React.FC = () => {
 
                 {/* Hover Glare Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-40 group-hover/img:opacity-20 transition-opacity duration-300 pointer-events-none" />
+
+                {/* Demo Video Indicator Badge */}
+                {project.videoUrl && (
+                  <div className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-lg bg-red-600/90 backdrop-blur-md text-white text-[10px] flex items-center gap-1 font-mono font-bold shadow-md shadow-red-950/60 z-10">
+                    <Play className="w-2.5 h-2.5 fill-current" />
+                    <span>Demo</span>
+                  </div>
+                )}
 
                 {/* Pin Icon overlay */}
                 <div className="absolute top-2.5 right-2.5 p-1.5 rounded-lg bg-black/70 backdrop-blur-md border border-neutral-700/60 text-neutral-400 group-hover/img:text-white group-hover/img:scale-110 transition-all">

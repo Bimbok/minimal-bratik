@@ -15,6 +15,8 @@ export interface Project {
   secondaryRepoLabel?: string;
   docsUrl?: string;
   liveUrl?: string;
+  videoUrl?: string;
+  youtubeId?: string;
   featured: boolean;
 }
 
@@ -419,6 +421,8 @@ export const PORTFOLIO_DATA = {
       status: "Live",
       githubUrl: "https://github.com/Bimbok/fyzenor",
       liveUrl: "https://fyzenor.vercel.app",
+      videoUrl: "https://youtu.be/6-n4uNivjO4?si=R14uSldiwhA3W-wK",
+      youtubeId: "6-n4uNivjO4",
       featured: true,
     },
     {
@@ -440,6 +444,8 @@ export const PORTFOLIO_DATA = {
       status: "Live",
       githubUrl: "https://github.com/algoscope-hq/AlgoScope",
       liveUrl: "https://algo-scope-virid.vercel.app",
+      videoUrl: "https://youtu.be/EET3d5TOtO4?si=x9tze0Uiz00CRZyU",
+      youtubeId: "EET3d5TOtO4",
       featured: true,
     },
     {
@@ -478,6 +484,8 @@ export const PORTFOLIO_DATA = {
       status: "Live",
       githubUrl: "https://github.com/kodo-kaze/avis",
       liveUrl: "https://avis-hq.vercel.app",
+      videoUrl: "https://youtu.be/nVr0S31eCDc?si=jxIww0bvymE-Y5Ne",
+      youtubeId: "nVr0S31eCDc",
       featured: true,
     },
     {
@@ -525,6 +533,8 @@ export const PORTFOLIO_DATA = {
       secondaryGithubUrl: "https://github.com/Bimbok/documentationHub",
       secondaryRepoLabel: "Web Hub Repo",
       liveUrl: "https://bimbokdocs.vercel.app",
+      videoUrl: "https://youtu.be/GQ0UcGhralM?si=kmAozcdHgGiSt1gP",
+      youtubeId: "GQ0UcGhralM",
       featured: false,
     },
     {
