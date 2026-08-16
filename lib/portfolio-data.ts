@@ -224,6 +224,18 @@ export const PORTFOLIO_DATA = {
       tags: ["AWS", "Generative AI", "Hackathon", "Hack2skill", "YourStory", "Cloud Architecture"],
     },
     {
+      id: "geekathon-26",
+      title: "Geekathon 26 — Certificate of Participation",
+      issuer: "Geekonix, Techno Main Salt Lake",
+      date: "February 2026",
+      imagePath: "/certificates/geekathon_26_certificate.png",
+      details: [
+        "Participated in Geekathon 26, the premier annual technical hackathon organized by Geekonix at Techno Main Salt Lake.",
+        "Built innovative technical solutions and collaborated in high-intensity software engineering sprints.",
+      ],
+      tags: ["Hackathon", "Geekonix", "Techno Main Salt Lake", "Software Engineering"],
+    },
+    {
       id: "udemy-datascience-2025",
       title: "Data Science Mastery 2025: Excel, Python & Tableau",
       issuer: "Udemy / Meritshot Academy",
