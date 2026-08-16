@@ -44,6 +44,10 @@ export const SkillsSection: React.FC = () => {
     "Git & GitHub Automation": "git",
     "CMake & Linux Toolchains": "cmake",
     "Docker & Kubernetes": "docker",
+    "Bash & POSIX Shell": "bash",
+    "LLM & Applied AI (LLaMA 3.1)": "py",
+    "WebSockets & Real-Time Telemetry": "react",
+    "Microservices & Security Architecture": "linux",
   };
 
   const allSkills: SkillItemWithCategory[] = PORTFOLIO_DATA.skills.flatMap((cat) =>
