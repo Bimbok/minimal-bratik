@@ -682,6 +682,7 @@ export const PORTFOLIO_DATA = {
       tagline: "Your Health is Our Priority — Patient-Doctor Healthcare & Telemetry Platform",
       description: "A full-stack healthcare coordination ecosystem bridging patients and medical professionals. Features real-time appointment scheduling, daily vitals telemetry logging with interactive Recharts trends, digital prescription management, and secure dual-token JWT authentication.",
       imagePath: "/projects/healthsync.png",
+      logoUrl: "/projects/healthsync-logo.png",
       architecture: [
         "Full-stack MERN & React 19 architecture with dedicated client and Express.js REST API workspaces",
         "Dual-role portals tailored for Patients (vitals logging, prescription tracking) and Doctors (telemetry monitoring, digital prescriptions)",
