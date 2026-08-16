@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
+import emailjs from "@emailjs/browser";
 import { PORTFOLIO_DATA } from "../lib/portfolio-data";
 import { useThemeContext } from "../lib/theme-context";
 import { audioEngine } from "../lib/audio";
-import { Mail, Send, ShieldCheck, Copy, Check, Phone, UserPlus, PhoneCall } from "lucide-react";
+import { Mail, Send, ShieldCheck, Copy, Check, Phone, UserPlus, PhoneCall, Loader2, CheckCircle2 } from "lucide-react";
 
 export const ContactSection: React.FC = () => {
   const { showToast } = useThemeContext();
@@ -13,6 +14,7 @@ export const ContactSection: React.FC = () => {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [isSending, setIsSending] = useState(false);
   const [sentSuccess, setSentSuccess] = useState(false);
+  const [statusMessage, setStatusMessage] = useState<string | null>(null);
 
   const phoneNum = PORTFOLIO_DATA.profile.socials.phone || "+91 9883593295";
   const telLink = "tel:+919883593295";
@@ -63,21 +65,64 @@ END:VCARD`;
     showToast("Downloaded Bratik Mukherjee vCard (.vcf)!");
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) return;
 
     setIsSending(true);
+    setStatusMessage(null);
     audioEngine.playKeyClick("enter");
 
-    setTimeout(() => {
+    const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "";
+    const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "";
+    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "";
+
+    try {
+      if (publicKey && serviceId && templateId) {
+        // Send directly via EmailJS API
+        await emailjs.send(
+          serviceId,
+          templateId,
+          {
+            from_name: formData.name,
+            from_email: formData.email,
+            reply_to: formData.email,
+            message: formData.message,
+            to_name: "Bratik Mukherjee",
+          },
+          publicKey
+        );
+
+        setIsSending(false);
+        setSentSuccess(true);
+        setStatusMessage("Message delivered straight to Bratik's inbox via EmailJS! ✓");
+        audioEngine.playChime();
+        showToast("Message sent successfully via EmailJS!");
+        setFormData({ name: "", email: "", message: "" });
+        setTimeout(() => setSentSuccess(false), 5000);
+      } else {
+        // Fallback: mailto client if EmailJS keys not yet provided in .env
+        const subject = encodeURIComponent(`Portfolio Message from ${formData.name}`);
+        const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`);
+        window.open(`mailto:${PORTFOLIO_DATA.profile.socials.email}?subject=${subject}&body=${body}`, "_blank");
+
+        setIsSending(false);
+        setSentSuccess(true);
+        setStatusMessage("Opened default email client! (Add EmailJS keys to .env to send silently)");
+        audioEngine.playChime();
+        showToast("Email client opened!");
+        setFormData({ name: "", email: "", message: "" });
+        setTimeout(() => setSentSuccess(false), 5000);
+      }
+    } catch (err: unknown) {
+      console.error("EmailJS Error:", err);
       setIsSending(false);
-      setSentSuccess(true);
-      audioEngine.playChime();
-      showToast("Message dispatched!");
-      setFormData({ name: "", email: "", message: "" });
-      setTimeout(() => setSentSuccess(false), 4000);
-    }, 1000);
+      audioEngine.playError();
+      showToast("EmailJS error. Opening mail client fallback...");
+      const subject = encodeURIComponent(`Portfolio Message from ${formData.name}`);
+      const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`);
+      window.open(`mailto:${PORTFOLIO_DATA.profile.socials.email}?subject=${subject}&body=${body}`, "_blank");
+    }
   };
 
   return (
@@ -186,42 +231,55 @@ END:VCARD`;
           </div>
 
           {sentSuccess ? (
-            <div className="p-3 rounded bg-neutral-900 border border-neutral-700 text-neutral-200 text-xs">
-              ✓ Message logged to buffer! I will reply shortly.
+            <div className="p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-800/80 text-emerald-300 text-xs flex items-center gap-2.5 animate-in fade-in">
+              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+              <span>{statusMessage || "Message delivered successfully! I will reply shortly."}</span>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-2.5">
               <input
                 type="text"
                 required
+                name="from_name"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 placeholder="Your Name"
-                className="w-full p-2 rounded bg-neutral-950 border border-neutral-800 text-neutral-200 text-xs focus:outline-none focus:border-neutral-600"
+                className="w-full p-2.5 rounded-lg bg-neutral-950 border border-neutral-800 text-neutral-200 text-xs focus:outline-none focus:border-neutral-600 placeholder:text-neutral-600 font-mono"
               />
               <input
                 type="email"
                 required
+                name="from_email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 placeholder="your@email.com"
-                className="w-full p-2 rounded bg-neutral-950 border border-neutral-800 text-neutral-200 text-xs focus:outline-none focus:border-neutral-600"
+                className="w-full p-2.5 rounded-lg bg-neutral-950 border border-neutral-800 text-neutral-200 text-xs focus:outline-none focus:border-neutral-600 placeholder:text-neutral-600 font-mono"
               />
               <textarea
                 required
                 rows={3}
+                name="message"
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                 placeholder="Write your message..."
-                className="w-full p-2 rounded bg-neutral-950 border border-neutral-800 text-neutral-200 text-xs focus:outline-none focus:border-neutral-600 resize-none"
+                className="w-full p-2.5 rounded-lg bg-neutral-950 border border-neutral-800 text-neutral-200 text-xs focus:outline-none focus:border-neutral-600 placeholder:text-neutral-600 resize-none font-mono"
               />
               <button
                 type="submit"
                 disabled={isSending}
-                className="w-full py-2.5 rounded bg-white text-black font-extrabold hover:bg-neutral-200 transition-all flex items-center justify-center gap-1.5 shadow-md shadow-black/40 text-xs"
+                className="w-full py-2.5 rounded-lg bg-white text-black font-extrabold hover:bg-neutral-200 transition-all flex items-center justify-center gap-2 shadow-md shadow-black/40 text-xs disabled:opacity-60 cursor-pointer font-sans"
               >
-                <Send className="w-3.5 h-3.5 text-black" />
-                <span>{isSending ? "Dispatching..." : "Send Message"}</span>
+                {isSending ? (
+                  <>
+                    <Loader2 className="w-3.5 h-3.5 text-black animate-spin" />
+                    <span>Dispatching via EmailJS...</span>
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-3.5 h-3.5 text-black" />
+                    <span>Send Message</span>
+                  </>
+                )}
               </button>
             </form>
           )}
