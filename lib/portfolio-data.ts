@@ -209,6 +209,19 @@ export const PORTFOLIO_DATA = {
       tags: ["C", "Low-Level Programming", "Algorithms", "Data Structures", "GFG"],
     },
     {
+      id: "aws-ai-bharat-2026",
+      title: "AI for Bharat Hackathon — Certificate of Participation",
+      issuer: "Amazon Web Services (AWS), Hack2skill & YourStory",
+      date: "March 2026",
+      credentialId: "2026H2S04AIFB-P00632",
+      imagePath: "/certificates/aws_ai_for_bharat_certificate.png",
+      details: [
+        "Built and submitted a qualified working prototype leveraging Amazon Web Services (AWS) cloud and Generative AI technologies.",
+        "Demonstrated technical execution solving real-world challenges with generative AI models and scalable cloud infrastructure.",
+      ],
+      tags: ["AWS", "Generative AI", "Hackathon", "Hack2skill", "YourStory", "Cloud Architecture"],
+    },
+    {
       id: "udemy-datascience-2025",
       title: "Data Science Mastery 2025: Excel, Python & Tableau",
       issuer: "Udemy / Meritshot Academy",
