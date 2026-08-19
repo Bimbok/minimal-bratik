@@ -141,6 +141,10 @@ export const HobbySection: React.FC = () => {
                     <img
                       src={item.imageUrl}
                       alt={item.title}
+                      referrerPolicy="no-referrer"
+                      onError={(e) => {
+                        e.currentTarget.src = "/anime/solo-leveling.png";
+                      }}
                       className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300"
                       loading="lazy"
                     />
@@ -166,10 +170,10 @@ export const HobbySection: React.FC = () => {
                         </span>
                       </div>
 
-                      {/* Japanese or Alternative Subtitle */}
-                      {item.titleJapanese && (
+                      {/* Clean Subtitle */}
+                      {(item.titleEnglish && item.titleEnglish !== item.title ? item.titleEnglish : item.titleJapanese) && (
                         <p className="text-[10px] text-neutral-400 truncate mt-0.5 font-sans">
-                          {item.titleJapanese}
+                          {item.titleEnglish && item.titleEnglish !== item.title ? item.titleEnglish : item.titleJapanese}
                         </p>
                       )}
 

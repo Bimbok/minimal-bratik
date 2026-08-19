@@ -215,8 +215,11 @@ export const AnimeDetailModal: React.FC = () => {
 
         </div>
 
-        {/* Scrollable Anime List Grid */}
-        <div className="p-4 sm:p-5 overflow-y-auto flex-1 space-y-3 bg-[#08090b]">
+        {/* Scrollable Anime List Grid with data-lenis-prevent */}
+        <div
+          data-lenis-prevent="true"
+          className="p-4 sm:p-5 overflow-y-auto overscroll-contain flex-1 max-h-[calc(85vh-130px)] space-y-3 bg-[#08090b]"
+        >
           {filteredAnime.length === 0 ? (
             <div className="p-8 text-center text-neutral-500 font-sans text-xs">
               No anime found matching your filter criteria.
@@ -227,6 +230,10 @@ export const AnimeDetailModal: React.FC = () => {
                 const progressPct = item.totalEpisodes > 0
                   ? Math.min(100, Math.round((item.episodesWatched / item.totalEpisodes) * 100))
                   : 0;
+
+                const subtitleText = item.titleEnglish && item.titleEnglish !== item.title
+                  ? item.titleEnglish
+                  : item.titleJapanese || "";
 
                 return (
                   <div
@@ -239,6 +246,10 @@ export const AnimeDetailModal: React.FC = () => {
                       <img
                         src={item.imageUrl}
                         alt={item.title}
+                        referrerPolicy="no-referrer"
+                        onError={(e) => {
+                          e.currentTarget.src = "/anime/solo-leveling.png";
+                        }}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         loading="lazy"
                       />
@@ -264,10 +275,10 @@ export const AnimeDetailModal: React.FC = () => {
                           </span>
                         </div>
 
-                        {/* Japanese Title if available */}
-                        {item.titleJapanese && (
+                        {/* Clean Subtitle */}
+                        {subtitleText && (
                           <p className="text-[10px] text-neutral-400 truncate mt-0.5 font-sans">
-                            {item.titleJapanese}
+                            {subtitleText}
                           </p>
                         )}
 
