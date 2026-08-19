@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import Lenis from "lenis";
 import { useThemeContext } from "../lib/theme-context";
 import { PORTFOLIO_DATA, AnimeItem } from "../lib/portfolio-data";
 import { audioEngine } from "../lib/audio";
@@ -23,6 +24,9 @@ export const AnimeDetailModal: React.FC = () => {
   const [animeList, setAnimeList] = useState<AnimeItem[]>(PORTFOLIO_DATA.hobbies.anime);
   const [profileUrl, setProfileUrl] = useState<string>(PORTFOLIO_DATA.hobbies.animeProfileUrl);
 
+  const scrollWrapperRef = useRef<HTMLDivElement>(null);
+  const scrollContentRef = useRef<HTMLDivElement>(null);
+
   // Fetch dynamic list if available
   useEffect(() => {
     if (!animeModalOpen) return;
@@ -42,18 +46,45 @@ export const AnimeDetailModal: React.FC = () => {
       });
   }, [animeModalOpen]);
 
-  // Lock Lenis & body scroll while modal is active
+  // Lock body scroll while modal is active
   useEffect(() => {
-    const lenis = (window as unknown as { lenis?: { stop: () => void; start: () => void } }).lenis;
+    const mainLenis = (window as unknown as { lenis?: { stop: () => void; start: () => void } }).lenis;
     if (animeModalOpen) {
-      if (lenis) lenis.stop();
+      if (mainLenis) mainLenis.stop();
       document.body.style.overflow = "hidden";
     }
     return () => {
-      if (lenis) lenis.start();
+      if (mainLenis) mainLenis.start();
       document.body.style.overflow = "";
     };
   }, [animeModalOpen]);
+
+  // Dedicated Lenis smooth momentum scrolling inside the modal
+  useEffect(() => {
+    if (!animeModalOpen || !scrollWrapperRef.current || !scrollContentRef.current) return;
+
+    const modalLenis = new Lenis({
+      wrapper: scrollWrapperRef.current,
+      content: scrollContentRef.current,
+      duration: 1.8,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -8 * t)),
+      wheelMultiplier: 0.85,
+      touchMultiplier: 1.2,
+      infinite: false,
+    });
+
+    let rafId: number;
+    function raf(time: number) {
+      modalLenis.raf(time);
+      rafId = requestAnimationFrame(raf);
+    }
+    rafId = requestAnimationFrame(raf);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      modalLenis.destroy();
+    };
+  }, [animeModalOpen, filter, searchQuery, animeList]);
 
   if (!animeModalOpen) return null;
 
@@ -217,138 +248,141 @@ export const AnimeDetailModal: React.FC = () => {
 
         {/* Scrollable Anime List Grid with data-lenis-prevent */}
         <div
+          ref={scrollWrapperRef}
           data-lenis-prevent="true"
           className="p-4 sm:p-5 overflow-y-auto overscroll-contain flex-1 max-h-[calc(85vh-130px)] space-y-3 bg-[#08090b]"
         >
-          {filteredAnime.length === 0 ? (
-            <div className="p-8 text-center text-neutral-500 font-sans text-xs">
-              No anime found matching your filter criteria.
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-              {filteredAnime.map((item) => {
-                const progressPct = item.totalEpisodes > 0
-                  ? Math.min(100, Math.round((item.episodesWatched / item.totalEpisodes) * 100))
-                  : 0;
+          <div ref={scrollContentRef}>
+            {filteredAnime.length === 0 ? (
+              <div className="p-8 text-center text-neutral-500 font-sans text-xs">
+                No anime found matching your filter criteria.
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                {filteredAnime.map((item) => {
+                  const progressPct = item.totalEpisodes > 0
+                    ? Math.min(100, Math.round((item.episodesWatched / item.totalEpisodes) * 100))
+                    : 0;
 
-                const subtitleText = item.titleEnglish && item.titleEnglish !== item.title
-                  ? item.titleEnglish
-                  : item.titleJapanese || "";
+                  const subtitleText = item.titleEnglish && item.titleEnglish !== item.title
+                    ? item.titleEnglish
+                    : item.titleJapanese || "";
 
-                return (
-                  <div
-                    key={item.id}
-                    className="p-3 rounded-xl bg-neutral-900/60 border border-neutral-800/90 hover:border-neutral-700 transition-all flex gap-3.5 group"
-                  >
-                    {/* Cover Thumbnail */}
-                    <div className="relative w-20 sm:w-24 h-28 sm:h-32 rounded-lg overflow-hidden shrink-0 bg-neutral-950 border border-neutral-800 shadow-md">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={item.imageUrl}
-                        alt={item.title}
-                        referrerPolicy="no-referrer"
-                        onError={(e) => {
-                          e.currentTarget.src = "/anime/solo-leveling.png";
-                        }}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        loading="lazy"
-                      />
-                      {item.status === "watching" && (
-                        <div className="absolute top-1.5 left-1.5 px-1.5 py-0.5 rounded bg-black/80 backdrop-blur-sm border border-emerald-500/40 text-[9px] font-bold text-emerald-400 flex items-center gap-1 font-mono">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                          Live
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Content Details */}
-                    <div className="flex-1 min-w-0 flex flex-col justify-between">
-                      <div>
-                        {/* Title & Score */}
-                        <div className="flex items-start justify-between gap-1.5">
-                          <h4 className="text-xs sm:text-sm font-bold text-white leading-snug line-clamp-2 font-sans">
-                            {item.title}
-                          </h4>
-                          <span className="px-1.5 py-0.5 rounded bg-neutral-950 border border-neutral-800 text-[10px] font-bold text-amber-300 shrink-0 flex items-center gap-1 font-mono">
-                            <Star className="w-2.5 h-2.5 fill-amber-300 text-amber-300" />
-                            {item.score.toFixed(1)}
-                          </span>
-                        </div>
-
-                        {/* Clean Subtitle */}
-                        {subtitleText && (
-                          <p className="text-[10px] text-neutral-400 truncate mt-0.5 font-sans">
-                            {subtitleText}
-                          </p>
+                  return (
+                    <div
+                      key={item.id}
+                      className="p-3 rounded-xl bg-neutral-900/60 border border-neutral-800/90 hover:border-neutral-700 transition-all flex gap-3.5 group"
+                    >
+                      {/* Cover Thumbnail */}
+                      <div className="relative w-20 sm:w-24 h-28 sm:h-32 rounded-lg overflow-hidden shrink-0 bg-neutral-950 border border-neutral-800 shadow-md">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={item.imageUrl}
+                          alt={item.title}
+                          referrerPolicy="no-referrer"
+                          onError={(e) => {
+                            e.currentTarget.src = "/anime/solo-leveling.png";
+                          }}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          loading="lazy"
+                        />
+                        {item.status === "watching" && (
+                          <div className="absolute top-1.5 left-1.5 px-1.5 py-0.5 rounded bg-black/80 backdrop-blur-sm border border-emerald-500/40 text-[9px] font-bold text-emerald-400 flex items-center gap-1 font-mono">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                            Live
+                          </div>
                         )}
-
-                        {/* Genres */}
-                        <div className="flex flex-wrap gap-1 mt-1.5">
-                          {item.genres.slice(0, 3).map((g, idx) => (
-                            <span
-                              key={idx}
-                              className="text-[9px] px-1.5 py-0.2 rounded bg-neutral-950/80 border border-neutral-800 text-neutral-400 font-mono"
-                            >
-                              {g}
-                            </span>
-                          ))}
-                          {item.year && (
-                            <span className="text-[9px] px-1.5 py-0.2 rounded bg-neutral-950/80 border border-neutral-800 text-neutral-400 font-mono">
-                              {item.year}
-                            </span>
-                          )}
-                        </div>
                       </div>
 
-                      {/* Episode Progress Bar & Action */}
-                      <div className="mt-2.5 pt-2 border-t border-neutral-800/60">
-                        <div className="flex items-center justify-between text-[10px] font-mono text-neutral-400 mb-1">
-                          <span>
-                            {item.status === "completed" ? (
-                              <span className="text-neutral-300 font-semibold flex items-center gap-1">
-                                <CheckCircle2 className="w-2.5 h-2.5 text-neutral-400" /> Completed
+                      {/* Content Details */}
+                      <div className="flex-1 min-w-0 flex flex-col justify-between">
+                        <div>
+                          {/* Title & Score */}
+                          <div className="flex items-start justify-between gap-1.5">
+                            <h4 className="text-xs sm:text-sm font-bold text-white leading-snug line-clamp-2 font-sans">
+                              {item.title}
+                            </h4>
+                            <span className="px-1.5 py-0.5 rounded bg-neutral-950 border border-neutral-800 text-[10px] font-bold text-amber-300 shrink-0 flex items-center gap-1 font-mono">
+                              <Star className="w-2.5 h-2.5 fill-amber-300 text-amber-300" />
+                              {item.score.toFixed(1)}
+                            </span>
+                          </div>
+
+                          {/* Clean Subtitle */}
+                          {subtitleText && (
+                            <p className="text-[10px] text-neutral-400 truncate mt-0.5 font-sans">
+                              {subtitleText}
+                            </p>
+                          )}
+
+                          {/* Genres */}
+                          <div className="flex flex-wrap gap-1 mt-1.5">
+                            {item.genres.slice(0, 3).map((g, idx) => (
+                              <span
+                                key={idx}
+                                className="text-[9px] px-1.5 py-0.2 rounded bg-neutral-950/80 border border-neutral-800 text-neutral-400 font-mono"
+                              >
+                                {g}
                               </span>
-                            ) : (
-                              <span className="text-emerald-400 font-semibold">
-                                Ep {item.episodesWatched} / {item.totalEpisodes}
+                            ))}
+                            {item.year && (
+                              <span className="text-[9px] px-1.5 py-0.2 rounded bg-neutral-950/80 border border-neutral-800 text-neutral-400 font-mono">
+                                {item.year}
                               </span>
                             )}
-                          </span>
-                          <span className="text-[9px] text-neutral-400">{progressPct}%</span>
+                          </div>
                         </div>
 
-                        <div className="w-full h-1.5 rounded-full bg-neutral-950 border border-neutral-800 overflow-hidden">
-                          <div
-                            className={`h-full rounded-full transition-all duration-500 ${
-                              item.status === "completed" ? "bg-neutral-400" : "bg-emerald-500"
-                            }`}
-                            style={{ width: `${progressPct}%` }}
-                          />
+                        {/* Episode Progress Bar & Action */}
+                        <div className="mt-2.5 pt-2 border-t border-neutral-800/60">
+                          <div className="flex items-center justify-between text-[10px] font-mono text-neutral-400 mb-1">
+                            <span>
+                              {item.status === "completed" ? (
+                                <span className="text-neutral-300 font-semibold flex items-center gap-1">
+                                  <CheckCircle2 className="w-2.5 h-2.5 text-neutral-400" /> Completed
+                                </span>
+                              ) : (
+                                <span className="text-emerald-400 font-semibold">
+                                  Ep {item.episodesWatched} / {item.totalEpisodes}
+                                </span>
+                              )}
+                            </span>
+                            <span className="text-[9px] text-neutral-400">{progressPct}%</span>
+                          </div>
+
+                          <div className="w-full h-1.5 rounded-full bg-neutral-950 border border-neutral-800 overflow-hidden">
+                            <div
+                              className={`h-full rounded-full transition-all duration-500 ${
+                                item.status === "completed" ? "bg-neutral-400" : "bg-emerald-500"
+                              }`}
+                              style={{ width: `${progressPct}%` }}
+                            />
+                          </div>
+
+                          <div className="mt-2 flex items-center justify-between">
+                            <span className="text-[10px] text-neutral-400 capitalize font-mono">
+                              {item.status.replace("_", " ")}
+                            </span>
+                            <a
+                              href={item.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={() => audioEngine.playKeyClick("enter")}
+                              className="text-[10px] text-neutral-300 hover:text-white font-medium flex items-center gap-1 hover:underline"
+                            >
+                              <span>MAL Link</span>
+                              <ExternalLink className="w-2.5 h-2.5" />
+                            </a>
+                          </div>
                         </div>
 
-                        <div className="mt-2 flex items-center justify-between">
-                          <span className="text-[10px] text-neutral-400 capitalize font-mono">
-                            {item.status.replace("_", " ")}
-                          </span>
-                          <a
-                            href={item.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            onClick={() => audioEngine.playKeyClick("enter")}
-                            className="text-[10px] text-neutral-300 hover:text-white font-medium flex items-center gap-1 hover:underline"
-                          >
-                            <span>MAL Link</span>
-                            <ExternalLink className="w-2.5 h-2.5" />
-                          </a>
-                        </div>
                       </div>
-
                     </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Footer */}
