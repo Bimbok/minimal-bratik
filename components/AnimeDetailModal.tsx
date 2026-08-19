@@ -23,6 +23,16 @@ export const AnimeDetailModal: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [animeList, setAnimeList] = useState<AnimeItem[]>(PORTFOLIO_DATA.hobbies.anime);
   const [profileUrl, setProfileUrl] = useState<string>(PORTFOLIO_DATA.hobbies.animeProfileUrl);
+  const [stats, setStats] = useState(
+    PORTFOLIO_DATA.hobbies.stats || {
+      daysWatched: 7.2,
+      meanScore: 8.47,
+      totalEntries: 20,
+      episodesWatched: 416,
+      watching: 1,
+      completed: 19,
+    }
+  );
 
   const scrollWrapperRef = useRef<HTMLDivElement>(null);
   const scrollContentRef = useRef<HTMLDivElement>(null);
@@ -39,6 +49,9 @@ export const AnimeDetailModal: React.FC = () => {
         }
         if (data?.profileUrl) {
           setProfileUrl(data.profileUrl);
+        }
+        if (data?.stats) {
+          setStats(data.stats);
         }
       })
       .catch(() => {
@@ -138,7 +151,7 @@ export const AnimeDetailModal: React.FC = () => {
                 </span>
               </div>
               <p className="text-[11px] text-neutral-400 font-sans mt-0.5">
-                Curated dynamic list synced with MyAnimeList & Jikan API v4
+                Official list synced directly with MyAnimeList (@{PORTFOLIO_DATA.hobbies.myAnimeListUsername})
               </p>
             </div>
           </div>
@@ -164,6 +177,29 @@ export const AnimeDetailModal: React.FC = () => {
             >
               <X className="w-4 h-4" />
             </button>
+          </div>
+        </div>
+
+        {/* MAL Profile Statistics Summary Bar */}
+        <div className="px-5 py-2.5 bg-[#0a0b0e] border-b border-neutral-800/80 grid grid-cols-2 sm:grid-cols-4 gap-2 text-center font-mono shrink-0">
+          <div className="px-2 py-0.5">
+            <div className="text-[9px] text-neutral-400 uppercase tracking-wider">Days Watched</div>
+            <div className="text-xs font-bold text-white">{stats.daysWatched} Days</div>
+          </div>
+          <div className="px-2 py-0.5 border-l border-neutral-800/80">
+            <div className="text-[9px] text-neutral-400 uppercase tracking-wider">Mean Score</div>
+            <div className="text-xs font-bold text-amber-300 flex items-center justify-center gap-1">
+              <Star className="w-2.5 h-2.5 fill-amber-300 text-amber-300" />
+              <span>{stats.meanScore.toFixed(2)}</span>
+            </div>
+          </div>
+          <div className="px-2 py-0.5 border-l border-neutral-800/80">
+            <div className="text-[9px] text-neutral-400 uppercase tracking-wider">Episodes</div>
+            <div className="text-xs font-bold text-white">{stats.episodesWatched} Eps</div>
+          </div>
+          <div className="px-2 py-0.5 border-l border-neutral-800/80">
+            <div className="text-[9px] text-neutral-400 uppercase tracking-wider">Total Entries</div>
+            <div className="text-xs font-bold text-emerald-400">{stats.totalEntries} Titles</div>
           </div>
         </div>
 

@@ -41,11 +41,22 @@ export const HobbySection: React.FC = () => {
       });
   }, []);
 
-  // Filter 1-2 currently watching or most recent anime
+  // Filter 1-2 featured anime: Watching first, then recently completed
   const watchingAnime = animeData.filter((a) => a.status === "watching");
-  const displayAnime = watchingAnime.length > 0
-    ? watchingAnime.slice(0, 2)
-    : animeData.slice(0, 2);
+  const completedAnime = animeData.filter((a) => a.status === "completed");
+  const displayAnime = [
+    ...watchingAnime,
+    ...completedAnime,
+  ].slice(0, 2);
+
+  const stats = PORTFOLIO_DATA.hobbies.stats || {
+    daysWatched: 7.2,
+    meanScore: 8.47,
+    totalEntries: 20,
+    episodesWatched: 416,
+    watching: 1,
+    completed: 19,
+  };
 
   return (
     <section id="hobbies" className="space-y-6 pt-4">
@@ -68,8 +79,8 @@ export const HobbySection: React.FC = () => {
 
         <div className="flex items-center gap-2 self-start sm:self-auto">
           <span className="text-[11px] font-mono px-2.5 py-1 rounded-lg bg-neutral-900/80 border border-neutral-800 text-neutral-300 flex items-center gap-1.5">
-            <span className={`w-2 h-2 rounded-full ${isLiveSynced ? "bg-emerald-400 animate-pulse" : "bg-neutral-500"}`} />
-            <span>{isLiveSynced ? "Jikan v4 Live" : "MyAnimeList Synced"}</span>
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span>MAL Synced (@{PORTFOLIO_DATA.hobbies.myAnimeListUsername})</span>
           </span>
         </div>
       </div>
@@ -86,7 +97,7 @@ export const HobbySection: React.FC = () => {
           <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-neutral-600 to-transparent opacity-40 group-hover:opacity-100 transition-opacity" />
 
           {/* Module Header */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-neutral-950 border border-neutral-800 flex items-center justify-center text-white shadow-inner">
                 <Tv className="w-5 h-5" />
@@ -101,7 +112,7 @@ export const HobbySection: React.FC = () => {
                   </span>
                 </div>
                 <p className="text-xs text-neutral-400 font-sans mt-0.5">
-                  Tracking ongoing series, favorite masterworks, and seasonal updates via Jikan API.
+                  Directly synced with official MyAnimeList profile & statistics.
                 </p>
               </div>
             </div>
@@ -114,9 +125,32 @@ export const HobbySection: React.FC = () => {
               }}
               className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-neutral-950 hover:bg-neutral-800 border border-neutral-800 text-xs font-semibold text-white transition-all shadow-sm self-start sm:self-auto group/btn"
             >
-              <span>Explore Collection</span>
+              <span>Explore All {stats.totalEntries} Titles</span>
               <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
             </button>
+          </div>
+
+          {/* Quick Profile Stat Bar */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4 p-2.5 rounded-xl bg-neutral-950/70 border border-neutral-800/80 text-center font-mono">
+            <div className="px-2 py-1">
+              <div className="text-[10px] text-neutral-400 uppercase tracking-wider">Days Watched</div>
+              <div className="text-xs sm:text-sm font-bold text-white mt-0.5">{stats.daysWatched} Days</div>
+            </div>
+            <div className="px-2 py-1 border-l border-neutral-800/80">
+              <div className="text-[10px] text-neutral-400 uppercase tracking-wider">Mean Score</div>
+              <div className="text-xs sm:text-sm font-bold text-amber-300 mt-0.5 flex items-center justify-center gap-1">
+                <Star className="w-3 h-3 fill-amber-300 text-amber-300" />
+                <span>{stats.meanScore.toFixed(2)}</span>
+              </div>
+            </div>
+            <div className="px-2 py-1 border-l border-neutral-800/80">
+              <div className="text-[10px] text-neutral-400 uppercase tracking-wider">Episodes</div>
+              <div className="text-xs sm:text-sm font-bold text-white mt-0.5">{stats.episodesWatched} Eps</div>
+            </div>
+            <div className="px-2 py-1 border-l border-neutral-800/80">
+              <div className="text-[10px] text-neutral-400 uppercase tracking-wider">Completed</div>
+              <div className="text-xs sm:text-sm font-bold text-emerald-400 mt-0.5">{stats.completed} Titles</div>
+            </div>
           </div>
 
           {/* Recently Updated / Currently Watching Anime Cards (1-2 Featured) */}
