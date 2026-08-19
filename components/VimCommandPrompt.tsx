@@ -13,6 +13,7 @@ export const VimCommandPrompt: React.FC = () => {
     setSelectedProject,
     setTheme,
     setResumeOpen,
+    setAnimeModalOpen,
     setNeofetchOpen,
     setMatrixRainActive,
     toggleAudio,
@@ -51,11 +52,15 @@ export const VimCommandPrompt: React.FC = () => {
       setVimPromptOpen(false);
       setResumeOpen(true);
       showToast("Opened resume modal");
+    } else if (main === "anime" || (main === "cat" && arg === "anime")) {
+      setVimPromptOpen(false);
+      setAnimeModalOpen(true);
+      showToast("Opened Anime Watchlist & Jikan Archive");
     } else if (main === "fetch" || main === "neofetch") {
       setVimPromptOpen(false);
       setNeofetchOpen(true);
       showToast("Opened system specs neofetch");
-    } else if (main === "home" || main === "skills" || main === "projects" || main === "contact") {
+    } else if (main === "home" || main === "skills" || main === "projects" || main === "hobbies" || main === "contact") {
       setVimPromptOpen(false);
       const elem = document.getElementById(main);
       if (elem) {

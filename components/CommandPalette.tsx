@@ -22,6 +22,8 @@ import {
   HelpCircle,
   Play,
   UserPlus,
+  Tv,
+  Heart,
 } from "lucide-react";
 
 export const CommandPalette: React.FC = () => {
@@ -36,6 +38,7 @@ export const CommandPalette: React.FC = () => {
     setResumeOpen,
     setNeofetchOpen,
     setCertificationsOpen,
+    setAnimeModalOpen,
     setKeyboardHelpOpen,
     setMatrixRainActive,
     showToast,
@@ -172,6 +175,17 @@ END:VCARD`;
               </Command.Item>
 
               <Command.Item
+                onSelect={() => handleSelectSection("hobbies")}
+                className="flex items-center justify-between p-2.5 rounded-md hover:bg-neutral-800 text-neutral-200 cursor-pointer aria-selected:bg-neutral-800 aria-selected:text-white"
+              >
+                <div className="flex items-center gap-2">
+                  <Heart className="w-4 h-4 text-neutral-300" />
+                  <span>/hobbies (Anime Watchlist & Interests)</span>
+                </div>
+                <kbd className="text-[10px] text-neutral-500">4</kbd>
+              </Command.Item>
+
+              <Command.Item
                 onSelect={() => handleSelectSection("contact")}
                 className="flex items-center justify-between p-2.5 rounded-md hover:bg-neutral-800 text-neutral-200 cursor-pointer aria-selected:bg-neutral-800 aria-selected:text-white"
               >
@@ -179,7 +193,7 @@ END:VCARD`;
                   <Mail className="w-4 h-4 text-neutral-300" />
                   <span>/contact (EmailJS, Phone & SSH)</span>
                 </div>
-                <kbd className="text-[10px] text-neutral-500">4</kbd>
+                <kbd className="text-[10px] text-neutral-500">5</kbd>
               </Command.Item>
             </Command.Group>
 
@@ -241,6 +255,20 @@ END:VCARD`;
               <Command.Item
                 onSelect={() => {
                   setCommandPaletteOpen(false);
+                  setAnimeModalOpen(true);
+                  audioEngine.playKeyClick("enter");
+                }}
+                className="flex items-center justify-between p-2.5 rounded-md hover:bg-neutral-800 text-neutral-200 cursor-pointer aria-selected:bg-neutral-800 aria-selected:text-white"
+              >
+                <div className="flex items-center gap-2">
+                  <Tv className="w-4 h-4 text-neutral-300" />
+                  <span>cat anime (View Anime Watchlist & Jikan Archive)</span>
+                </div>
+              </Command.Item>
+
+              <Command.Item
+                onSelect={() => {
+                  setCommandPaletteOpen(false);
                   setCertificationsOpen(true);
                   audioEngine.playKeyClick("enter");
                 }}
@@ -248,7 +276,7 @@ END:VCARD`;
               >
                 <div className="flex items-center gap-2">
                   <Award className="w-4 h-4 text-neutral-300" />
-                  <span>cat certificates (SIH '25, AWS AI Bharat, GFG & Udemy)</span>
+                  <span>cat certificates (SIH '25, AWS AI Bharat, Cisco & Udemy)</span>
                 </div>
               </Command.Item>
 

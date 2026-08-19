@@ -9,6 +9,7 @@ import { ExperienceSection } from "../components/ExperienceSection";
 import { ProjectsSection } from "../components/ProjectsSection";
 import { GithubHeatmap } from "../components/GithubHeatmap";
 import { SkillsSection } from "../components/SkillsSection";
+import { HobbySection } from "../components/HobbySection";
 import { ContactSection } from "../components/ContactSection";
 import { IconNavSidebar } from "../components/IconNavSidebar";
 import { StatusBar } from "../components/StatusBar";
@@ -17,6 +18,7 @@ import { VimCommandPrompt } from "../components/VimCommandPrompt";
 import { NeofetchModal } from "../components/NeofetchModal";
 import { ResumeModal } from "../components/ResumeModal";
 import { CertificationsModal } from "../components/CertificationsModal";
+import { AnimeDetailModal } from "../components/AnimeDetailModal";
 import { KeyboardHelpModal } from "../components/KeyboardHelpModal";
 import { ProjectDetailModal } from "../components/ProjectDetailModal";
 import { ToastNotification } from "../components/ToastNotification";
@@ -60,6 +62,7 @@ export default function Home() {
               <ProjectsSection />
               <GithubHeatmap />
               <SkillsSection />
+              <HobbySection />
               <ContactSection />
             </main>
 
@@ -76,6 +79,7 @@ export default function Home() {
         <NeofetchModal />
         <ResumeModal />
         <CertificationsModal />
+        <AnimeDetailModal />
         <KeyboardHelpModal />
         <ProjectDetailModal />
         <ToastNotification />

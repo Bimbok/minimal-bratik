@@ -30,11 +30,15 @@ export function useGlobalShortcuts() {
     vimPromptOpen,
     neofetchOpen,
     resumeOpen,
+    certificationsOpen,
+    animeModalOpen,
     keyboardHelpOpen,
     selectedProject,
     setSelectedProject,
     setNeofetchOpen,
     setResumeOpen,
+    setCertificationsOpen,
+    setAnimeModalOpen,
   } = useThemeContext();
 
   const lastGKeyTimeRef = useRef<number>(0);
@@ -130,8 +134,23 @@ export function useGlobalShortcuts() {
         vimPromptOpen ||
         neofetchOpen ||
         resumeOpen ||
+        certificationsOpen ||
+        animeModalOpen ||
         keyboardHelpOpen ||
         selectedProject !== null;
+
+      // Escape key to dismiss any open modal
+      if (e.key === "Escape") {
+        if (commandPaletteOpen) setCommandPaletteOpen(false);
+        if (vimPromptOpen) setVimPromptOpen(false);
+        if (neofetchOpen) setNeofetchOpen(false);
+        if (resumeOpen) setResumeOpen(false);
+        if (certificationsOpen) setCertificationsOpen(false);
+        if (animeModalOpen) setAnimeModalOpen(false);
+        if (keyboardHelpOpen) setKeyboardHelpOpen(false);
+        if (selectedProject) setSelectedProject(null);
+        return;
+      }
 
       // Command Palette: Cmd + K or Ctrl + K or /
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
@@ -251,9 +270,9 @@ export function useGlobalShortcuts() {
         }
       }
 
-      // Quick tab number jumps (1 to 5)
-      if (["1", "2", "3", "4", "5"].includes(e.key)) {
-        const sectionIds = ["home", "experience", "projects", "opensource", "skills"];
+      // Quick tab number jumps (1 to 6)
+      if (["1", "2", "3", "4", "5", "6"].includes(e.key)) {
+        const sectionIds = ["home", "experience", "projects", "opensource", "skills", "hobbies"];
         const targetId = sectionIds[parseInt(e.key) - 1];
         const elem = document.getElementById(targetId);
         if (elem) {
@@ -273,6 +292,8 @@ export function useGlobalShortcuts() {
     vimPromptOpen,
     neofetchOpen,
     resumeOpen,
+    certificationsOpen,
+    animeModalOpen,
     keyboardHelpOpen,
     selectedProject,
     theme,
@@ -285,5 +306,7 @@ export function useGlobalShortcuts() {
     setSelectedProject,
     setNeofetchOpen,
     setResumeOpen,
+    setCertificationsOpen,
+    setAnimeModalOpen,
   ]);
 }

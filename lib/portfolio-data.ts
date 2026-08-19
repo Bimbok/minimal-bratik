@@ -45,6 +45,30 @@ export interface CertificationItem {
   tags: string[];
 }
 
+export interface AnimeItem {
+  id: number;
+  title: string;
+  titleEnglish?: string;
+  titleJapanese?: string;
+  imageUrl: string;
+  episodesWatched: number;
+  totalEpisodes: number;
+  score: number;
+  status: "watching" | "completed" | "on_hold" | "plan_to_watch";
+  isFavorite?: boolean;
+  genres: string[];
+  year?: number | string;
+  url: string;
+  synopsis?: string;
+  updatedAt?: string;
+}
+
+export interface HobbyData {
+  myAnimeListUsername: string;
+  animeProfileUrl: string;
+  anime: AnimeItem[];
+}
+
 export interface SkillCategory {
   category: "Languages" | "Frameworks" | "Tools & Linux";
   icon: string;
@@ -809,5 +833,156 @@ BRATIK MUKHERJEE - FULL STACK & SOFTWARE DEVELOPER — SYSTEM ARCHITECT
 Email: bimbokmkj@gmail.com | Phone: +91 9883593295 | West Bengal, India
 GitHub: github.com/Bimbok | LinkedIn: linkedin.com/in/bimbok
 ===================================================================`,
+
+  hobbies: {
+    myAnimeListUsername: "Bimbok",
+    animeProfileUrl: "https://myanimelist.net/profile/Bimbok",
+    anime: [
+      {
+        id: 58567,
+        title: "Solo Leveling: Season 2 - Arise from the Shadow",
+        titleEnglish: "Solo Leveling Season 2: Arise from the Shadow",
+        titleJapanese: "俺だけレベルアップな件 Season 2 -Arise from the Shadow-",
+        imageUrl: "https://cdn.myanimelist.net/images/anime/1090/144577l.jpg",
+        episodesWatched: 8,
+        totalEpisodes: 13,
+        score: 8.8,
+        status: "watching",
+        isFavorite: true,
+        genres: ["Action", "Fantasy", "Adventure"],
+        year: 2025,
+        url: "https://myanimelist.net/anime/58567/Ore_dake_Level_Up_na_Ken_Season_2__Arise_from_the_Shadow",
+        synopsis: "Sung Jinwoo continues his ascent as the Shadow Monarch, facing unprecedented S-Rank dungeon threats and high-stakes global hunter conflicts.",
+      },
+      {
+        id: 56784,
+        title: "Bleach: Thousand-Year Blood War - The Conflict",
+        titleEnglish: "Bleach: Thousand-Year Blood War Part 3",
+        titleJapanese: "BLEACH 千年血戦篇-相剋譚-",
+        imageUrl: "https://cdn.myanimelist.net/images/anime/1131/144365l.jpg",
+        episodesWatched: 10,
+        totalEpisodes: 13,
+        score: 9.0,
+        status: "watching",
+        isFavorite: true,
+        genres: ["Action", "Supernatural", "Shounen"],
+        year: 2024,
+        url: "https://myanimelist.net/anime/56784/Bleach__Sennen_Kessen-hen_-_Soukoku-tan",
+        synopsis: "The decisive war between the Soul Reapers and Yhwach's elite Sternritter reaches its absolute climax within the Soul King Palace.",
+      },
+      {
+        id: 52991,
+        title: "Frieren: Beyond Journey's End",
+        titleEnglish: "Frieren: Beyond Journey's End",
+        titleJapanese: "葬送のフリーレン",
+        imageUrl: "https://cdn.myanimelist.net/images/anime/1015/138006l.jpg",
+        episodesWatched: 28,
+        totalEpisodes: 28,
+        score: 9.3,
+        status: "completed",
+        isFavorite: true,
+        genres: ["Adventure", "Drama", "Fantasy"],
+        year: 2023,
+        url: "https://myanimelist.net/anime/52991/Sousou_no_Frieren",
+        synopsis: "An elven mage embarks on a poignant quest across the continent, reflecting on time, bonds, and mortality decades after vanquishing the Demon King.",
+      },
+      {
+        id: 51009,
+        title: "Jujutsu Kaisen Season 2 (Shibuya Incident)",
+        titleEnglish: "Jujutsu Kaisen Season 2",
+        titleJapanese: "呪術廻戦 懐玉・玉折 / 渋谷事変",
+        imageUrl: "https://cdn.myanimelist.net/images/anime/1792/138022l.jpg",
+        episodesWatched: 23,
+        totalEpisodes: 23,
+        score: 8.9,
+        status: "completed",
+        isFavorite: true,
+        genres: ["Action", "Fantasy", "Supernatural"],
+        year: 2023,
+        url: "https://myanimelist.net/anime/51009/Jujutsu_Kaisen_2nd_Season",
+        synopsis: "The Shibuya Incident unleashes catastrophic supernatural warfare across Tokyo as curse users execute a calculated trap against Satoru Gojo.",
+      },
+      {
+        id: 40028,
+        title: "Attack on Titan: The Final Season",
+        titleEnglish: "Attack on Titan Final Season",
+        titleJapanese: "進撃の巨人 The Final Season",
+        imageUrl: "https://cdn.myanimelist.net/images/anime/1000/110531l.jpg",
+        episodesWatched: 28,
+        totalEpisodes: 28,
+        score: 9.1,
+        status: "completed",
+        isFavorite: true,
+        genres: ["Action", "Drama", "Suspense"],
+        year: 2022,
+        url: "https://myanimelist.net/anime/40028/Shingeki_no_Kyojin__The_Final_Season",
+        synopsis: "The boundaries between heroes and villains dissolve as the tragic, century-long war between Eldia and Marley reaches its apocalyptic culmination.",
+      },
+      {
+        id: 9253,
+        title: "Steins;Gate",
+        titleEnglish: "Steins;Gate",
+        titleJapanese: "STEINS;GATE",
+        imageUrl: "https://cdn.myanimelist.net/images/anime/1935/127974l.jpg",
+        episodesWatched: 24,
+        totalEpisodes: 24,
+        score: 9.1,
+        status: "completed",
+        isFavorite: true,
+        genres: ["Sci-Fi", "Suspense", "Psychological"],
+        year: 2011,
+        url: "https://myanimelist.net/anime/9253/Steins_Gate",
+        synopsis: "Self-proclaimed eccentric scientist Rintaro Okabe accidentally engineers a microwave-based temporal transmission device, triggering severe worldline convergence.",
+      },
+      {
+        id: 49387,
+        title: "Vinland Saga Season 2",
+        titleEnglish: "Vinland Saga Season 2",
+        titleJapanese: "ヴィンランド・サガ SEASON 2",
+        imageUrl: "https://cdn.myanimelist.net/images/anime/1170/124305l.jpg",
+        episodesWatched: 24,
+        totalEpisodes: 24,
+        score: 8.8,
+        status: "completed",
+        isFavorite: true,
+        genres: ["Action", "Adventure", "Drama"],
+        year: 2023,
+        url: "https://myanimelist.net/anime/49387/Vinland_Saga_Season_2",
+        synopsis: "Stripped of purpose following Askeladd's death, Thorfinn begins a transformative journey of self-discovery, non-violence, and atonement on Ketil's farm.",
+      },
+      {
+        id: 42310,
+        title: "Cyberpunk: Edgerunners",
+        titleEnglish: "Cyberpunk: Edgerunners",
+        titleJapanese: "サイバーパンク エッジランナーズ",
+        imageUrl: "https://cdn.myanimelist.net/images/anime/1814/126607l.jpg",
+        episodesWatched: 10,
+        totalEpisodes: 10,
+        score: 8.6,
+        status: "completed",
+        isFavorite: true,
+        genres: ["Action", "Sci-Fi", "Cyberpunk"],
+        year: 2022,
+        url: "https://myanimelist.net/anime/42310/Cyberpunk__Edgerunners",
+        synopsis: "A reckless street kid fighting to survive in a body-modification-obsessed metropolis chooses to stay alive by becoming an edgerunner mercenary outlaw.",
+      },
+      {
+        id: 44511,
+        title: "Chainsaw Man",
+        titleEnglish: "Chainsaw Man",
+        titleJapanese: "チェンソーマン",
+        imageUrl: "https://cdn.myanimelist.net/images/anime/1806/126216l.jpg",
+        episodesWatched: 12,
+        totalEpisodes: 12,
+        score: 8.5,
+        status: "completed",
+        isFavorite: false,
+        genres: ["Action", "Supernatural", "Dark Fantasy"],
+        year: 2022,
+        url: "https://myanimelist.net/anime/44511/Chainsaw_Man",
+        synopsis: "Denji's impoverished life is upended when he bonds with chainsaw devil Pochita, reviving as a devil-human hybrid recruited into the Public Safety squad.",
+      },
+    ],
+  } as HobbyData,
 };
 

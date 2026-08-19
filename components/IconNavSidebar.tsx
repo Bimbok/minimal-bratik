@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useThemeContext } from "../lib/theme-context";
 import { audioEngine } from "../lib/audio";
-import { User, Briefcase, FolderGit2, Activity, Cpu, Mail } from "lucide-react";
+import { User, Briefcase, FolderGit2, Activity, Cpu, Heart, Mail } from "lucide-react";
 
 interface NavItem {
   id: string;
@@ -21,13 +21,14 @@ export const IconNavSidebar: React.FC = () => {
     { id: "projects", label: "Projects", icon: FolderGit2 },
     { id: "opensource", label: "Open Source", icon: Activity },
     { id: "skills", label: "Skills", icon: Cpu },
+    { id: "hobbies", label: "Hobbies", icon: Heart },
     { id: "contact", label: "Contact", icon: Mail },
   ];
 
   // Observe active section scroll position dynamically
   useEffect(() => {
     const handleScroll = () => {
-      const sectionIds = ["home", "experience", "projects", "opensource", "skills", "contact"];
+      const sectionIds = ["home", "experience", "projects", "opensource", "skills", "hobbies", "contact"];
       for (const id of sectionIds) {
         const elem = document.getElementById(id);
         if (elem) {

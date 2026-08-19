@@ -6,7 +6,7 @@ import { Project } from "./portfolio-data";
 
 export type ThemeMode = "dark" | "gruvbox" | "crt";
 export type VimMode = "NORMAL" | "COMMAND" | "VISUAL";
-export type SectionId = "home" | "skills" | "projects" | "lab" | "contact";
+export type SectionId = "home" | "experience" | "projects" | "skills" | "hobbies" | "lab" | "contact";
 
 interface ThemeContextType {
   theme: ThemeMode;
@@ -35,6 +35,8 @@ interface ThemeContextType {
   setResumeOpen: (open: boolean) => void;
   certificationsOpen: boolean;
   setCertificationsOpen: (open: boolean) => void;
+  animeModalOpen: boolean;
+  setAnimeModalOpen: (open: boolean) => void;
   keyboardHelpOpen: boolean;
   setKeyboardHelpOpen: (open: boolean) => void;
   matrixRainActive: boolean;
@@ -63,6 +65,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [neofetchOpen, setNeofetchOpen] = useState(false);
   const [resumeOpen, setResumeOpen] = useState(false);
   const [certificationsOpen, setCertificationsOpen] = useState(false);
+  const [animeModalOpen, setAnimeModalOpen] = useState(false);
   const [keyboardHelpOpen, setKeyboardHelpOpen] = useState(false);
   const [matrixRainActive, setMatrixRainActive] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -168,6 +171,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         setResumeOpen,
         certificationsOpen,
         setCertificationsOpen,
+        animeModalOpen,
+        setAnimeModalOpen,
         keyboardHelpOpen,
         setKeyboardHelpOpen,
         matrixRainActive,

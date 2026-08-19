@@ -31,10 +31,12 @@ export const StatusBar: React.FC = () => {
 
   const sectionFileMap: Record<SectionId, string> = {
     home: "1: home.ts",
-    skills: "2: skills.json",
+    experience: "2: experience.json",
     projects: "3: projects.tsx",
-    lab: "4: lab.sh",
-    contact: "5: contact.yml",
+    skills: "4: skills.json",
+    hobbies: "5: hobbies.md",
+    lab: "6: lab.sh",
+    contact: "7: contact.yml",
   };
 
   const vimModeBgMap = {
