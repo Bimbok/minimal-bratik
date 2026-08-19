@@ -236,6 +236,18 @@ export const PORTFOLIO_DATA = {
       tags: ["Hackathon", "Geekonix", "Techno Main Salt Lake", "Software Engineering"],
     },
     {
+      id: "cisco-cybersecurity-2026",
+      title: "Introduction to Cybersecurity — Student Level Credential",
+      issuer: "Cisco Networking Academy (Director Lynn Bloomer)",
+      date: "June 25, 2026",
+      imagePath: "/certificates/cisco_cybersecurity_certificate.jpg",
+      details: [
+        "Achieved student-level credential for completing the Cisco Networking Academy Introduction to Cybersecurity curriculum.",
+        "Mastered core principles of threat modeling, common cyber attacks, vulnerability assessment, defense architecture, and operational security.",
+      ],
+      tags: ["Cisco", "Cybersecurity", "Network Security", "Threat Analysis", "Defense"],
+    },
+    {
       id: "udemy-datascience-2025",
       title: "Data Science Mastery 2025: Excel, Python & Tableau",
       issuer: "Udemy / Meritshot Academy",
