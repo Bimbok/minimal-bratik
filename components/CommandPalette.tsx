@@ -24,6 +24,7 @@ import {
   UserPlus,
   Tv,
   Heart,
+  Monitor,
 } from "lucide-react";
 
 export const CommandPalette: React.FC = () => {
@@ -39,6 +40,7 @@ export const CommandPalette: React.FC = () => {
     setNeofetchOpen,
     setCertificationsOpen,
     setAnimeModalOpen,
+    setRiceModalOpen,
     setKeyboardHelpOpen,
     setMatrixRainActive,
     showToast,
@@ -262,7 +264,21 @@ END:VCARD`;
               >
                 <div className="flex items-center gap-2">
                   <Tv className="w-4 h-4 text-neutral-300" />
-                  <span>cat anime (View Anime Watchlist & Jikan Archive)</span>
+                  <span>cat anime (View Anime Watchlist & MAL Profile)</span>
+                </div>
+              </Command.Item>
+
+              <Command.Item
+                onSelect={() => {
+                  setCommandPaletteOpen(false);
+                  setRiceModalOpen(true);
+                  audioEngine.playKeyClick("enter");
+                }}
+                className="flex items-center justify-between p-2.5 rounded-md hover:bg-neutral-800 text-neutral-200 cursor-pointer aria-selected:bg-neutral-800 aria-selected:text-white"
+              >
+                <div className="flex items-center gap-2">
+                  <Monitor className="w-4 h-4 text-neutral-300" />
+                  <span>cat rice (Linux & Hyprland Rice Lightbox & Dotfiles)</span>
                 </div>
               </Command.Item>
 

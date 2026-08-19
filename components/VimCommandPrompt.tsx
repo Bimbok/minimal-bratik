@@ -14,6 +14,7 @@ export const VimCommandPrompt: React.FC = () => {
     setTheme,
     setResumeOpen,
     setAnimeModalOpen,
+    setRiceModalOpen,
     setNeofetchOpen,
     setMatrixRainActive,
     toggleAudio,
@@ -55,7 +56,11 @@ export const VimCommandPrompt: React.FC = () => {
     } else if (main === "anime" || (main === "cat" && arg === "anime")) {
       setVimPromptOpen(false);
       setAnimeModalOpen(true);
-      showToast("Opened Anime Watchlist & Jikan Archive");
+      showToast("Opened Anime Watchlist & MAL Profile");
+    } else if (main === "rice" || main === "dotfiles" || main === "hypr" || (main === "cat" && (arg === "rice" || arg === "dotfiles"))) {
+      setVimPromptOpen(false);
+      setRiceModalOpen(true);
+      showToast("Opened Linux & Hyprland Rice Lightbox");
     } else if (main === "fetch" || main === "neofetch") {
       setVimPromptOpen(false);
       setNeofetchOpen(true);

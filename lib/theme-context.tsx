@@ -37,6 +37,8 @@ interface ThemeContextType {
   setCertificationsOpen: (open: boolean) => void;
   animeModalOpen: boolean;
   setAnimeModalOpen: (open: boolean) => void;
+  riceModalOpen: boolean;
+  setRiceModalOpen: (open: boolean) => void;
   keyboardHelpOpen: boolean;
   setKeyboardHelpOpen: (open: boolean) => void;
   matrixRainActive: boolean;
@@ -66,6 +68,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [resumeOpen, setResumeOpen] = useState(false);
   const [certificationsOpen, setCertificationsOpen] = useState(false);
   const [animeModalOpen, setAnimeModalOpen] = useState(false);
+  const [riceModalOpen, setRiceModalOpen] = useState(false);
   const [keyboardHelpOpen, setKeyboardHelpOpen] = useState(false);
   const [matrixRainActive, setMatrixRainActive] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -173,6 +176,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         setCertificationsOpen,
         animeModalOpen,
         setAnimeModalOpen,
+        riceModalOpen,
+        setRiceModalOpen,
         keyboardHelpOpen,
         setKeyboardHelpOpen,
         matrixRainActive,

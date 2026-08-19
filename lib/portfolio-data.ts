@@ -63,6 +63,40 @@ export interface AnimeItem {
   updatedAt?: string;
 }
 
+export interface RiceScreenshot {
+  id: string;
+  title: string;
+  category: string;
+  description: string;
+  imagePath: string;
+  tags: string[];
+}
+
+export interface DotfileRepo {
+  name: string;
+  repo: string;
+  url: string;
+  description: string;
+  category: string;
+  cloneCmd: string;
+}
+
+export interface LinuxRiceData {
+  wm: string;
+  distro: string;
+  shell: string;
+  terminal: string;
+  editor: string;
+  bar: string;
+  launcher: string;
+  fileManager: string;
+  compositor: string;
+  description: string;
+  githubUser: string;
+  screenshots: RiceScreenshot[];
+  dotfiles: DotfileRepo[];
+}
+
 export interface HobbyData {
   myAnimeListUsername: string;
   animeProfileUrl: string;
@@ -75,6 +109,7 @@ export interface HobbyData {
     completed: number;
   };
   anime: AnimeItem[];
+  linuxRice?: LinuxRiceData;
 }
 
 export interface SkillCategory {
@@ -1238,6 +1273,159 @@ GitHub: github.com/Bimbok | LinkedIn: linkedin.com/in/bimbok
                 "url": "https://myanimelist.net/anime/40748"
           }
     ],
+    linuxRice: {
+      wm: "Hyprland (Wayland)",
+      distro: "Arch Linux",
+      shell: "Zsh / POSIX Bash",
+      terminal: "Kitty / Ghostty",
+      editor: "Neovim (Lua, Lazy.nvim)",
+      bar: "Waybar (Custom CSS Modules)",
+      launcher: "Rofi Wayland",
+      fileManager: "Yazi / Thunar",
+      compositor: "Hyprland with dynamic blur & animations",
+      description: "A customized monochrome Wayland desktop rice featuring blur shaders, custom keybindings, dual terminal setup (Kitty & Ghostty), modular statusline, and lightweight CLI workflow tools.",
+      githubUser: "Bimbok",
+      screenshots: [
+        {
+          id: "hyprland-overview",
+          title: "Hyprland Clean Desktop & Waybar",
+          category: "Desktop & UI",
+          description: "Clean Hyprland desktop environment featuring custom Waybar telemetry modules, dynamic wallpaper aesthetics, and minimal window borders.",
+          imagePath: "/rice/2026-08-19-221803_hyprshot.png",
+          tags: ["Hyprland", "Waybar", "Wayland", "Arch Linux"],
+        },
+        {
+          id: "neovim-ide",
+          title: "Neovim Development Environment",
+          category: "Editor & Coding",
+          description: "Ultra-fast Lua-based Neovim configuration with Lazy.nvim, native LSP diagnostics, Treesitter AST syntax highlighting, and Telescope fuzzy finder.",
+          imagePath: "/rice/2026-08-19-221828_hyprshot.png",
+          tags: ["Neovim", "Lua", "LSP", "Lazy.nvim"],
+        },
+        {
+          id: "fastfetch-specs",
+          title: "Fastfetch & System Telemetry",
+          category: "Terminal & System",
+          description: "Custom Fastfetch configuration displaying workstation telemetry, hardware specs, kernel metrics, and system uptime in a sleek ASCII layout.",
+          imagePath: "/rice/2026-08-19-221837_hyprshot.png",
+          tags: ["Fastfetch", "Kitty", "Ghostty", "Arch Linux"],
+        },
+        {
+          id: "rofi-launcher",
+          title: "Rofi Wayland Application Launcher",
+          category: "App Launcher",
+          description: "Glassmorphism-styled Rofi app launcher with smooth search indexing, custom key navigation, and rounded borders.",
+          imagePath: "/rice/2026-08-19-221921_hyprshot.png",
+          tags: ["Rofi", "App Launcher", "Wayland", "CSS"],
+        },
+        {
+          id: "wlogout-menu",
+          title: "Wlogout Power & Session Menu",
+          category: "Session Management",
+          description: "Minimalist full-screen session manager with smooth icons for lock, suspend, reboot, and poweroff.",
+          imagePath: "/rice/2026-08-19-221927_hyprshot.png",
+          tags: ["Wlogout", "Wayland", "Power Menu"],
+        },
+        {
+          id: "yazi-manager",
+          title: "Yazi Terminal File Manager",
+          category: "CLI Tools",
+          description: "Blazing fast Rust-based terminal file manager with inline image previews, directory jumping, and async I/O.",
+          imagePath: "/rice/2026-08-19-221936_hyprshot.png",
+          tags: ["Yazi", "File Manager", "Rust", "Terminal"],
+        },
+        {
+          id: "tmux-multiplexer",
+          title: "Tmux Session & Statusline",
+          category: "Productivity",
+          description: "Tmux terminal multiplexer setup with custom minimal status bar, seamless vim-tmux navigator integration, and session persistence.",
+          imagePath: "/rice/2026-08-19-221946_hyprshot.png",
+          tags: ["Tmux", "Multiplexer", "Vim-Tmux", "Workflow"],
+        },
+        {
+          id: "ghostty-terminal",
+          title: "Ghostty GPU Terminal Setup",
+          category: "Terminal",
+          description: "Next-gen GPU-accelerated terminal emulator with custom opacity, truecolor support, and high-frequency rendering.",
+          imagePath: "/rice/2026-08-19-221950_hyprshot.png",
+          tags: ["Ghostty", "GPU Terminal", "Wayland"],
+        },
+      ],
+      dotfiles: [
+        {
+          name: "hypr",
+          repo: "Bimbok/hypr",
+          url: "https://github.com/Bimbok/hypr.git",
+          description: "Hyprland compositor configuration, keybindings, animations & window rules.",
+          category: "Compositor",
+          cloneCmd: "git clone https://github.com/Bimbok/hypr.git ~/.config/hypr",
+        },
+        {
+          name: "nvim",
+          repo: "Bimbok/nvim",
+          url: "https://github.com/Bimbok/nvim.git",
+          description: "Personal Neovim IDE setup in Lua with Lazy.nvim, LSP, Treesitter & Telescope.",
+          category: "Editor",
+          cloneCmd: "git clone https://github.com/Bimbok/nvim.git ~/.config/nvim",
+        },
+        {
+          name: "kitty",
+          repo: "Bimbok/kitty",
+          url: "https://github.com/Bimbok/kitty.git",
+          description: "Kitty GPU-accelerated terminal emulator theme, fonts, and window layouts.",
+          category: "Terminal",
+          cloneCmd: "git clone https://github.com/Bimbok/kitty.git ~/.config/kitty",
+        },
+        {
+          name: "ghostty",
+          repo: "Bimbok/ghostty",
+          url: "https://github.com/Bimbok/ghostty.git",
+          description: "Modern fast Ghostty terminal emulator configuration with custom shaders.",
+          category: "Terminal",
+          cloneCmd: "git clone https://github.com/Bimbok/ghostty.git ~/.config/ghostty",
+        },
+        {
+          name: "fastfetch",
+          repo: "Bimbok/fastfetch",
+          url: "https://github.com/Bimbok/fastfetch.git",
+          description: "Clean fastfetch ASCII art, hardware telemetry & system info layout.",
+          category: "System Info",
+          cloneCmd: "git clone https://github.com/Bimbok/fastfetch.git ~/.config/fastfetch",
+        },
+        {
+          name: "tmux",
+          repo: "Bimbok/tmux",
+          url: "https://github.com/Bimbok/tmux.git",
+          description: "Tmux configuration with minimal statusline and vim-tmux keybindings.",
+          category: "Multiplexer",
+          cloneCmd: "git clone https://github.com/Bimbok/tmux.git ~/.config/tmux",
+        },
+        {
+          name: "rofi",
+          repo: "Bimbok/rofi",
+          url: "https://github.com/Bimbok/rofi.git",
+          description: "Rofi Wayland application launcher, dmenu replacer & custom theme.",
+          category: "Launcher",
+          cloneCmd: "git clone https://github.com/Bimbok/rofi.git ~/.config/rofi",
+        },
+        {
+          name: "wlogout",
+          repo: "Bimbok/wlogout",
+          url: "https://github.com/Bimbok/wlogout.git",
+          description: "Wlogout Wayland session & lock screen power menu with custom CSS.",
+          category: "Session",
+          cloneCmd: "git clone https://github.com/Bimbok/wlogout.git ~/.config/wlogout",
+        },
+        {
+          name: "yazi",
+          repo: "Bimbok/yazi",
+          url: "https://github.com/Bimbok/yazi.git",
+          description: "Yazi terminal file manager configuration, keymaps, and file previewers.",
+          category: "File Manager",
+          cloneCmd: "git clone https://github.com/Bimbok/yazi.git ~/.config/yazi",
+        },
+      ],
+    },
   } as HobbyData,
 };
 

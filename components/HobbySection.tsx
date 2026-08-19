@@ -13,10 +13,17 @@ import {
   ArrowRight,
   Play,
   Flame,
+  Monitor,
+  FolderGit2,
+  Copy,
+  Check,
 } from "lucide-react";
 
 export const HobbySection: React.FC = () => {
-  const { setAnimeModalOpen } = useThemeContext();
+  const { setAnimeModalOpen, setRiceModalOpen, showToast } = useThemeContext();
+  const riceData = PORTFOLIO_DATA.hobbies.linuxRice;
+  const [copiedDotfile, setCopiedDotfile] = useState<string | null>(null);
+
   const [animeData, setAnimeData] = useState<AnimeItem[]>(PORTFOLIO_DATA.hobbies.anime);
   const [profileUrl, setProfileUrl] = useState<string>(PORTFOLIO_DATA.hobbies.animeProfileUrl);
   const [isLiveSynced, setIsLiveSynced] = useState<boolean>(false);
@@ -257,9 +264,9 @@ export const HobbySection: React.FC = () => {
           {/* Module Bottom Bar */}
           <div className="mt-4 pt-3 border-t border-neutral-800/80 flex flex-col sm:flex-row items-center justify-between gap-2.5 text-xs">
             <div className="flex items-center gap-2 text-neutral-400 text-[11px] font-sans">
-              <span className="text-white font-semibold">9+ titles archived</span>
+              <span className="text-white font-semibold">{stats.totalEntries} titles cataloged</span>
               <span>•</span>
-              <span>Shounen, Sci-Fi, Dark Fantasy & Adventure</span>
+              <span>{stats.completed} Completed, {stats.watching} Watching</span>
             </div>
 
             <div className="flex items-center gap-3">
@@ -288,6 +295,202 @@ export const HobbySection: React.FC = () => {
           </div>
 
         </div>
+
+        {/* ========================================================= */}
+        {/* HOBBY 2: LINUX & HYPRLAND RICE SHOWCASE                   */}
+        {/* ========================================================= */}
+        {riceData && (
+          <div className="p-5 sm:p-6 rounded-2xl bg-neutral-900/40 border border-neutral-800 hover:border-neutral-700 transition-all duration-300 relative overflow-hidden group">
+            
+            {/* Subtle Top Gradient Accent */}
+            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-40 group-hover:opacity-100 transition-opacity" />
+
+            {/* Module Header */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-neutral-950 border border-neutral-800 flex items-center justify-center text-white shadow-inner">
+                  <Monitor className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-base sm:text-lg font-bold text-white font-sans tracking-tight">
+                      Linux & Hyprland Rice Showcase
+                    </h3>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-neutral-950 border border-neutral-800 text-neutral-400">
+                      Hobby 02
+                    </span>
+                  </div>
+                  <p className="text-xs text-neutral-400 font-sans mt-0.5">
+                    Customized Arch Linux Wayland desktop environment & modular dotfiles ecosystem.
+                  </p>
+                </div>
+              </div>
+
+              {/* Header Action: Open Full Rice Lightbox Modal */}
+              <button
+                onClick={() => {
+                  audioEngine.playKeyClick("enter");
+                  setRiceModalOpen(true);
+                }}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-neutral-950 hover:bg-neutral-800 border border-neutral-800 text-xs font-semibold text-white transition-all shadow-sm self-start sm:self-auto group/btn"
+              >
+                <span>View Full Rice Gallery</span>
+                <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
+              </button>
+            </div>
+
+            {/* Rice Specs Matrix */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4 p-2.5 rounded-xl bg-neutral-950/70 border border-neutral-800/80 text-center font-mono">
+              <div className="px-2 py-1">
+                <div className="text-[10px] text-neutral-400 uppercase tracking-wider">Compositor</div>
+                <div className="text-xs sm:text-sm font-bold text-white mt-0.5">Hyprland (Wayland)</div>
+              </div>
+              <div className="px-2 py-1 border-l border-neutral-800/80">
+                <div className="text-[10px] text-neutral-400 uppercase tracking-wider">Terminal</div>
+                <div className="text-xs sm:text-sm font-bold text-white mt-0.5">Kitty & Ghostty</div>
+              </div>
+              <div className="px-2 py-1 border-l border-neutral-800/80">
+                <div className="text-[10px] text-neutral-400 uppercase tracking-wider">Editor</div>
+                <div className="text-xs sm:text-sm font-bold text-white mt-0.5">Neovim (Lua)</div>
+              </div>
+              <div className="px-2 py-1 border-l border-neutral-800/80">
+                <div className="text-[10px] text-neutral-400 uppercase tracking-wider">File Manager</div>
+                <div className="text-xs sm:text-sm font-bold text-emerald-400 mt-0.5">Yazi (Rust)</div>
+              </div>
+            </div>
+
+            {/* Interactive Screenshot Showcase Box */}
+            <div
+              onClick={() => {
+                audioEngine.playKeyClick("down");
+                setRiceModalOpen(true);
+              }}
+              className="relative rounded-xl overflow-hidden bg-neutral-950 border border-neutral-800 hover:border-neutral-600 transition-all cursor-pointer group/shot"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={riceData.screenshots[0]?.imagePath || "/rice/2026-08-19-221803_hyprshot.png"}
+                alt="Hyprland Rice Preview"
+                className="w-full h-48 sm:h-64 object-cover object-top group-hover/shot:scale-[1.02] transition-transform duration-500"
+              />
+
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent flex flex-col justify-end p-4">
+                <div className="flex items-center justify-between gap-2">
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="px-2 py-0.5 rounded bg-black/80 backdrop-blur-sm border border-neutral-700 text-[10px] font-mono text-white">
+                        {riceData.screenshots.length} Screenshots
+                      </span>
+                      <span className="text-xs font-bold text-white font-sans">
+                        {riceData.screenshots[0]?.title}
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-neutral-300 font-sans mt-1 line-clamp-1">
+                      {riceData.screenshots[0]?.description}
+                    </p>
+                  </div>
+
+                  <span className="px-3 py-1 rounded-lg bg-white text-black text-xs font-bold font-mono shrink-0 shadow-lg flex items-center gap-1">
+                    <span>Click to Expand Lightbox</span>
+                    <ArrowRight className="w-3 h-3" />
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* 9 Modular Dotfile Repositories Grid */}
+            <div className="mt-4">
+              <div className="flex items-center justify-between text-[10px] font-mono text-neutral-400 uppercase tracking-wider mb-2.5">
+                <span className="flex items-center gap-1.5">
+                  <FolderGit2 className="w-3.5 h-3.5 text-neutral-400" />
+                  <span>Modular Dotfiles ({riceData.dotfiles.length} GitHub Repositories)</span>
+                </span>
+                <span className="text-neutral-500">One-click copy clone command</span>
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                {riceData.dotfiles.map((dot) => (
+                  <div
+                    key={dot.name}
+                    className="p-2.5 rounded-xl bg-neutral-950/80 border border-neutral-800/80 hover:border-neutral-700 transition-all flex items-center justify-between gap-2 group/dot"
+                  >
+                    <div className="min-w-0">
+                      <a
+                        href={dot.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          audioEngine.playKeyClick("enter");
+                        }}
+                        className="text-xs font-bold text-white font-mono hover:underline flex items-center gap-1 truncate"
+                      >
+                        <span>~/.config/{dot.name}</span>
+                        <ExternalLink className="w-2.5 h-2.5 text-neutral-500 inline shrink-0" />
+                      </a>
+                      <span className="text-[10px] text-neutral-500 font-mono block truncate">
+                        {dot.category}
+                      </span>
+                    </div>
+
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigator.clipboard.writeText(dot.cloneCmd);
+                        audioEngine.playKeyClick("enter");
+                        setCopiedDotfile(dot.name);
+                        showToast(`Copied: ${dot.cloneCmd}`);
+                        setTimeout(() => setCopiedDotfile(null), 2500);
+                      }}
+                      className="p-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-white border border-neutral-800 transition-colors shrink-0"
+                      title={`Copy: ${dot.cloneCmd}`}
+                    >
+                      {copiedDotfile === dot.name ? (
+                        <Check className="w-3 h-3 text-emerald-400" />
+                      ) : (
+                        <Copy className="w-3 h-3" />
+                      )}
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Module Bottom Bar */}
+            <div className="mt-4 pt-3 border-t border-neutral-800/80 flex flex-col sm:flex-row items-center justify-between gap-2.5 text-xs">
+              <div className="flex items-center gap-2 text-neutral-400 text-[11px] font-sans">
+                <span className="text-white font-semibold">Arch Linux + Hyprland Rice</span>
+                <span>•</span>
+                <span>All configs hosted on GitHub</span>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => {
+                    audioEngine.playKeyClick("down");
+                    setRiceModalOpen(true);
+                  }}
+                  className="text-xs text-neutral-300 hover:text-white font-medium flex items-center gap-1 hover:underline"
+                >
+                  <span>Open Rice Lightbox</span>
+                  <ArrowRight className="w-3 h-3" />
+                </button>
+
+                <a
+                  href={`https://github.com/${riceData.githubUser}?tab=repositories`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => audioEngine.playKeyClick("enter")}
+                  className="text-xs text-neutral-400 hover:text-white font-medium flex items-center gap-1 hover:underline"
+                >
+                  <span>All Dotfiles on GitHub</span>
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              </div>
+            </div>
+
+          </div>
+        )}
 
       </div>
     </section>
