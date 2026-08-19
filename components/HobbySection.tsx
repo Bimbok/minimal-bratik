@@ -20,20 +20,31 @@ export const HobbySection: React.FC = () => {
   const [animeData, setAnimeData] = useState<AnimeItem[]>(PORTFOLIO_DATA.hobbies.anime);
   const [profileUrl, setProfileUrl] = useState<string>(PORTFOLIO_DATA.hobbies.animeProfileUrl);
   const [isLiveSynced, setIsLiveSynced] = useState<boolean>(false);
+  const [stats, setStats] = useState(
+    PORTFOLIO_DATA.hobbies.stats || {
+      daysWatched: 7.2,
+      meanScore: 8.47,
+      totalEntries: 20,
+      episodesWatched: 416,
+      watching: 1,
+      completed: 19,
+    }
+  );
 
-  // Fetch dynamic public profile data via Jikan API route
+  // Fetch dynamic public profile data via Jikan/MAL API route
   useEffect(() => {
     fetch(`/api/anime?username=${PORTFOLIO_DATA.hobbies.myAnimeListUsername || "Bimbok"}`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data?.anime) && data.anime.length > 0) {
           setAnimeData(data.anime);
-          if (data.source === "jikan_live") {
-            setIsLiveSynced(true);
-          }
+          setIsLiveSynced(true);
         }
         if (data?.profileUrl) {
           setProfileUrl(data.profileUrl);
+        }
+        if (data?.stats) {
+          setStats(data.stats);
         }
       })
       .catch(() => {
@@ -48,15 +59,6 @@ export const HobbySection: React.FC = () => {
     ...watchingAnime,
     ...completedAnime,
   ].slice(0, 2);
-
-  const stats = PORTFOLIO_DATA.hobbies.stats || {
-    daysWatched: 7.2,
-    meanScore: 8.47,
-    totalEntries: 20,
-    episodesWatched: 416,
-    watching: 1,
-    completed: 19,
-  };
 
   return (
     <section id="hobbies" className="space-y-6 pt-4">
@@ -177,7 +179,10 @@ export const HobbySection: React.FC = () => {
                       alt={item.title}
                       referrerPolicy="no-referrer"
                       onError={(e) => {
-                        e.currentTarget.src = "/anime/solo-leveling.png";
+                        const currentSrc = e.currentTarget.src;
+                        if (!currentSrc.includes("/api/anime/proxy") && item.imageUrl.startsWith("http")) {
+                          e.currentTarget.src = `/api/anime/proxy?url=${encodeURIComponent(item.imageUrl)}`;
+                        }
                       }}
                       className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300"
                       loading="lazy"

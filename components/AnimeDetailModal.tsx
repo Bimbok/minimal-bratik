@@ -317,7 +317,10 @@ export const AnimeDetailModal: React.FC = () => {
                           alt={item.title}
                           referrerPolicy="no-referrer"
                           onError={(e) => {
-                            e.currentTarget.src = "/anime/solo-leveling.png";
+                            const currentSrc = e.currentTarget.src;
+                            if (!currentSrc.includes("/api/anime/proxy") && item.imageUrl.startsWith("http")) {
+                              e.currentTarget.src = `/api/anime/proxy?url=${encodeURIComponent(item.imageUrl)}`;
+                            }
                           }}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                           loading="lazy"

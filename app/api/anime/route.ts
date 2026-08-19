@@ -24,7 +24,7 @@ export async function GET(request: Request) {
   try {
     // 1. Fetch live anime list directly from MyAnimeList
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 4500);
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
 
     const malDirectUrl = `https://myanimelist.net/animelist/${encodeURIComponent(username)}/load.json?status=7&offset=0`;
     const res = await fetch(malDirectUrl, {
@@ -34,7 +34,7 @@ export async function GET(request: Request) {
         Accept: "application/json, text/javascript, */*; q=0.01",
         Referer: `https://myanimelist.net/animelist/${encodeURIComponent(username)}`,
       },
-      next: { revalidate: 1800 },
+      next: { revalidate: 120 }, // Revalidate every 2 minutes for fresh updates
     });
 
     clearTimeout(timeoutId);
@@ -55,8 +55,12 @@ export async function GET(request: Request) {
           else if (item.status === 3) status = "on_hold";
           else if (item.status === 6) status = "plan_to_watch";
 
-          // Use local bundled high-res poster if available, or MAL direct image
-          const imageUrl = `/anime/mal-${malId}.jpg`;
+          // Extract exact full-resolution MAL CDN image URL
+          const rawImg = item.anime_image_path || "";
+          const fullMalImageUrl = rawImg
+            ? rawImg.replace(/\/r\/\d+x\d+/, "").split("?")[0]
+            : "";
+          const imageUrl = fullMalImageUrl || rawImg;
 
           return {
             id: malId,
@@ -73,22 +77,30 @@ export async function GET(request: Request) {
           };
         });
 
-        // Sort watching first, then highest score
+        // Sort: Watching items first, then highest score
         mappedAnime.sort((a, b) => {
           if (a.status === "watching" && b.status !== "watching") return -1;
           if (b.status === "watching" && a.status !== "watching") return 1;
           return b.score - a.score;
         });
 
+        // Dynamically compute live statistics directly from the user's MAL list
+        const totalEps = mappedAnime.reduce((sum, a) => sum + (a.episodesWatched || 0), 0);
+        const scoredItems = mappedAnime.filter((a) => a.score > 0);
+        const meanScore = scoredItems.length > 0
+          ? parseFloat((scoredItems.reduce((sum, a) => sum + a.score, 0) / scoredItems.length).toFixed(2))
+          : 8.47;
+        const daysWatched = parseFloat(((totalEps * 24) / (60 * 24)).toFixed(1));
+
         return NextResponse.json({
           source: "myanimelist_live",
           username,
           profileUrl: `https://myanimelist.net/profile/${username}`,
           stats: {
-            daysWatched: 7.2,
-            meanScore: 8.47,
+            daysWatched,
+            meanScore,
             totalEntries: mappedAnime.length,
-            episodesWatched: 416,
+            episodesWatched: totalEps,
             watching: mappedAnime.filter((a) => a.status === "watching").length,
             completed: mappedAnime.filter((a) => a.status === "completed").length,
           },
@@ -100,7 +112,7 @@ export async function GET(request: Request) {
     // Graceful fallback
   }
 
-  // Fallback to real synced dataset
+  // Fallback to portfolio dataset
   return NextResponse.json({
     source: "curated_fallback",
     username,
