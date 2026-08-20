@@ -1358,6 +1358,14 @@ GitHub: github.com/Bimbok | LinkedIn: linkedin.com/in/bimbok
           imagePath: "/rice/2026-08-19-221950_hyprshot.png",
           tags: ["Rofi", "App Launcher", "Wayland", "Key Navigation"],
         },
+        {
+          id: "btop-system-monitor",
+          title: "btop++ System Monitor & Performance Dashboard",
+          category: "System Monitor & CLI",
+          description: "Full-screen btop++ resource monitor in Kitty terminal tracking 12-core CPU telemetry, RAM/disk allocation, network I/O, and active Hyprland background processes.",
+          imagePath: "/rice/2026-08-20-223439_hyprshot.png",
+          tags: ["btop++", "Kitty", "System Monitor", "Telemetry", "Arch Linux"],
+        },
       ],
       dotfiles: [
         {
