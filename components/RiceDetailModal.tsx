@@ -166,7 +166,7 @@ export const RiceDetailModal: React.FC = () => {
         </div>
 
         {/* Specs Overview Grid */}
-        <div className="px-5 py-2.5 bg-[#0a0b0e] border-b border-neutral-800/80 grid grid-cols-2 sm:grid-cols-5 gap-2 text-center text-xs font-mono shrink-0">
+        <div className="px-4 sm:px-5 py-2.5 bg-[#0a0b0e] border-b border-neutral-800/80 grid grid-cols-2 sm:grid-cols-5 gap-2 text-center text-xs font-mono shrink-0">
           <div className="px-1.5 py-0.5">
             <div className="text-[9px] text-neutral-500 uppercase tracking-wider">Compositor</div>
             <div className="text-[11px] font-bold text-white truncate">Hyprland</div>
@@ -175,36 +175,36 @@ export const RiceDetailModal: React.FC = () => {
             <div className="text-[9px] text-neutral-500 uppercase tracking-wider">Terminal</div>
             <div className="text-[11px] font-bold text-white truncate">Kitty & Ghostty</div>
           </div>
-          <div className="px-1.5 py-0.5 border-l border-neutral-800/80">
+          <div className="px-1.5 py-0.5 border-t sm:border-t-0 border-neutral-800/80 sm:border-l">
             <div className="text-[9px] text-neutral-500 uppercase tracking-wider">Editor</div>
             <div className="text-[11px] font-bold text-white truncate">Neovim (Lua)</div>
           </div>
-          <div className="px-1.5 py-0.5 border-l border-neutral-800/80">
+          <div className="px-1.5 py-0.5 border-t sm:border-t-0 border-l border-neutral-800/80">
             <div className="text-[9px] text-neutral-500 uppercase tracking-wider">Status Bar</div>
             <div className="text-[11px] font-bold text-white truncate">Waybar</div>
           </div>
-          <div className="px-1.5 py-0.5 border-l border-neutral-800/80 col-span-2 sm:col-span-1">
+          <div className="px-1.5 py-0.5 border-t sm:border-t-0 border-neutral-800/80 sm:border-l col-span-2 sm:col-span-1">
             <div className="text-[9px] text-neutral-500 uppercase tracking-wider">File Manager</div>
             <div className="text-[11px] font-bold text-emerald-400 truncate">Yazi (Rust)</div>
           </div>
         </div>
 
         {/* Tab Switcher */}
-        <div className="px-5 py-2.5 bg-[#08090b] border-b border-neutral-800/80 flex items-center justify-between gap-3 shrink-0">
-          <div className="flex items-center gap-1.5">
+        <div className="px-4 sm:px-5 py-2.5 bg-[#08090b] border-b border-neutral-800/80 flex items-center justify-between gap-3 shrink-0 overflow-x-auto">
+          <div className="flex items-center gap-1.5 shrink-0">
             <button
               onClick={() => {
                 setActiveTab("gallery");
                 audioEngine.playKeyClick("down");
               }}
-              className={`px-3 py-1 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 ${
+              className={`px-3 py-1 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 shrink-0 ${
                 activeTab === "gallery"
                   ? "bg-white text-black font-bold shadow-sm"
                   : "bg-neutral-900/60 hover:bg-neutral-800 text-neutral-400 hover:text-white border border-neutral-800/80"
               }`}
             >
               <Monitor className="w-3.5 h-3.5" />
-              <span>Screenshots Gallery ({riceData.screenshots.length})</span>
+              <span>Gallery ({riceData.screenshots.length})</span>
             </button>
 
             <button
@@ -212,18 +212,18 @@ export const RiceDetailModal: React.FC = () => {
                 setActiveTab("dotfiles");
                 audioEngine.playKeyClick("down");
               }}
-              className={`px-3 py-1 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 ${
+              className={`px-3 py-1 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 shrink-0 ${
                 activeTab === "dotfiles"
                   ? "bg-white text-black font-bold shadow-sm"
                   : "bg-neutral-900/60 hover:bg-neutral-800 text-neutral-400 hover:text-white border border-neutral-800/80"
               }`}
             >
               <FolderGit2 className="w-3.5 h-3.5" />
-              <span>Dotfiles Repositories ({riceData.dotfiles.length})</span>
+              <span>Dotfiles ({riceData.dotfiles.length})</span>
             </button>
           </div>
 
-          <span className="text-[10px] text-neutral-500 font-mono hidden sm:inline">
+          <span className="text-[10px] text-neutral-500 font-mono hidden sm:inline shrink-0">
             Use <kbd className="px-1 py-0.5 rounded bg-neutral-900 border border-neutral-800 text-neutral-400">←</kbd> / <kbd className="px-1 py-0.5 rounded bg-neutral-900 border border-neutral-800 text-neutral-400">→</kbd> to switch
           </span>
         </div>

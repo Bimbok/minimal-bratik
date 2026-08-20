@@ -349,11 +349,11 @@ export const HobbySection: React.FC = () => {
                 <div className="text-[10px] text-neutral-400 uppercase tracking-wider">Terminal</div>
                 <div className="text-xs sm:text-sm font-bold text-white mt-0.5">Kitty & Ghostty</div>
               </div>
-              <div className="px-2 py-1 border-l border-neutral-800/80">
+              <div className="px-2 py-1 border-t sm:border-t-0 border-neutral-800/80 sm:border-l">
                 <div className="text-[10px] text-neutral-400 uppercase tracking-wider">Editor</div>
                 <div className="text-xs sm:text-sm font-bold text-white mt-0.5">Neovim (Lua)</div>
               </div>
-              <div className="px-2 py-1 border-l border-neutral-800/80">
+              <div className="px-2 py-1 border-t sm:border-t-0 border-l border-neutral-800/80">
                 <div className="text-[10px] text-neutral-400 uppercase tracking-wider">File Manager</div>
                 <div className="text-xs sm:text-sm font-bold text-emerald-400 mt-0.5">Yazi (Rust)</div>
               </div>
@@ -374,14 +374,14 @@ export const HobbySection: React.FC = () => {
                 className="w-full h-48 sm:h-64 object-cover object-top group-hover/shot:scale-[1.02] transition-transform duration-500"
               />
 
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent flex flex-col justify-end p-4">
-                <div className="flex items-center justify-between gap-2">
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="px-2 py-0.5 rounded bg-black/80 backdrop-blur-sm border border-neutral-700 text-[10px] font-mono text-white">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent flex flex-col justify-end p-3.5 sm:p-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                      <span className="px-2 py-0.5 rounded bg-black/80 backdrop-blur-sm border border-neutral-700 text-[10px] font-mono text-white shrink-0">
                         {riceData.screenshots.length} Screenshots
                       </span>
-                      <span className="text-xs font-bold text-white font-sans">
+                      <span className="text-xs sm:text-sm font-bold text-white font-sans">
                         {riceData.screenshots[0]?.title}
                       </span>
                     </div>
@@ -390,8 +390,8 @@ export const HobbySection: React.FC = () => {
                     </p>
                   </div>
 
-                  <span className="px-3 py-1 rounded-lg bg-white text-black text-xs font-bold font-mono shrink-0 shadow-lg flex items-center gap-1">
-                    <span>Click to Expand Lightbox</span>
+                  <span className="self-start sm:self-auto px-2.5 sm:px-3 py-1 rounded-lg bg-white text-black text-[11px] sm:text-xs font-bold font-mono shrink-0 shadow-lg flex items-center gap-1">
+                    <span>Explore Gallery</span>
                     <ArrowRight className="w-3 h-3" />
                   </span>
                 </div>
@@ -400,21 +400,21 @@ export const HobbySection: React.FC = () => {
 
             {/* 9 Modular Dotfile Repositories Grid */}
             <div className="mt-4">
-              <div className="flex items-center justify-between text-[10px] font-mono text-neutral-400 uppercase tracking-wider mb-2.5">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[10px] font-mono text-neutral-400 uppercase tracking-wider mb-2.5">
                 <span className="flex items-center gap-1.5">
-                  <FolderGit2 className="w-3.5 h-3.5 text-neutral-400" />
-                  <span>Modular Dotfiles ({riceData.dotfiles.length} GitHub Repositories)</span>
+                  <FolderGit2 className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
+                  <span>Modular Dotfiles ({riceData.dotfiles.length} Repositories)</span>
                 </span>
-                <span className="text-neutral-500">One-click copy clone command</span>
+                <span className="text-neutral-500 text-[9px] sm:text-[10px]">One-click copy clone command</span>
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
                 {riceData.dotfiles.map((dot) => (
                   <div
                     key={dot.name}
                     className="p-2.5 rounded-xl bg-neutral-950/80 border border-neutral-800/80 hover:border-neutral-700 transition-all flex items-center justify-between gap-2 group/dot"
                   >
-                    <div className="min-w-0">
+                    <div className="min-w-0 flex-1">
                       <a
                         href={dot.url}
                         target="_blank"
@@ -425,7 +425,7 @@ export const HobbySection: React.FC = () => {
                         }}
                         className="text-xs font-bold text-white font-mono hover:underline flex items-center gap-1 truncate"
                       >
-                        <span>~/.config/{dot.name}</span>
+                        <span className="truncate">~/.config/{dot.name}</span>
                         <ExternalLink className="w-2.5 h-2.5 text-neutral-500 inline shrink-0" />
                       </a>
                       <span className="text-[10px] text-neutral-500 font-mono block truncate">
