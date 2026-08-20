@@ -1287,20 +1287,20 @@ GitHub: github.com/Bimbok | LinkedIn: linkedin.com/in/bimbok
       githubUser: "Bimbok",
       screenshots: [
         {
-          id: "hyprland-workspace-multitasking",
-          title: "Full Desktop Workspace & Neovim IDE",
-          category: "Coding & Multitasking",
-          description: "Active Hyprland development workspace featuring Neovim React development, floating Python scratchpad, Kitty Fastfetch telemetry, and Excalidraw architecture sketching on dragon aesthetic wallpaper.",
-          imagePath: "/rice/2026-08-20-221950_hyprshot.png",
-          tags: ["Hyprland", "Neovim", "Fastfetch", "Multitasking", "Excalidraw", "Arch Linux"],
-        },
-        {
           id: "hyprland-monochrome",
           title: "Clean Desktop & Waybar (Monochrome Theme)",
           category: "Desktop & UI",
           description: "Clean Hyprland desktop environment featuring top floating Waybar pill with system metrics (workspaces, volume, battery, power) and monochrome anime aesthetic.",
           imagePath: "/rice/2026-08-19-221803_hyprshot.png",
           tags: ["Hyprland", "Waybar", "Wayland", "Arch Linux"],
+        },
+        {
+          id: "hyprland-workspace-multitasking",
+          title: "Full Desktop Workspace & Neovim IDE",
+          category: "Coding & Multitasking",
+          description: "Active Hyprland development workspace featuring Neovim React development, floating Python scratchpad, Kitty Fastfetch telemetry, and Excalidraw architecture sketching on dragon aesthetic wallpaper.",
+          imagePath: "/rice/2026-08-20-221950_hyprshot.png",
+          tags: ["Hyprland", "Neovim", "Fastfetch", "Multitasking", "Excalidraw", "Arch Linux"],
         },
         {
           id: "hyprland-purple",
