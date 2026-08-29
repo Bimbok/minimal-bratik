@@ -146,7 +146,8 @@ export const PORTFOLIO_DATA = {
     handle: "bimbok",
     role: "Full Stack & Software Developer — System Architect",
     badge: "Active | Building Scalable Web Platforms, Mobile Apps & Systems",
-    headline: "Results-driven Full-Stack and Systems Architect. I build scalable web platforms, CLI tools, and native mobile apps.",
+    headline:
+      "Results-driven Full-Stack and Systems Architect. I build scalable web platforms, CLI tools, and native mobile apps.",
     bioBullets: [
       "B.Tech in IT at Techno Main Salt Lake (Avg. CGPA: 8.046/10.0).",
       "Co-Founder & Developer at AlgoScope, GSSoC 2026 Project Admin & AWS Hackathon Top 15% Finalist.",
@@ -162,7 +163,7 @@ export const PORTFOLIO_DATA = {
     socials: {
       github: "https://github.com/Bimbok",
       linkedin: "https://linkedin.com/in/bimbok",
-      twitter: "https://x.com/Bim__Bok",
+      twitter: "https://x.com/bimbokmkj",
       email: "bimbokmkj@gmail.com",
       phone: "+91 9883593295",
     },
@@ -243,39 +244,59 @@ export const PORTFOLIO_DATA = {
     {
       id: "sih-2025",
       title: "Smart India Hackathon '25 — Certificate of Participation",
-      issuer: "Ministry of Education (MoE's Innovation Cell, Govt of India) & AICTE",
+      issuer:
+        "Ministry of Education (MoE's Innovation Cell, Govt of India) & AICTE",
       date: "September 13, 2025",
       imagePath: "/certificates/sih_2025_certificate.png",
       details: [
         "Participated in Internal Hackathon'25 organized by Techno Main Salt Lake under MoE Innovation Cell & AICTE guidelines.",
         "Built and presented innovative technical project prototype evaluated by academic and industry judges.",
       ],
-      tags: ["Hackathon", "MoE Innovation Cell", "AICTE", "System Architecture"],
+      tags: [
+        "Hackathon",
+        "MoE Innovation Cell",
+        "AICTE",
+        "System Architecture",
+      ],
     },
     {
       id: "gfg-aiml-2025",
       title: "GeeksforGeeks AI & Machine Learning Technical Workshop",
       issuer: "GeeksforGeeks (Founder & CEO Sandeep Jain)",
       date: "February 2025",
-      credentialUrl: "https://media.geeksforgeeks.org/certificates/1745586883/67a7c4ad1ebf9109681d59747c9f4632.pdf",
+      credentialUrl:
+        "https://media.geeksforgeeks.org/certificates/1745586883/67a7c4ad1ebf9109681d59747c9f4632.pdf",
       imagePath: "/certificates/gfg_aiml_certificate.png",
       details: [
         "Completed intensive technical workshop on Artificial Intelligence and Machine Learning architecture conducted by GeeksforGeeks.",
         "Covered foundational ML algorithms, neural architectures, data preprocessing, and model deployment strategies.",
       ],
-      tags: ["AI", "Machine Learning", "GeeksforGeeks", "Algorithms", "Neural Networks"],
+      tags: [
+        "AI",
+        "Machine Learning",
+        "GeeksforGeeks",
+        "Algorithms",
+        "Neural Networks",
+      ],
     },
     {
       id: "gfg-c-workshop-2025",
       title: "C Language & Algorithmic Mastery Workshop",
-      issuer: "GeeksforGeeks Student Chapter & Geekonix (Techno Main Salt Lake / IIC)",
+      issuer:
+        "GeeksforGeeks Student Chapter & Geekonix (Techno Main Salt Lake / IIC)",
       date: "February 1, 2025",
       imagePath: "/certificates/gfg_c_workshop_certificate.png",
       details: [
         "Participated in advanced C language and computational excellence workshop organized by GFG Student Chapter & Geekonix.",
         "Focused on low-level memory management, pointer arithmetic, data structures, and algorithmic optimization.",
       ],
-      tags: ["C", "Low-Level Programming", "Algorithms", "Data Structures", "GFG"],
+      tags: [
+        "C",
+        "Low-Level Programming",
+        "Algorithms",
+        "Data Structures",
+        "GFG",
+      ],
     },
     {
       id: "aws-ai-bharat-2026",
@@ -288,7 +309,14 @@ export const PORTFOLIO_DATA = {
         "Built and submitted a qualified working prototype leveraging Amazon Web Services (AWS) cloud and Generative AI technologies.",
         "Demonstrated technical execution solving real-world challenges with generative AI models and scalable cloud infrastructure.",
       ],
-      tags: ["AWS", "Generative AI", "Hackathon", "Hack2skill", "YourStory", "Cloud Architecture"],
+      tags: [
+        "AWS",
+        "Generative AI",
+        "Hackathon",
+        "Hack2skill",
+        "YourStory",
+        "Cloud Architecture",
+      ],
     },
     {
       id: "geekathon-26",
@@ -300,7 +328,12 @@ export const PORTFOLIO_DATA = {
         "Participated in Geekathon 26, the premier annual technical hackathon organized by Geekonix at Techno Main Salt Lake.",
         "Built innovative technical solutions and collaborated in high-intensity software engineering sprints.",
       ],
-      tags: ["Hackathon", "Geekonix", "Techno Main Salt Lake", "Software Engineering"],
+      tags: [
+        "Hackathon",
+        "Geekonix",
+        "Techno Main Salt Lake",
+        "Software Engineering",
+      ],
     },
     {
       id: "cisco-cybersecurity-2026",
@@ -312,7 +345,13 @@ export const PORTFOLIO_DATA = {
         "Achieved student-level credential for completing the Cisco Networking Academy Introduction to Cybersecurity curriculum.",
         "Mastered core principles of threat modeling, common cyber attacks, vulnerability assessment, defense architecture, and operational security.",
       ],
-      tags: ["Cisco", "Cybersecurity", "Network Security", "Threat Analysis", "Defense"],
+      tags: [
+        "Cisco",
+        "Cybersecurity",
+        "Network Security",
+        "Threat Analysis",
+        "Defense",
+      ],
     },
     {
       id: "udemy-datascience-2025",
@@ -354,56 +393,64 @@ export const PORTFOLIO_DATA = {
           name: "TypeScript",
           level: 98,
           experience: "3 Yrs",
-          description: "Strict typing, AST transformations, complex generics, and full-stack API contracts.",
+          description:
+            "Strict typing, AST transformations, complex generics, and full-stack API contracts.",
           tags: ["Node.js", "React", "Next.js", "Compiler API"],
         },
         {
           name: "C++",
           level: 90,
           experience: "2.5 Yrs",
-          description: "Modern C/C++, RAII, TUI ncurses interfaces, and file system primitives handling 10,000+ files.",
+          description:
+            "Modern C/C++, RAII, TUI ncurses interfaces, and file system primitives handling 10,000+ files.",
           tags: ["C++17", "CMake", "GDB", "Ncurses"],
         },
         {
           name: "C",
           level: 92,
           experience: "2.5 Yrs",
-          description: "Systems programming, POSIX process management, custom shells (MyShell), IPC pipelines & AST parsers.",
+          description:
+            "Systems programming, POSIX process management, custom shells (MyShell), IPC pipelines & AST parsers.",
           tags: ["POSIX", "fork/exec", "Signals", "Memory"],
         },
         {
           name: "Go",
           level: 92,
           experience: "2 Yrs",
-          description: "Concurrent microservices, CLI tools (Bimagic), multi-threading, and sub-second execution speeds.",
+          description:
+            "Concurrent microservices, CLI tools (Bimagic), multi-threading, and sub-second execution speeds.",
           tags: ["Goroutines", "Channels", "CLI", "Cross-Platform"],
         },
         {
           name: "Kotlin",
           level: 88,
           experience: "2 Yrs",
-          description: "Native Android development, MVVM architecture, Room Database (SQLite), ViewBinding, and offline sync.",
+          description:
+            "Native Android development, MVVM architecture, Room Database (SQLite), ViewBinding, and offline sync.",
           tags: ["Android Studio", "MVVM", "Room SQLite", "Material"],
         },
         {
           name: "Java",
           level: 86,
           experience: "2.5 Yrs",
-          description: "Custom interpreted language design (Sizuka), lexer tokenizers, AST evaluators, and interactive REPLs.",
+          description:
+            "Custom interpreted language design (Sizuka), lexer tokenizers, AST evaluators, and interactive REPLs.",
           tags: ["Compiler Design", "AST", "REPL", "OOP"],
         },
         {
           name: "Python",
           level: 90,
           experience: "3 Yrs",
-          description: "Data pipelines, AsyncIO, Flask backend, LLM integration, and ChromaDB vector search.",
+          description:
+            "Data pipelines, AsyncIO, Flask backend, LLM integration, and ChromaDB vector search.",
           tags: ["Flask", "LLM", "ChromaDB", "PyTorch"],
         },
         {
           name: "Bash & POSIX Shell",
           level: 93,
           experience: "2.5 Yrs",
-          description: "CLI orchestration scripts, multi-stage pipeline runners (run_all.sh, Bimagic), and POSIX subshell scripting.",
+          description:
+            "CLI orchestration scripts, multi-stage pipeline runners (run_all.sh, Bimagic), and POSIX subshell scripting.",
           tags: ["Bash", "Zsh", "Shell Scripting", "Automation"],
         },
       ],
@@ -416,56 +463,64 @@ export const PORTFOLIO_DATA = {
           name: "Next.js & React 19",
           level: 96,
           experience: "3 Yrs",
-          description: "App Router, Server Actions, RSC, Streaming SSR, and optimized client hydration.",
+          description:
+            "App Router, Server Actions, RSC, Streaming SSR, and optimized client hydration.",
           tags: ["App Router", "RSC", "Turbopack", "Hydration"],
         },
         {
           name: "Node.js & Express",
           level: 95,
           experience: "3 Yrs",
-          description: "Event loop tuning, worker threads, stream pipelines, and custom HTTP middleware.",
+          description:
+            "Event loop tuning, worker threads, stream pipelines, and custom HTTP middleware.",
           tags: ["Event Loop", "Streams", "V8", "REST"],
         },
         {
           name: "MongoDB & PostgreSQL",
           level: 92,
           experience: "2.5 Yrs",
-          description: "Atlas clusters, dynamic document modeling (bDoci), relational schema indexing & aggregation pipelines.",
+          description:
+            "Atlas clusters, dynamic document modeling (bDoci), relational schema indexing & aggregation pipelines.",
           tags: ["MongoDB", "PostgreSQL", "Mongoose", "Indexing"],
         },
         {
           name: "Tailwind CSS & D3.js",
           level: 98,
           experience: "2 Yrs",
-          description: "Interactive algorithm execution visualizations (AlgoScope) and custom design systems.",
+          description:
+            "Interactive algorithm execution visualizations (AlgoScope) and custom design systems.",
           tags: ["D3.js", "PostCSS", "Design Tokens", "Responsive"],
         },
         {
           name: "Framer Motion & Three.js",
           level: 90,
           experience: "1.5 Yrs",
-          description: "Interactive 3D WebGL scenes (Ping), fluid spring physics transitions (Softy), and micro-interactions.",
+          description:
+            "Interactive 3D WebGL scenes (Ping), fluid spring physics transitions (Softy), and micro-interactions.",
           tags: ["Three.js", "Framer Motion", "WebGL", "Anime.js"],
         },
         {
           name: "LLM & Applied AI (LLaMA 3.1)",
           level: 91,
           experience: "2 Yrs",
-          description: "Meta LLaMA 3.1 405B integration (NyayaAI), ChromaDB semantic vector search (creAItr), NVIDIA AI APIs & prompt engineering.",
+          description:
+            "Meta LLaMA 3.1 405B integration (NyayaAI), ChromaDB semantic vector search (creAItr), NVIDIA AI APIs & prompt engineering.",
           tags: ["LLaMA 3.1", "ChromaDB", "NVIDIA AI", "Vector Search"],
         },
         {
           name: "LangChain & AI Agents",
           level: 92,
           experience: "2 Yrs",
-          description: "RAG architectures, recursive document splitting, LangChain memory chains, ChromaDB vector indexing, and autonomous agent workflows.",
+          description:
+            "RAG architectures, recursive document splitting, LangChain memory chains, ChromaDB vector indexing, and autonomous agent workflows.",
           tags: ["LangChain", "RAG", "AI Agents", "Vector Stores"],
         },
         {
           name: "WebSockets & Real-Time Telemetry",
           level: 89,
           experience: "2 Yrs",
-          description: "Full-duplex Socket.IO event channels (Ping), Recharts health telemetry charts (HealthSync), and real-time streams.",
+          description:
+            "Full-duplex Socket.IO event channels (Ping), Recharts health telemetry charts (HealthSync), and real-time streams.",
           tags: ["Socket.IO", "Recharts", "WebSockets", "Telemetry"],
         },
       ],
@@ -478,49 +533,56 @@ export const PORTFOLIO_DATA = {
           name: "Neovim & Lua",
           level: 96,
           experience: "3 Yrs",
-          description: "Custom keymaps, Lazy.nvim setup, LSP client configuration, and Tree-sitter parsers.",
+          description:
+            "Custom keymaps, Lazy.nvim setup, LSP client configuration, and Tree-sitter parsers.",
           tags: ["Lua", "LSP", "Treesitter", "Telescope"],
         },
         {
           name: "Obsidian & PKM",
           level: 95,
           experience: "2 Yrs",
-          description: "Personal Knowledge Management, Zettelkasten note-taking, markdown linking & graph view.",
+          description:
+            "Personal Knowledge Management, Zettelkasten note-taking, markdown linking & graph view.",
           tags: ["Obsidian", "Markdown", "Zettelkasten", "PKM"],
         },
         {
           name: "Arch Linux & Hyprland",
           level: 94,
           experience: "3 Yrs",
-          description: "Custom Wayland environment, dotfiles management, pipewire audio, and pacman hook automation.",
+          description:
+            "Custom Wayland environment, dotfiles management, pipewire audio, and pacman hook automation.",
           tags: ["Wayland", "Systemd", "Kernel", "Dotfiles"],
         },
         {
           name: "Git & GitHub Automation",
           level: 95,
           experience: "3 Yrs",
-          description: "Advanced Git workflows, multi-threaded CLI automation (Bimagic), interactive rebasing & OSS admin.",
+          description:
+            "Advanced Git workflows, multi-threaded CLI automation (Bimagic), interactive rebasing & OSS admin.",
           tags: ["Git", "GitHub Actions", "CI/CD", "OSS Admin"],
         },
         {
           name: "CMake & Linux Toolchains",
           level: 90,
           experience: "2 Yrs",
-          description: "C/C++ compilation pipelines (Fyzenor, MyShell), GDB debugging, Makefiles, and POSIX system calls.",
+          description:
+            "C/C++ compilation pipelines (Fyzenor, MyShell), GDB debugging, Makefiles, and POSIX system calls.",
           tags: ["CMake", "GDB", "Clang", "Toolchains"],
         },
         {
           name: "Docker & Kubernetes",
           level: 88,
           experience: "1.5 Yrs",
-          description: "Multi-stage Alpine builds, docker-compose setups, K8s manifests, and Helm charts.",
+          description:
+            "Multi-stage Alpine builds, docker-compose setups, K8s manifests, and Helm charts.",
           tags: ["Containers", "Helm", "K3s", "OCI"],
         },
         {
           name: "Microservices & Security Architecture",
           level: 92,
           experience: "2 Yrs",
-          description: "Multi-service orchestration, SHA-256 cryptographic evidence vaults, 5-tier RBAC access control & HttpOnly JWT security.",
+          description:
+            "Multi-service orchestration, SHA-256 cryptographic evidence vaults, 5-tier RBAC access control & HttpOnly JWT security.",
           tags: ["Microservices", "SHA-256", "RBAC", "JWT Security"],
         },
       ],
@@ -532,8 +594,10 @@ export const PORTFOLIO_DATA = {
       id: "fyzenor",
       title: "Fyzenor",
       repoPath: "Bimbok/fyzenor",
-      tagline: "C++ Based Filemanager for Linux handling 10,000+ files seamlessly",
-      description: "Developed a high-performance terminal file manager leveraging C++ and system-level APIs to handle 10,000+ files seamlessly with 40% reduced rendering latency.",
+      tagline:
+        "C++ Based Filemanager for Linux handling 10,000+ files seamlessly",
+      description:
+        "Developed a high-performance terminal file manager leveraging C++ and system-level APIs to handle 10,000+ files seamlessly with 40% reduced rendering latency.",
       imagePath: "/projects/fyzenor.png",
       logoUrl: "/fyzenor.png",
       architecture: [
@@ -555,8 +619,10 @@ export const PORTFOLIO_DATA = {
       id: "algoscope",
       title: "AlgoScope",
       repoPath: "algoscope-hq/AlgoScope",
-      tagline: "Algorithms, made visible — 12+ searching & sorting algorithm visualizer",
-      description: "Co-founded interactive educational platform supporting 12+ algorithms, D3.js execution graph pathways (+30% engagement), and PostgreSQL schema.",
+      tagline:
+        "Algorithms, made visible — 12+ searching & sorting algorithm visualizer",
+      description:
+        "Co-founded interactive educational platform supporting 12+ algorithms, D3.js execution graph pathways (+30% engagement), and PostgreSQL schema.",
       imagePath: "/projects/algoscope.png",
       logoUrl: "https://avatars.githubusercontent.com/u/226963205?v=4",
       architecture: [
@@ -578,8 +644,10 @@ export const PORTFOLIO_DATA = {
       id: "sizuka",
       title: "Sizuka",
       repoPath: "Bimbok/sizuka",
-      tagline: "A custom programming language built in Java with unique syntax & REPL",
-      description: "A custom interpreted programming language built in Java featuring custom lexer, AST evaluator, dynamic typing, and interactive terminal REPL.",
+      tagline:
+        "A custom programming language built in Java with unique syntax & REPL",
+      description:
+        "A custom interpreted programming language built in Java featuring custom lexer, AST evaluator, dynamic typing, and interactive terminal REPL.",
       architecture: [
         "Hand-written Lexer tokenizer and Abstract Syntax Tree (AST) generator",
         "Scoped symbol table environment for variable binding & closure resolution",
@@ -595,17 +663,27 @@ export const PORTFOLIO_DATA = {
       id: "avis",
       title: "AVIS",
       repoPath: "kodo-kaze/avis",
-      tagline: "AI-driven stakeholder insight and telemetry intelligence platform",
-      description: "High-performance intelligence workspace for analyzing customer, investor, and team feedback with real-time sentiment scoring, thematic cluster modeling, and glassmorphic telemetry dashboards.",
+      tagline:
+        "AI-driven stakeholder insight and telemetry intelligence platform",
+      description:
+        "High-performance intelligence workspace for analyzing customer, investor, and team feedback with real-time sentiment scoring, thematic cluster modeling, and glassmorphic telemetry dashboards.",
       imagePath: "/projects/avis.png",
-      logoUrl: "https://raw.githubusercontent.com/kodo-kaze/avis/main/public/logo.png",
+      logoUrl:
+        "https://raw.githubusercontent.com/kodo-kaze/avis/main/public/logo.png",
       architecture: [
         "Synapse-AI intelligence engine for automated sentiment analysis and thematic categorization",
         "Next.js and TypeScript modular full-stack architecture with server actions",
         "Obsidian glassmorphic interface with reactive telemetry chart visualizations",
         "Automated stakeholder reporting pipeline with real-time export capabilities",
       ],
-      tech: ["TypeScript", "Next.js", "React", "AI", "Tailwind CSS", "Analytics"],
+      tech: [
+        "TypeScript",
+        "Next.js",
+        "React",
+        "AI",
+        "Tailwind CSS",
+        "Analytics",
+      ],
       techIcons: ["ts", "nextjs", "react", "tailwind"],
       status: "Live",
       githubUrl: "https://github.com/kodo-kaze/avis",
@@ -618,8 +696,10 @@ export const PORTFOLIO_DATA = {
       id: "bimagic",
       title: "Bimagic",
       repoPath: "bimagic/bimagic-go",
-      tagline: "Go-powered Git automation CLI wizard, Shell engine & interactive docs suite",
-      description: "High-performance Git workflow automation CLI tool. Rebuilt in Go for sub-second execution with cross-platform binary distributions, complemented by the original POSIX Shell implementation and dedicated Docusaurus technical documentation portal.",
+      tagline:
+        "Go-powered Git automation CLI wizard, Shell engine & interactive docs suite",
+      description:
+        "High-performance Git workflow automation CLI tool. Rebuilt in Go for sub-second execution with cross-platform binary distributions, complemented by the original POSIX Shell implementation and dedicated Docusaurus technical documentation portal.",
       imagePath: "/projects/bimagic.png",
       logoUrl: "https://avatars.githubusercontent.com/u/283110310?v=4",
       architecture: [
@@ -642,17 +722,27 @@ export const PORTFOLIO_DATA = {
       id: "bdoci",
       title: "bDoci (App & Hub)",
       repoPath: "Bimbok/bDoci-app",
-      tagline: "Native Android documentation app in Kotlin + dynamic MongoDB web portal",
-      description: "A complete developer documentation ecosystem featuring a native Android Kotlin application with offline SQLite caching, ViewBinding, and dynamic Markdown rendering, integrated with a MongoDB-powered documentation web portal.",
+      tagline:
+        "Native Android documentation app in Kotlin + dynamic MongoDB web portal",
+      description:
+        "A complete developer documentation ecosystem featuring a native Android Kotlin application with offline SQLite caching, ViewBinding, and dynamic Markdown rendering, integrated with a MongoDB-powered documentation web portal.",
       imagePath: "/projects/bdoci.jpg",
-      logoUrl: "https://raw.githubusercontent.com/Bimbok/bDoci-app/master/app/src/main/res/drawable/logo.png",
+      logoUrl:
+        "https://raw.githubusercontent.com/Bimbok/bDoci-app/master/app/src/main/res/drawable/logo.png",
       architecture: [
         "Native Android client built with Kotlin, ViewBinding, and Material Components",
         "Offline-first document caching with local persistence and background sync",
         "Full-stack Express.js REST API & MongoDB Atlas database cluster",
         "Dynamic full-text search, code syntax highlighting, and dual-theme web UI",
       ],
-      tech: ["Kotlin", "Android", "MongoDB", "Express.js", "Node.js", "REST API"],
+      tech: [
+        "Kotlin",
+        "Android",
+        "MongoDB",
+        "Express.js",
+        "Node.js",
+        "REST API",
+      ],
       techIcons: ["kotlin", "androidstudio", "nodejs", "mongodb"],
       status: "Live",
       githubUrl: "https://github.com/Bimbok/bDoci-app",
@@ -667,8 +757,10 @@ export const PORTFOLIO_DATA = {
       id: "myshell",
       title: "MyShell",
       repoPath: "Bimbok/myshell",
-      tagline: "Feature-rich Unix CLI interpreter in C with Tab completion & arithmetic evaluator",
-      description: "Custom Unix-like command-line interpreter written in C. Features complete process control (fork/execvp), multi-stage piping, I/O redirection, signal trapping, history navigation, Tab autocompletion, and an integrated recursive-descent math evaluator.",
+      tagline:
+        "Feature-rich Unix CLI interpreter in C with Tab completion & arithmetic evaluator",
+      description:
+        "Custom Unix-like command-line interpreter written in C. Features complete process control (fork/execvp), multi-stage piping, I/O redirection, signal trapping, history navigation, Tab autocompletion, and an integrated recursive-descent math evaluator.",
       imagePath: "/projects/myshell.png",
       logoUrl: "https://skillicons.dev/icons?i=c&theme=dark",
       architecture: [
@@ -687,8 +779,10 @@ export const PORTFOLIO_DATA = {
       id: "ping",
       title: "Ping",
       repoPath: "aasaan-hainn/Ping",
-      tagline: "Real-time communication and networking platform for gamers & developers",
-      description: "A high-concurrency real-time messaging and social network for gamers and developers, featuring instant WebSockets messaging, 3D interactive graphics with Three.js, and MongoDB persistence.",
+      tagline:
+        "Real-time communication and networking platform for gamers & developers",
+      description:
+        "A high-concurrency real-time messaging and social network for gamers and developers, featuring instant WebSockets messaging, 3D interactive graphics with Three.js, and MongoDB persistence.",
       imagePath: "/projects/ping.png",
       logoUrl: "/ping-logo.png",
       architecture: [
@@ -708,8 +802,10 @@ export const PORTFOLIO_DATA = {
       id: "creaitr",
       title: "creAItr.",
       repoPath: "aasaan-hainn/creAItr.",
-      tagline: "AWS Hackathon Top 15% Finalist — AI platform for digital creators & educators",
-      description: "AI-driven platform facilitating content generation and workflow automation for 100+ simulated users, placing in top 15% among 500+ teams in AWS Hackathon.",
+      tagline:
+        "AWS Hackathon Top 15% Finalist — AI platform for digital creators & educators",
+      description:
+        "AI-driven platform facilitating content generation and workflow automation for 100+ simulated users, placing in top 15% among 500+ teams in AWS Hackathon.",
       imagePath: "/projects/creaitr.png",
       logoUrl: "/creAItr.png",
       architecture: [
@@ -728,8 +824,10 @@ export const PORTFOLIO_DATA = {
       id: "softy",
       title: "Softy",
       repoPath: "Bimbok/Softy",
-      tagline: "Glassmorphic knowledge exploration platform with Markdown, LaTeX & admin suite",
-      description: "A modern, visually stunning web application for sharing and exploring topics, fun facts, and technical articles. Built with Next.js 15, featuring glassmorphism UI, full-screen video backdrops, Markdown & KaTeX LaTeX mathematical rendering, and a secure MongoDB Atlas admin dashboard.",
+      tagline:
+        "Glassmorphic knowledge exploration platform with Markdown, LaTeX & admin suite",
+      description:
+        "A modern, visually stunning web application for sharing and exploring topics, fun facts, and technical articles. Built with Next.js 15, featuring glassmorphism UI, full-screen video backdrops, Markdown & KaTeX LaTeX mathematical rendering, and a secure MongoDB Atlas admin dashboard.",
       imagePath: "/projects/softy.png",
       architecture: [
         "Next.js 15 App Router architecture with React 19 and Framer Motion micro-animations",
@@ -737,7 +835,14 @@ export const PORTFOLIO_DATA = {
         "Secure password-protected admin dashboard with real-time topic publication workflows",
         "MongoDB Atlas database cluster modeling articles, collections, and metadata",
       ],
-      tech: ["Next.js", "React", "TypeScript", "Tailwind CSS", "MongoDB", "KaTeX"],
+      tech: [
+        "Next.js",
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "MongoDB",
+        "KaTeX",
+      ],
       techIcons: ["nextjs", "react", "ts", "tailwind", "mongodb"],
       status: "Live",
       githubUrl: "https://github.com/Bimbok/Softy",
@@ -748,8 +853,10 @@ export const PORTFOLIO_DATA = {
       id: "nyayaconnect",
       title: "NyayaConnect",
       repoPath: "kodo-kaze/nyayaconnect",
-      tagline: "Redefining Judicial Trust — Intelligent Law & Justice Management Platform",
-      description: "A comprehensive digital justice workflow ecosystem bridging fragmented court systems. Connects citizens, law enforcement, lawyers, and judges through a secure microservices architecture with LLaMA 3.1 AI legal intelligence and SHA-256 cryptographic evidence vaults.",
+      tagline:
+        "Redefining Judicial Trust — Intelligent Law & Justice Management Platform",
+      description:
+        "A comprehensive digital justice workflow ecosystem bridging fragmented court systems. Connects citizens, law enforcement, lawyers, and judges through a secure microservices architecture with LLaMA 3.1 AI legal intelligence and SHA-256 cryptographic evidence vaults.",
       imagePath: "/projects/nyayaconnect.png",
       logoUrl: "/projects/nyayaconnect-logo.png",
       architecture: [
@@ -758,8 +865,27 @@ export const PORTFOLIO_DATA = {
         "Dedicated SHA-256 cryptographic evidence vault microservice ensuring data integrity and tamper-proof digital chain of custody",
         "5-Tier Role-Based Access Control (RBAC) tailored for Citizens, Police Investigators, Lawyers, Judges, and Court Administrators",
       ],
-      tech: ["React 19", "Vite", "Node.js", "Express", "Python", "Flask", "LLaMA 3.1", "MongoDB", "Tailwind CSS", "Microservices"],
-      techIcons: ["react", "nodejs", "express", "py", "mongodb", "tailwind", "vite"],
+      tech: [
+        "React 19",
+        "Vite",
+        "Node.js",
+        "Express",
+        "Python",
+        "Flask",
+        "LLaMA 3.1",
+        "MongoDB",
+        "Tailwind CSS",
+        "Microservices",
+      ],
+      techIcons: [
+        "react",
+        "nodejs",
+        "express",
+        "py",
+        "mongodb",
+        "tailwind",
+        "vite",
+      ],
       status: "Live",
       githubUrl: "https://github.com/kodo-kaze/nyayaconnect",
       liveUrl: "https://nyayaconnect.vercel.app/",
@@ -771,8 +897,10 @@ export const PORTFOLIO_DATA = {
       id: "healthsync",
       title: "HealthSync",
       repoPath: "aasaan-hainn/HealthSync",
-      tagline: "Your Health is Our Priority — Patient-Doctor Healthcare & Telemetry Platform",
-      description: "A full-stack healthcare coordination ecosystem bridging patients and medical professionals. Features real-time appointment scheduling, daily vitals telemetry logging with interactive Recharts trends, digital prescription management, and secure dual-token JWT authentication.",
+      tagline:
+        "Your Health is Our Priority — Patient-Doctor Healthcare & Telemetry Platform",
+      description:
+        "A full-stack healthcare coordination ecosystem bridging patients and medical professionals. Features real-time appointment scheduling, daily vitals telemetry logging with interactive Recharts trends, digital prescription management, and secure dual-token JWT authentication.",
       imagePath: "/projects/healthsync.png",
       logoUrl: "/projects/healthsync-logo.png",
       architecture: [
@@ -781,7 +909,16 @@ export const PORTFOLIO_DATA = {
         "Interactive Recharts data visualization tracking blood pressure, heart rate, and health metrics over time",
         "Secure dual-token authentication pipeline with short-lived JWTs and HttpOnly SameSite refresh cookies",
       ],
-      tech: ["React 19", "Vite", "Node.js", "Express", "MongoDB", "Tailwind CSS", "Recharts", "Socket.IO"],
+      tech: [
+        "React 19",
+        "Vite",
+        "Node.js",
+        "Express",
+        "MongoDB",
+        "Tailwind CSS",
+        "Recharts",
+        "Socket.IO",
+      ],
       techIcons: ["react", "nodejs", "express", "mongodb", "tailwind", "vite"],
       status: "Live",
       githubUrl: "https://github.com/aasaan-hainn/HealthSync",
@@ -881,397 +1018,314 @@ GitHub: github.com/Bimbok | LinkedIn: linkedin.com/in/bimbok
     myAnimeListUsername: "Bimbok",
     animeProfileUrl: "https://myanimelist.net/profile/Bimbok",
     stats: {
-          "daysWatched": 8,
-          "meanScore": 8.57,
-          "totalEntries": 23,
-          "episodesWatched": 477,
-          "watching": 1,
-          "completed": 22
+      daysWatched: 8,
+      meanScore: 8.57,
+      totalEntries: 23,
+      episodesWatched: 477,
+      watching: 1,
+      completed: 22,
     },
     anime: [
-          {
-                "id": 55888,
-                "title": "Mushoku Tensei II: Isekai Ittara Honki Dasu Part 2",
-                "titleEnglish": "Mushoku Tensei: Jobless Reincarnation Season 2 Part 2",
-                "imageUrl": "https://cdn.myanimelist.net/images/anime/1876/141251.jpg",
-                "episodesWatched": 1,
-                "totalEpisodes": 12,
-                "score": 8,
-                "status": "watching",
-                "isFavorite": true,
-                "genres": [
-                      "Adventure",
-                      "Drama",
-                      "Fantasy"
-                ],
-                "url": "https://myanimelist.net/anime/55888"
-          },
-          {
-                "id": 34572,
-                "title": "Black Clover",
-                "titleEnglish": "Black Clover",
-                "imageUrl": "https://cdn.myanimelist.net/images/anime/2/88336.jpg",
-                "episodesWatched": 170,
-                "totalEpisodes": 170,
-                "score": 10,
-                "status": "completed",
-                "isFavorite": true,
-                "genres": [
-                      "Action",
-                      "Fantasy"
-                ],
-                "url": "https://myanimelist.net/anime/34572"
-          },
-          {
-                "id": 28851,
-                "title": "Koe no Katachi",
-                "titleEnglish": "A Silent Voice",
-                "imageUrl": "https://cdn.myanimelist.net/images/anime/1122/96435.jpg",
-                "episodesWatched": 1,
-                "totalEpisodes": 1,
-                "score": 10,
-                "status": "completed",
-                "isFavorite": true,
-                "genres": [
-                      "Award Winning",
-                      "Drama"
-                ],
-                "url": "https://myanimelist.net/anime/28851"
-          },
-          {
-                "id": 45576,
-                "title": "Mushoku Tensei: Isekai Ittara Honki Dasu Part 2",
-                "titleEnglish": "Mushoku Tensei: Jobless Reincarnation Part 2",
-                "imageUrl": "https://cdn.myanimelist.net/images/anime/1028/117777.jpg",
-                "episodesWatched": 12,
-                "totalEpisodes": 12,
-                "score": 10,
-                "status": "completed",
-                "isFavorite": true,
-                "genres": [
-                      "Adventure",
-                      "Drama",
-                      "Fantasy",
-                      "Ecchi"
-                ],
-                "url": "https://myanimelist.net/anime/45576"
-          },
-          {
-                "id": 52588,
-                "title": "Kaijuu 8-gou",
-                "titleEnglish": "Kaiju No. 8",
-                "imageUrl": "https://cdn.myanimelist.net/images/anime/1370/140362.jpg",
-                "episodesWatched": 12,
-                "totalEpisodes": 12,
-                "score": 9,
-                "status": "completed",
-                "isFavorite": true,
-                "genres": [
-                      "Action",
-                      "Fantasy",
-                      "Sci-Fi"
-                ],
-                "url": "https://myanimelist.net/anime/52588"
-          },
-          {
-                "id": 38000,
-                "title": "Kimetsu no Yaiba",
-                "titleEnglish": "Demon Slayer: Kimetsu no Yaiba",
-                "imageUrl": "https://cdn.myanimelist.net/images/anime/1286/99889.jpg",
-                "episodesWatched": 26,
-                "totalEpisodes": 26,
-                "score": 9,
-                "status": "completed",
-                "isFavorite": true,
-                "genres": [
-                      "Action",
-                      "Award Winning",
-                      "Supernatural"
-                ],
-                "url": "https://myanimelist.net/anime/38000"
-          },
-          {
-                "id": 55701,
-                "title": "Kimetsu no Yaiba: Hashira Geiko-hen",
-                "titleEnglish": "Demon Slayer: Kimetsu no Yaiba Hashira Training Arc",
-                "imageUrl": "https://cdn.myanimelist.net/images/anime/1565/142711.jpg",
-                "episodesWatched": 8,
-                "totalEpisodes": 8,
-                "score": 9,
-                "status": "completed",
-                "isFavorite": true,
-                "genres": [
-                      "Action",
-                      "Supernatural"
-                ],
-                "url": "https://myanimelist.net/anime/55701"
-          },
-          {
-                "id": 51019,
-                "title": "Kimetsu no Yaiba: Katanakaji no Sato-hen",
-                "titleEnglish": "Demon Slayer: Kimetsu no Yaiba Swordsmith Village Arc",
-                "imageUrl": "https://cdn.myanimelist.net/images/anime/1765/135099.jpg",
-                "episodesWatched": 11,
-                "totalEpisodes": 11,
-                "score": 9,
-                "status": "completed",
-                "isFavorite": true,
-                "genres": [
-                      "Action",
-                      "Supernatural"
-                ],
-                "url": "https://myanimelist.net/anime/51019"
-          },
-          {
-                "id": 49926,
-                "title": "Kimetsu no Yaiba: Mugen Ressha-hen",
-                "titleEnglish": "Demon Slayer: Kimetsu no Yaiba Mugen Train Arc",
-                "imageUrl": "https://cdn.myanimelist.net/images/anime/1065/118763.jpg",
-                "episodesWatched": 7,
-                "totalEpisodes": 7,
-                "score": 9,
-                "status": "completed",
-                "isFavorite": true,
-                "genres": [
-                      "Action",
-                      "Supernatural"
-                ],
-                "url": "https://myanimelist.net/anime/49926"
-          },
-          {
-                "id": 47778,
-                "title": "Kimetsu no Yaiba: Yuukaku-hen",
-                "titleEnglish": "Demon Slayer: Kimetsu no Yaiba Entertainment District Arc",
-                "imageUrl": "https://cdn.myanimelist.net/images/anime/1908/120036.jpg",
-                "episodesWatched": 11,
-                "totalEpisodes": 11,
-                "score": 9,
-                "status": "completed",
-                "isFavorite": true,
-                "genres": [
-                      "Action",
-                      "Supernatural"
-                ],
-                "url": "https://myanimelist.net/anime/47778"
-          },
-          {
-                "id": 32281,
-                "title": "Kimi no Na wa.",
-                "titleEnglish": "Your Name.",
-                "imageUrl": "https://cdn.myanimelist.net/images/anime/5/87048.jpg",
-                "episodesWatched": 1,
-                "totalEpisodes": 1,
-                "score": 9,
-                "status": "completed",
-                "isFavorite": true,
-                "genres": [
-                      "Award Winning",
-                      "Drama"
-                ],
-                "url": "https://myanimelist.net/anime/32281"
-          },
-          {
-                "id": 22535,
-                "title": "Kiseijuu: Sei no Kakuritsu",
-                "titleEnglish": "Parasyte: The Maxim",
-                "imageUrl": "https://cdn.myanimelist.net/images/anime/3/73178.jpg",
-                "episodesWatched": 24,
-                "totalEpisodes": 24,
-                "score": 9,
-                "status": "completed",
-                "isFavorite": true,
-                "genres": [
-                      "Action",
-                      "Horror",
-                      "Sci-Fi",
-                      "Suspense"
-                ],
-                "url": "https://myanimelist.net/anime/22535"
-          },
-          {
-                "id": 39535,
-                "title": "Mushoku Tensei: Isekai Ittara Honki Dasu",
-                "titleEnglish": "Mushoku Tensei: Jobless Reincarnation",
-                "imageUrl": "https://cdn.myanimelist.net/images/anime/1530/117776.jpg",
-                "episodesWatched": 11,
-                "totalEpisodes": 11,
-                "score": 9,
-                "status": "completed",
-                "isFavorite": true,
-                "genres": [
-                      "Adventure",
-                      "Drama",
-                      "Fantasy",
-                      "Ecchi"
-                ],
-                "url": "https://myanimelist.net/anime/39535"
-          },
-          {
-                "id": 52034,
-                "title": "[Oshi no Ko]",
-                "titleEnglish": "[Oshi No Ko]",
-                "imageUrl": "https://cdn.myanimelist.net/images/anime/1812/134736.jpg",
-                "episodesWatched": 11,
-                "totalEpisodes": 11,
-                "score": 9,
-                "status": "completed",
-                "isFavorite": true,
-                "genres": [
-                      "Award Winning",
-                      "Drama"
-                ],
-                "url": "https://myanimelist.net/anime/52034"
-          },
-          {
-                "id": 48585,
-                "title": "Black Clover: Mahou Tei no Ken",
-                "titleEnglish": "Black Clover: Sword of the Wizard King",
-                "imageUrl": "https://cdn.myanimelist.net/images/anime/1337/136363.jpg",
-                "episodesWatched": 1,
-                "totalEpisodes": 1,
-                "score": 8,
-                "status": "completed",
-                "isFavorite": false,
-                "genres": [
-                      "Action",
-                      "Comedy",
-                      "Fantasy"
-                ],
-                "url": "https://myanimelist.net/anime/48585"
-          },
-          {
-                "id": 44511,
-                "title": "Chainsaw Man",
-                "titleEnglish": "Chainsaw Man",
-                "imageUrl": "https://cdn.myanimelist.net/images/anime/1806/126216.jpg",
-                "episodesWatched": 12,
-                "totalEpisodes": 12,
-                "score": 8,
-                "status": "completed",
-                "isFavorite": false,
-                "genres": [
-                      "Action",
-                      "Fantasy"
-                ],
-                "url": "https://myanimelist.net/anime/44511"
-          },
-          {
-                "id": 1535,
-                "title": "Death Note",
-                "titleEnglish": "Death Note",
-                "imageUrl": "https://cdn.myanimelist.net/images/anime/1079/138100.jpg",
-                "episodesWatched": 37,
-                "totalEpisodes": 37,
-                "score": 8,
-                "status": "completed",
-                "isFavorite": false,
-                "genres": [
-                      "Supernatural",
-                      "Suspense"
-                ],
-                "url": "https://myanimelist.net/anime/1535"
-          },
-          {
-                "id": 37520,
-                "title": "Dororo",
-                "titleEnglish": "Dororo",
-                "imageUrl": "https://cdn.myanimelist.net/images/anime/1879/100467.jpg",
-                "episodesWatched": 24,
-                "totalEpisodes": 24,
-                "score": 8,
-                "status": "completed",
-                "isFavorite": false,
-                "genres": [
-                      "Action",
-                      "Adventure",
-                      "Fantasy"
-                ],
-                "url": "https://myanimelist.net/anime/37520"
-          },
-          {
-                "id": 51179,
-                "title": "Mushoku Tensei II: Isekai Ittara Honki Dasu",
-                "titleEnglish": "Mushoku Tensei: Jobless Reincarnation Season 2",
-                "imageUrl": "https://cdn.myanimelist.net/images/anime/1898/138005.jpg",
-                "episodesWatched": 12,
-                "totalEpisodes": 12,
-                "score": 8,
-                "status": "completed",
-                "isFavorite": false,
-                "genres": [
-                      "Adventure",
-                      "Drama",
-                      "Fantasy"
-                ],
-                "url": "https://myanimelist.net/anime/51179"
-          },
-          {
-                "id": 52299,
-                "title": "Ore dake Level Up na Ken",
-                "titleEnglish": "Solo Leveling",
-                "imageUrl": "https://cdn.myanimelist.net/images/anime/1801/142390.jpg",
-                "episodesWatched": 12,
-                "totalEpisodes": 12,
-                "score": 8,
-                "status": "completed",
-                "isFavorite": false,
-                "genres": [
-                      "Action",
-                      "Adventure",
-                      "Fantasy"
-                ],
-                "url": "https://myanimelist.net/anime/52299"
-          },
-          {
-                "id": 47194,
-                "title": "Summertime Render",
-                "titleEnglish": "Summer Time Rendering",
-                "imageUrl": "https://cdn.myanimelist.net/images/anime/1120/120796.jpg",
-                "episodesWatched": 25,
-                "totalEpisodes": 25,
-                "score": 8,
-                "status": "completed",
-                "isFavorite": false,
-                "genres": [
-                      "Mystery",
-                      "Supernatural",
-                      "Suspense"
-                ],
-                "url": "https://myanimelist.net/anime/47194"
-          },
-          {
-                "id": 42249,
-                "title": "Tokyo Revengers",
-                "titleEnglish": "Tokyo Revengers",
-                "imageUrl": "https://cdn.myanimelist.net/images/anime/1839/122012.jpg",
-                "episodesWatched": 24,
-                "totalEpisodes": 24,
-                "score": 7,
-                "status": "completed",
-                "isFavorite": false,
-                "genres": [
-                      "Action",
-                      "Drama"
-                ],
-                "url": "https://myanimelist.net/anime/42249"
-          },
-          {
-                "id": 40748,
-                "title": "Jujutsu Kaisen",
-                "titleEnglish": "Jujutsu Kaisen",
-                "imageUrl": "https://cdn.myanimelist.net/images/anime/1171/109222.jpg",
-                "episodesWatched": 24,
-                "totalEpisodes": 24,
-                "score": 6,
-                "status": "completed",
-                "isFavorite": false,
-                "genres": [
-                      "Action",
-                      "Award Winning",
-                      "Supernatural"
-                ],
-                "url": "https://myanimelist.net/anime/40748"
-          }
+      {
+        id: 55888,
+        title: "Mushoku Tensei II: Isekai Ittara Honki Dasu Part 2",
+        titleEnglish: "Mushoku Tensei: Jobless Reincarnation Season 2 Part 2",
+        imageUrl: "https://cdn.myanimelist.net/images/anime/1876/141251.jpg",
+        episodesWatched: 1,
+        totalEpisodes: 12,
+        score: 8,
+        status: "watching",
+        isFavorite: true,
+        genres: ["Adventure", "Drama", "Fantasy"],
+        url: "https://myanimelist.net/anime/55888",
+      },
+      {
+        id: 34572,
+        title: "Black Clover",
+        titleEnglish: "Black Clover",
+        imageUrl: "https://cdn.myanimelist.net/images/anime/2/88336.jpg",
+        episodesWatched: 170,
+        totalEpisodes: 170,
+        score: 10,
+        status: "completed",
+        isFavorite: true,
+        genres: ["Action", "Fantasy"],
+        url: "https://myanimelist.net/anime/34572",
+      },
+      {
+        id: 28851,
+        title: "Koe no Katachi",
+        titleEnglish: "A Silent Voice",
+        imageUrl: "https://cdn.myanimelist.net/images/anime/1122/96435.jpg",
+        episodesWatched: 1,
+        totalEpisodes: 1,
+        score: 10,
+        status: "completed",
+        isFavorite: true,
+        genres: ["Award Winning", "Drama"],
+        url: "https://myanimelist.net/anime/28851",
+      },
+      {
+        id: 45576,
+        title: "Mushoku Tensei: Isekai Ittara Honki Dasu Part 2",
+        titleEnglish: "Mushoku Tensei: Jobless Reincarnation Part 2",
+        imageUrl: "https://cdn.myanimelist.net/images/anime/1028/117777.jpg",
+        episodesWatched: 12,
+        totalEpisodes: 12,
+        score: 10,
+        status: "completed",
+        isFavorite: true,
+        genres: ["Adventure", "Drama", "Fantasy", "Ecchi"],
+        url: "https://myanimelist.net/anime/45576",
+      },
+      {
+        id: 52588,
+        title: "Kaijuu 8-gou",
+        titleEnglish: "Kaiju No. 8",
+        imageUrl: "https://cdn.myanimelist.net/images/anime/1370/140362.jpg",
+        episodesWatched: 12,
+        totalEpisodes: 12,
+        score: 9,
+        status: "completed",
+        isFavorite: true,
+        genres: ["Action", "Fantasy", "Sci-Fi"],
+        url: "https://myanimelist.net/anime/52588",
+      },
+      {
+        id: 38000,
+        title: "Kimetsu no Yaiba",
+        titleEnglish: "Demon Slayer: Kimetsu no Yaiba",
+        imageUrl: "https://cdn.myanimelist.net/images/anime/1286/99889.jpg",
+        episodesWatched: 26,
+        totalEpisodes: 26,
+        score: 9,
+        status: "completed",
+        isFavorite: true,
+        genres: ["Action", "Award Winning", "Supernatural"],
+        url: "https://myanimelist.net/anime/38000",
+      },
+      {
+        id: 55701,
+        title: "Kimetsu no Yaiba: Hashira Geiko-hen",
+        titleEnglish: "Demon Slayer: Kimetsu no Yaiba Hashira Training Arc",
+        imageUrl: "https://cdn.myanimelist.net/images/anime/1565/142711.jpg",
+        episodesWatched: 8,
+        totalEpisodes: 8,
+        score: 9,
+        status: "completed",
+        isFavorite: true,
+        genres: ["Action", "Supernatural"],
+        url: "https://myanimelist.net/anime/55701",
+      },
+      {
+        id: 51019,
+        title: "Kimetsu no Yaiba: Katanakaji no Sato-hen",
+        titleEnglish: "Demon Slayer: Kimetsu no Yaiba Swordsmith Village Arc",
+        imageUrl: "https://cdn.myanimelist.net/images/anime/1765/135099.jpg",
+        episodesWatched: 11,
+        totalEpisodes: 11,
+        score: 9,
+        status: "completed",
+        isFavorite: true,
+        genres: ["Action", "Supernatural"],
+        url: "https://myanimelist.net/anime/51019",
+      },
+      {
+        id: 49926,
+        title: "Kimetsu no Yaiba: Mugen Ressha-hen",
+        titleEnglish: "Demon Slayer: Kimetsu no Yaiba Mugen Train Arc",
+        imageUrl: "https://cdn.myanimelist.net/images/anime/1065/118763.jpg",
+        episodesWatched: 7,
+        totalEpisodes: 7,
+        score: 9,
+        status: "completed",
+        isFavorite: true,
+        genres: ["Action", "Supernatural"],
+        url: "https://myanimelist.net/anime/49926",
+      },
+      {
+        id: 47778,
+        title: "Kimetsu no Yaiba: Yuukaku-hen",
+        titleEnglish:
+          "Demon Slayer: Kimetsu no Yaiba Entertainment District Arc",
+        imageUrl: "https://cdn.myanimelist.net/images/anime/1908/120036.jpg",
+        episodesWatched: 11,
+        totalEpisodes: 11,
+        score: 9,
+        status: "completed",
+        isFavorite: true,
+        genres: ["Action", "Supernatural"],
+        url: "https://myanimelist.net/anime/47778",
+      },
+      {
+        id: 32281,
+        title: "Kimi no Na wa.",
+        titleEnglish: "Your Name.",
+        imageUrl: "https://cdn.myanimelist.net/images/anime/5/87048.jpg",
+        episodesWatched: 1,
+        totalEpisodes: 1,
+        score: 9,
+        status: "completed",
+        isFavorite: true,
+        genres: ["Award Winning", "Drama"],
+        url: "https://myanimelist.net/anime/32281",
+      },
+      {
+        id: 22535,
+        title: "Kiseijuu: Sei no Kakuritsu",
+        titleEnglish: "Parasyte: The Maxim",
+        imageUrl: "https://cdn.myanimelist.net/images/anime/3/73178.jpg",
+        episodesWatched: 24,
+        totalEpisodes: 24,
+        score: 9,
+        status: "completed",
+        isFavorite: true,
+        genres: ["Action", "Horror", "Sci-Fi", "Suspense"],
+        url: "https://myanimelist.net/anime/22535",
+      },
+      {
+        id: 39535,
+        title: "Mushoku Tensei: Isekai Ittara Honki Dasu",
+        titleEnglish: "Mushoku Tensei: Jobless Reincarnation",
+        imageUrl: "https://cdn.myanimelist.net/images/anime/1530/117776.jpg",
+        episodesWatched: 11,
+        totalEpisodes: 11,
+        score: 9,
+        status: "completed",
+        isFavorite: true,
+        genres: ["Adventure", "Drama", "Fantasy", "Ecchi"],
+        url: "https://myanimelist.net/anime/39535",
+      },
+      {
+        id: 52034,
+        title: "[Oshi no Ko]",
+        titleEnglish: "[Oshi No Ko]",
+        imageUrl: "https://cdn.myanimelist.net/images/anime/1812/134736.jpg",
+        episodesWatched: 11,
+        totalEpisodes: 11,
+        score: 9,
+        status: "completed",
+        isFavorite: true,
+        genres: ["Award Winning", "Drama"],
+        url: "https://myanimelist.net/anime/52034",
+      },
+      {
+        id: 48585,
+        title: "Black Clover: Mahou Tei no Ken",
+        titleEnglish: "Black Clover: Sword of the Wizard King",
+        imageUrl: "https://cdn.myanimelist.net/images/anime/1337/136363.jpg",
+        episodesWatched: 1,
+        totalEpisodes: 1,
+        score: 8,
+        status: "completed",
+        isFavorite: false,
+        genres: ["Action", "Comedy", "Fantasy"],
+        url: "https://myanimelist.net/anime/48585",
+      },
+      {
+        id: 44511,
+        title: "Chainsaw Man",
+        titleEnglish: "Chainsaw Man",
+        imageUrl: "https://cdn.myanimelist.net/images/anime/1806/126216.jpg",
+        episodesWatched: 12,
+        totalEpisodes: 12,
+        score: 8,
+        status: "completed",
+        isFavorite: false,
+        genres: ["Action", "Fantasy"],
+        url: "https://myanimelist.net/anime/44511",
+      },
+      {
+        id: 1535,
+        title: "Death Note",
+        titleEnglish: "Death Note",
+        imageUrl: "https://cdn.myanimelist.net/images/anime/1079/138100.jpg",
+        episodesWatched: 37,
+        totalEpisodes: 37,
+        score: 8,
+        status: "completed",
+        isFavorite: false,
+        genres: ["Supernatural", "Suspense"],
+        url: "https://myanimelist.net/anime/1535",
+      },
+      {
+        id: 37520,
+        title: "Dororo",
+        titleEnglish: "Dororo",
+        imageUrl: "https://cdn.myanimelist.net/images/anime/1879/100467.jpg",
+        episodesWatched: 24,
+        totalEpisodes: 24,
+        score: 8,
+        status: "completed",
+        isFavorite: false,
+        genres: ["Action", "Adventure", "Fantasy"],
+        url: "https://myanimelist.net/anime/37520",
+      },
+      {
+        id: 51179,
+        title: "Mushoku Tensei II: Isekai Ittara Honki Dasu",
+        titleEnglish: "Mushoku Tensei: Jobless Reincarnation Season 2",
+        imageUrl: "https://cdn.myanimelist.net/images/anime/1898/138005.jpg",
+        episodesWatched: 12,
+        totalEpisodes: 12,
+        score: 8,
+        status: "completed",
+        isFavorite: false,
+        genres: ["Adventure", "Drama", "Fantasy"],
+        url: "https://myanimelist.net/anime/51179",
+      },
+      {
+        id: 52299,
+        title: "Ore dake Level Up na Ken",
+        titleEnglish: "Solo Leveling",
+        imageUrl: "https://cdn.myanimelist.net/images/anime/1801/142390.jpg",
+        episodesWatched: 12,
+        totalEpisodes: 12,
+        score: 8,
+        status: "completed",
+        isFavorite: false,
+        genres: ["Action", "Adventure", "Fantasy"],
+        url: "https://myanimelist.net/anime/52299",
+      },
+      {
+        id: 47194,
+        title: "Summertime Render",
+        titleEnglish: "Summer Time Rendering",
+        imageUrl: "https://cdn.myanimelist.net/images/anime/1120/120796.jpg",
+        episodesWatched: 25,
+        totalEpisodes: 25,
+        score: 8,
+        status: "completed",
+        isFavorite: false,
+        genres: ["Mystery", "Supernatural", "Suspense"],
+        url: "https://myanimelist.net/anime/47194",
+      },
+      {
+        id: 42249,
+        title: "Tokyo Revengers",
+        titleEnglish: "Tokyo Revengers",
+        imageUrl: "https://cdn.myanimelist.net/images/anime/1839/122012.jpg",
+        episodesWatched: 24,
+        totalEpisodes: 24,
+        score: 7,
+        status: "completed",
+        isFavorite: false,
+        genres: ["Action", "Drama"],
+        url: "https://myanimelist.net/anime/42249",
+      },
+      {
+        id: 40748,
+        title: "Jujutsu Kaisen",
+        titleEnglish: "Jujutsu Kaisen",
+        imageUrl: "https://cdn.myanimelist.net/images/anime/1171/109222.jpg",
+        episodesWatched: 24,
+        totalEpisodes: 24,
+        score: 6,
+        status: "completed",
+        isFavorite: false,
+        genres: ["Action", "Award Winning", "Supernatural"],
+        url: "https://myanimelist.net/anime/40748",
+      },
     ],
     linuxRice: {
       wm: "Hyprland (Wayland)",
@@ -1283,14 +1337,16 @@ GitHub: github.com/Bimbok | LinkedIn: linkedin.com/in/bimbok
       launcher: "Rofi Wayland (Theme & App Launcher)",
       fileManager: "Yazi (Rust) / Thunar",
       compositor: "Hyprland 0.56.2 (Wayland)",
-      description: "A customized Arch Linux Wayland desktop environment featuring custom Waybar pills, SwayNC control center with media player, Rofi wallpaper theme selector, and Kitty terminal with fish shell.",
+      description:
+        "A customized Arch Linux Wayland desktop environment featuring custom Waybar pills, SwayNC control center with media player, Rofi wallpaper theme selector, and Kitty terminal with fish shell.",
       githubUser: "Bimbok",
       screenshots: [
         {
           id: "hyprland-monochrome",
           title: "Clean Desktop & Waybar (Monochrome Theme)",
           category: "Desktop & UI",
-          description: "Clean Hyprland desktop environment featuring top floating Waybar pill with system metrics (workspaces, volume, battery, power) and monochrome anime aesthetic.",
+          description:
+            "Clean Hyprland desktop environment featuring top floating Waybar pill with system metrics (workspaces, volume, battery, power) and monochrome anime aesthetic.",
           imagePath: "/rice/2026-08-19-221803_hyprshot.png",
           tags: ["Hyprland", "Waybar", "Wayland", "Arch Linux"],
         },
@@ -1298,15 +1354,24 @@ GitHub: github.com/Bimbok | LinkedIn: linkedin.com/in/bimbok
           id: "hyprland-workspace-multitasking",
           title: "Full Desktop Workspace & Neovim IDE",
           category: "Coding & Multitasking",
-          description: "Active Hyprland development workspace featuring Neovim React development, floating Python scratchpad, Kitty Fastfetch telemetry, and Excalidraw architecture sketching on dragon aesthetic wallpaper.",
+          description:
+            "Active Hyprland development workspace featuring Neovim React development, floating Python scratchpad, Kitty Fastfetch telemetry, and Excalidraw architecture sketching on dragon aesthetic wallpaper.",
           imagePath: "/rice/2026-08-20-221950_hyprshot.png",
-          tags: ["Hyprland", "Neovim", "Fastfetch", "Multitasking", "Excalidraw", "Arch Linux"],
+          tags: [
+            "Hyprland",
+            "Neovim",
+            "Fastfetch",
+            "Multitasking",
+            "Excalidraw",
+            "Arch Linux",
+          ],
         },
         {
           id: "hyprland-purple",
           title: "Hyprland Purple Desktop Setup",
           category: "Desktop & UI",
-          description: "Minimalist Hyprland desktop environment with neon purple anime aesthetic and centered floating Waybar status pill.",
+          description:
+            "Minimalist Hyprland desktop environment with neon purple anime aesthetic and centered floating Waybar status pill.",
           imagePath: "/rice/2026-08-19-221828_hyprshot.png",
           tags: ["Hyprland", "Waybar", "Purple Theme", "Wayland"],
         },
@@ -1314,7 +1379,8 @@ GitHub: github.com/Bimbok | LinkedIn: linkedin.com/in/bimbok
           id: "vesktop-discord",
           title: "Vesktop / Discord Glass Theme",
           category: "Communication & Apps",
-          description: "Customized Vesktop/Discord client with translucent glass theme, direct messages list, and active online friend status indicator.",
+          description:
+            "Customized Vesktop/Discord client with translucent glass theme, direct messages list, and active online friend status indicator.",
           imagePath: "/rice/2026-08-19-221837_hyprshot.png",
           tags: ["Vesktop", "Discord", "CSS Theme", "Glassmorphism"],
         },
@@ -1322,7 +1388,8 @@ GitHub: github.com/Bimbok | LinkedIn: linkedin.com/in/bimbok
           id: "fastfetch-telemetry",
           title: "Fastfetch & Kitty Terminal Telemetry",
           category: "Terminal & System Info",
-          description: "Fastfetch system telemetry inside Kitty terminal showing Arch Linux kernel, Hyprland 0.56.2, fish shell, CPU/RAM metrics, and custom anime ASCII mascot.",
+          description:
+            "Fastfetch system telemetry inside Kitty terminal showing Arch Linux kernel, Hyprland 0.56.2, fish shell, CPU/RAM metrics, and custom anime ASCII mascot.",
           imagePath: "/rice/2026-08-19-221921_hyprshot.png",
           tags: ["Fastfetch", "Kitty", "Fish Shell", "Arch Linux"],
         },
@@ -1330,7 +1397,8 @@ GitHub: github.com/Bimbok | LinkedIn: linkedin.com/in/bimbok
           id: "swaync-control-center",
           title: "SwayNC Control Center & Media Player",
           category: "Control Center & Widgets",
-          description: "SwayNC sliding notification center with quick toggle tiles (Wi-Fi, Bluetooth, Terminal, Lock), volume/brightness sliders, and active media player widget.",
+          description:
+            "SwayNC sliding notification center with quick toggle tiles (Wi-Fi, Bluetooth, Terminal, Lock), volume/brightness sliders, and active media player widget.",
           imagePath: "/rice/2026-08-19-221927_hyprshot.png",
           tags: ["SwayNC", "Control Center", "Media Player", "Notifications"],
         },
@@ -1338,7 +1406,8 @@ GitHub: github.com/Bimbok | LinkedIn: linkedin.com/in/bimbok
           id: "wlogout-power-menu",
           title: "Wlogout Session & Power Menu",
           category: "Session Management",
-          description: "Wlogout Wayland session manager with rounded frosted action cards for Shutdown, Logout, Lock, Reboot, Hibernate, and Suspend.",
+          description:
+            "Wlogout Wayland session manager with rounded frosted action cards for Shutdown, Logout, Lock, Reboot, Hibernate, and Suspend.",
           imagePath: "/rice/2026-08-19-221936_hyprshot.png",
           tags: ["Wlogout", "Power Menu", "Wayland", "CSS"],
         },
@@ -1346,7 +1415,8 @@ GitHub: github.com/Bimbok | LinkedIn: linkedin.com/in/bimbok
           id: "rofi-theme-selector",
           title: "Rofi Theme & Wallpaper Selector",
           category: "Theme Picker",
-          description: "Rofi wallpaper & theme selector popup with live search bar and dynamic anime wallpaper thumbnail preview.",
+          description:
+            "Rofi wallpaper & theme selector popup with live search bar and dynamic anime wallpaper thumbnail preview.",
           imagePath: "/rice/2026-08-19-221946_hyprshot.png",
           tags: ["Rofi", "Wallpaper Selector", "Theme Picker", "Wayland"],
         },
@@ -1354,7 +1424,8 @@ GitHub: github.com/Bimbok | LinkedIn: linkedin.com/in/bimbok
           id: "rofi-app-launcher",
           title: "Rofi Wayland Application Launcher",
           category: "App Launcher",
-          description: "Rofi application launcher with category tabs (Apps, Folders, Windows, Terminal), search bar, and customized app list (Obsidian, btop++, Fyzenor, mpv).",
+          description:
+            "Rofi application launcher with category tabs (Apps, Folders, Windows, Terminal), search bar, and customized app list (Obsidian, btop++, Fyzenor, mpv).",
           imagePath: "/rice/2026-08-19-221950_hyprshot.png",
           tags: ["Rofi", "App Launcher", "Wayland", "Key Navigation"],
         },
@@ -1362,9 +1433,16 @@ GitHub: github.com/Bimbok | LinkedIn: linkedin.com/in/bimbok
           id: "btop-system-monitor",
           title: "btop++ System Monitor & Performance Dashboard",
           category: "System Monitor & CLI",
-          description: "Full-screen btop++ resource monitor in Kitty terminal tracking 12-core CPU telemetry, RAM/disk allocation, network I/O, and active Hyprland background processes.",
+          description:
+            "Full-screen btop++ resource monitor in Kitty terminal tracking 12-core CPU telemetry, RAM/disk allocation, network I/O, and active Hyprland background processes.",
           imagePath: "/rice/2026-08-20-223439_hyprshot.png",
-          tags: ["btop++", "Kitty", "System Monitor", "Telemetry", "Arch Linux"],
+          tags: [
+            "btop++",
+            "Kitty",
+            "System Monitor",
+            "Telemetry",
+            "Arch Linux",
+          ],
         },
       ],
       dotfiles: [
@@ -1372,76 +1450,93 @@ GitHub: github.com/Bimbok | LinkedIn: linkedin.com/in/bimbok
           name: "hypr",
           repo: "Bimbok/hypr",
           url: "https://github.com/Bimbok/hypr.git",
-          description: "Hyprland compositor configuration, keybindings, animations & window rules.",
+          description:
+            "Hyprland compositor configuration, keybindings, animations & window rules.",
           category: "Compositor",
-          cloneCmd: "git clone https://github.com/Bimbok/hypr.git ~/.config/hypr",
+          cloneCmd:
+            "git clone https://github.com/Bimbok/hypr.git ~/.config/hypr",
         },
         {
           name: "nvim",
           repo: "Bimbok/nvim",
           url: "https://github.com/Bimbok/nvim.git",
-          description: "Personal Neovim IDE setup in Lua with Lazy.nvim, LSP, Treesitter & Telescope.",
+          description:
+            "Personal Neovim IDE setup in Lua with Lazy.nvim, LSP, Treesitter & Telescope.",
           category: "Editor",
-          cloneCmd: "git clone https://github.com/Bimbok/nvim.git ~/.config/nvim",
+          cloneCmd:
+            "git clone https://github.com/Bimbok/nvim.git ~/.config/nvim",
         },
         {
           name: "kitty",
           repo: "Bimbok/kitty",
           url: "https://github.com/Bimbok/kitty.git",
-          description: "Kitty GPU-accelerated terminal emulator theme, fonts, and window layouts.",
+          description:
+            "Kitty GPU-accelerated terminal emulator theme, fonts, and window layouts.",
           category: "Terminal",
-          cloneCmd: "git clone https://github.com/Bimbok/kitty.git ~/.config/kitty",
+          cloneCmd:
+            "git clone https://github.com/Bimbok/kitty.git ~/.config/kitty",
         },
         {
           name: "ghostty",
           repo: "Bimbok/ghostty",
           url: "https://github.com/Bimbok/ghostty.git",
-          description: "Modern fast Ghostty terminal emulator configuration with custom shaders.",
+          description:
+            "Modern fast Ghostty terminal emulator configuration with custom shaders.",
           category: "Terminal",
-          cloneCmd: "git clone https://github.com/Bimbok/ghostty.git ~/.config/ghostty",
+          cloneCmd:
+            "git clone https://github.com/Bimbok/ghostty.git ~/.config/ghostty",
         },
         {
           name: "fastfetch",
           repo: "Bimbok/fastfetch",
           url: "https://github.com/Bimbok/fastfetch.git",
-          description: "Clean fastfetch ASCII art, hardware telemetry & system info layout.",
+          description:
+            "Clean fastfetch ASCII art, hardware telemetry & system info layout.",
           category: "System Info",
-          cloneCmd: "git clone https://github.com/Bimbok/fastfetch.git ~/.config/fastfetch",
+          cloneCmd:
+            "git clone https://github.com/Bimbok/fastfetch.git ~/.config/fastfetch",
         },
         {
           name: "tmux",
           repo: "Bimbok/tmux",
           url: "https://github.com/Bimbok/tmux.git",
-          description: "Tmux configuration with minimal statusline and vim-tmux keybindings.",
+          description:
+            "Tmux configuration with minimal statusline and vim-tmux keybindings.",
           category: "Multiplexer",
-          cloneCmd: "git clone https://github.com/Bimbok/tmux.git ~/.config/tmux",
+          cloneCmd:
+            "git clone https://github.com/Bimbok/tmux.git ~/.config/tmux",
         },
         {
           name: "rofi",
           repo: "Bimbok/rofi",
           url: "https://github.com/Bimbok/rofi.git",
-          description: "Rofi Wayland application launcher, dmenu replacer & custom theme.",
+          description:
+            "Rofi Wayland application launcher, dmenu replacer & custom theme.",
           category: "Launcher",
-          cloneCmd: "git clone https://github.com/Bimbok/rofi.git ~/.config/rofi",
+          cloneCmd:
+            "git clone https://github.com/Bimbok/rofi.git ~/.config/rofi",
         },
         {
           name: "wlogout",
           repo: "Bimbok/wlogout",
           url: "https://github.com/Bimbok/wlogout.git",
-          description: "Wlogout Wayland session & lock screen power menu with custom CSS.",
+          description:
+            "Wlogout Wayland session & lock screen power menu with custom CSS.",
           category: "Session",
-          cloneCmd: "git clone https://github.com/Bimbok/wlogout.git ~/.config/wlogout",
+          cloneCmd:
+            "git clone https://github.com/Bimbok/wlogout.git ~/.config/wlogout",
         },
         {
           name: "yazi",
           repo: "Bimbok/yazi",
           url: "https://github.com/Bimbok/yazi.git",
-          description: "Yazi terminal file manager configuration, keymaps, and file previewers.",
+          description:
+            "Yazi terminal file manager configuration, keymaps, and file previewers.",
           category: "File Manager",
-          cloneCmd: "git clone https://github.com/Bimbok/yazi.git ~/.config/yazi",
+          cloneCmd:
+            "git clone https://github.com/Bimbok/yazi.git ~/.config/yazi",
         },
       ],
     },
   } as HobbyData,
 };
-
