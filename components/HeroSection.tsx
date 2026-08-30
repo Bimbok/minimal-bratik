@@ -5,6 +5,7 @@ import { PORTFOLIO_DATA } from "../lib/portfolio-data";
 import { useThemeContext } from "../lib/theme-context";
 import { audioEngine } from "../lib/audio";
 import { GithubHoverCard } from "./GithubHoverCard";
+import { XIcon } from "./BrandIcons";
 import { Mail, FileText, Command, Sun, Award } from "lucide-react";
 
 export const HeroSection: React.FC = () => {
@@ -133,20 +134,15 @@ export const HeroSection: React.FC = () => {
               <GithubHoverCard />
             </div>
 
-            {/* Twitter/X Link with Original SkillIcon */}
+            {/* X Link with Original X Logo */}
             <a
               href={PORTFOLIO_DATA.profile.socials.twitter}
               target="_blank"
               rel="noreferrer"
               className="px-3 py-1.5 rounded-lg bg-neutral-900 border border-neutral-800 text-neutral-300 hover:text-white hover:border-neutral-700 transition-all flex items-center gap-2 text-xs font-mono"
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="https://skillicons.dev/icons?i=twitter&theme=dark"
-                alt="Twitter"
-                className="w-4 h-4 object-contain shrink-0"
-              />
-              <span>Twitter</span>
+              <XIcon className="w-3.5 h-3.5 text-white shrink-0" />
+              <span>X</span>
             </a>
 
             {/* LinkedIn Link with Original SkillIcon */}
