@@ -344,7 +344,7 @@ export const RiceDetailModal: React.FC = () => {
                   <div className="text-[10px] font-mono text-neutral-500 uppercase tracking-wider mb-2">
                     Quick Switch Screenshots
                   </div>
-                  <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-12 gap-1.5 sm:gap-2">
+                  <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-9 gap-1.5 sm:gap-2">
                     {riceData.screenshots.map((shot, idx) => (
                       <button
                         key={shot.id}

@@ -1364,6 +1364,51 @@ GitHub: github.com/Bimbok | LinkedIn: linkedin.com/in/bimbok
           tags: ["Quickshell", "Tide-Island", "Minimalist", "Hyprland", "Wayland"],
         },
         {
+          id: "tide-island-control-center",
+          title: "Tide-Island Control Center, Wi-Fi & Bluetooth Flyouts",
+          category: "Control Center & Quick Settings",
+          description:
+            "Tide-Island Quick Settings hub featuring live Wi-Fi network scanner flyout, Bluetooth device management panel, battery power profiles (Eco/Balanced/Performance), Night mode toggles, and dual display & audio sliders.",
+          imagePath: "/rice/2026-09-26-202640_hyprshot.png",
+          tags: ["Tide-Island", "Quickshell", "Control Center", "Wi-Fi", "Bluetooth", "Wayland"],
+        },
+        {
+          id: "tide-island-media-player",
+          title: "Tide-Island Media Player & Audio Visualizer",
+          category: "Media & Audio Player",
+          description:
+            "Floating dynamic island media controller in Tide-Island with album artwork, live audio spectrum visualizer, track progress timeline (1:28 / 3:45), and MPRIS playback controls playing Bilal Saeed's 'Teri Khair Mangdi'.",
+          imagePath: "/rice/2026-09-26-203112_hyprshot.png",
+          tags: ["Tide-Island", "Media Player", "Quickshell", "MPRIS", "Audio Visualizer"],
+        },
+        {
+          id: "tide-island-weather",
+          title: "Tide-Island Weather Forecast & Telemetry Hub",
+          category: "Weather & Sensors",
+          description:
+            "Quickshell weather widget in Tide-Island displaying live local meteorological telemetry for Gobardanga, West Bengal — including temperature (27°C), feels-like index, humidity, wind velocity, sunrise/sunset, and 3-day forecast.",
+          imagePath: "/rice/2026-09-26-202858_hyprshot.png",
+          tags: ["Tide-Island", "Weather", "Quickshell", "Telemetry", "Widgets"],
+        },
+        {
+          id: "tide-island-calendar",
+          title: "Tide-Island Interactive Calendar Widget",
+          category: "Widgets & Calendar",
+          description:
+            "Drop-down monthly calendar widget within Tide-Island featuring quick month navigation, week number tracking (W39), and today's date highlight against clean pastel anime artwork.",
+          imagePath: "/rice/2026-09-26-202845_hyprshot.png",
+          tags: ["Tide-Island", "Calendar", "Quickshell", "Widgets", "Wayland"],
+        },
+        {
+          id: "tide-island-clipboard",
+          title: "Tide-Island Clipboard Manager & Image History",
+          category: "Productivity & Clipboard",
+          description:
+            "Integrated Quickshell clipboard history manager within Tide-Island supporting fuzzy search, 400+ entry history stack, text snippet copying, and inline image thumbnail previews with keyboard navigation.",
+          imagePath: "/rice/2026-09-26-203009_hyprshot.png",
+          tags: ["Tide-Island", "Clipboard", "Quickshell", "Cliphist", "Productivity"],
+        },
+        {
           id: "hyprland-monochrome",
           title: "Clean Desktop & Waybar (Monochrome Theme)",
           category: "Desktop & UI",
