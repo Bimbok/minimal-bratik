@@ -93,6 +93,8 @@ export interface LinuxRiceData {
   compositor: string;
   description: string;
   githubUser: string;
+  videoUrl?: string;
+  youtubeId?: string;
   screenshots: RiceScreenshot[];
   dotfiles: DotfileRepo[];
 }
@@ -1333,14 +1335,34 @@ GitHub: github.com/Bimbok | LinkedIn: linkedin.com/in/bimbok
       shell: "Fish / Zsh",
       terminal: "Kitty / Ghostty",
       editor: "Neovim (Lua, Lazy.nvim)",
-      bar: "Waybar (Custom Top Pill Modules)",
+      bar: "Tide-island (Quickshell Dynamic Island) & Waybar",
       launcher: "Rofi Wayland (Theme & App Launcher)",
       fileManager: "Yazi (Rust) / Thunar",
       compositor: "Hyprland 0.56.2 (Wayland)",
       description:
-        "A customized Arch Linux Wayland desktop environment featuring custom Waybar pills, SwayNC control center with media player, Rofi wallpaper theme selector, and Kitty terminal with fish shell.",
+        "A customized Arch Linux Wayland desktop environment featuring Quickshell Tide-island dynamic island, custom Waybar pills, SwayNC control center with media player, Rofi wallpaper theme selector, and Kitty terminal with fish shell.",
       githubUser: "Bimbok",
+      videoUrl: "https://youtu.be/Ub2g3vhmSWE?si=IK2BaemaWJm50XTx",
+      youtubeId: "Ub2g3vhmSWE",
       screenshots: [
+        {
+          id: "tide-island-expanded",
+          title: "Tide-Island Dynamic Island (Expanded Quickshell Bar)",
+          category: "Dynamic Island & Status Bar",
+          description:
+            "Expanded Tide-Island dynamic island built with Quickshell, featuring live weather telemetry (27°C), workspace switcher, CPU & battery metrics, audio sliders, and media player controls on a sunset anime backdrop.",
+          imagePath: "/rice/2026-09-26-200554_hyprshot.png",
+          tags: ["Quickshell", "Tide-Island", "Dynamic Island", "Hyprland", "Wayland"],
+        },
+        {
+          id: "tide-island-compact",
+          title: "Tide-Island Dynamic Island (Compact Capsule Mode)",
+          category: "Dynamic Island & UI",
+          description:
+            "Minimalist compact pill state of Tide-Island dynamic island showing active pinned notifications and clock against aesthetic anime train commute artwork.",
+          imagePath: "/rice/2026-09-26-200546_hyprshot.png",
+          tags: ["Quickshell", "Tide-Island", "Minimalist", "Hyprland", "Wayland"],
+        },
         {
           id: "hyprland-monochrome",
           title: "Clean Desktop & Waybar (Monochrome Theme)",
@@ -1446,6 +1468,16 @@ GitHub: github.com/Bimbok | LinkedIn: linkedin.com/in/bimbok
         },
       ],
       dotfiles: [
+        {
+          name: "Tide-island",
+          repo: "Bimbok/Tide-island",
+          url: "https://github.com/Bimbok/Tide-island.git",
+          description:
+            "Dynamic Island for Linux desktop built with Quickshell (Forked from enhaoswen/Tide-island with custom feature implementations, media controls & telemetry).",
+          category: "Dynamic Island",
+          cloneCmd:
+            "git clone https://github.com/Bimbok/Tide-island.git ~/.config/quickshell/Tide-island",
+        },
         {
           name: "hypr",
           repo: "Bimbok/hypr",

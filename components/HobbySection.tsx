@@ -321,39 +321,60 @@ export const HobbySection: React.FC = () => {
                     </span>
                   </div>
                   <p className="text-xs text-neutral-400 font-sans mt-0.5">
-                    Customized Arch Linux Wayland desktop environment & modular dotfiles ecosystem.
+                    Customized Arch Linux Wayland desktop featuring Quickshell Tide-island dynamic island & modular dotfiles.
                   </p>
                 </div>
               </div>
 
-              {/* Header Action: Open Full Rice Lightbox Modal */}
-              <button
-                onClick={() => {
-                  audioEngine.playKeyClick("enter");
-                  setRiceModalOpen(true);
-                }}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-neutral-950 hover:bg-neutral-800 border border-neutral-800 text-xs font-semibold text-white transition-all shadow-sm self-start sm:self-auto group/btn"
-              >
-                <span>View Full Rice Gallery</span>
-                <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
-              </button>
+              {/* Header Action: Watch Video & Open Full Rice Lightbox Modal */}
+              <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
+                {riceData.youtubeId && (
+                  <a
+                    href={riceData.videoUrl || `https://youtu.be/${riceData.youtubeId}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      audioEngine.playKeyClick("enter");
+                    }}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-red-950/40 hover:bg-red-900/60 border border-red-800/80 text-xs font-semibold text-red-200 hover:text-white transition-all shadow-sm group/yt"
+                  >
+                    <Play className="w-3.5 h-3.5 text-red-400 fill-current group-hover/yt:scale-110 transition-transform" />
+                    <span>Watch Rice Video</span>
+                  </a>
+                )}
+                <button
+                  onClick={() => {
+                    audioEngine.playKeyClick("enter");
+                    setRiceModalOpen(true);
+                  }}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-neutral-950 hover:bg-neutral-800 border border-neutral-800 text-xs font-semibold text-white transition-all shadow-sm group/btn"
+                >
+                  <span>View Full Rice Gallery</span>
+                  <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
+                </button>
+              </div>
             </div>
 
             {/* Rice Specs Matrix */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4 p-2.5 rounded-xl bg-neutral-950/70 border border-neutral-800/80 text-center font-mono">
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 mb-4 p-2.5 rounded-xl bg-neutral-950/70 border border-neutral-800/80 text-center font-mono">
               <div className="px-2 py-1">
                 <div className="text-[10px] text-neutral-400 uppercase tracking-wider">Compositor</div>
-                <div className="text-xs sm:text-sm font-bold text-white mt-0.5">Hyprland (Wayland)</div>
+                <div className="text-xs sm:text-sm font-bold text-white mt-0.5">Hyprland</div>
               </div>
               <div className="px-2 py-1 border-l border-neutral-800/80">
+                <div className="text-[10px] text-neutral-400 uppercase tracking-wider">Dynamic Island</div>
+                <div className="text-xs sm:text-sm font-bold text-amber-400 mt-0.5" title="Quickshell Tide-Island">Tide-Island</div>
+              </div>
+              <div className="px-2 py-1 border-t sm:border-t-0 border-neutral-800/80 sm:border-l">
                 <div className="text-[10px] text-neutral-400 uppercase tracking-wider">Terminal</div>
                 <div className="text-xs sm:text-sm font-bold text-white mt-0.5">Kitty & Ghostty</div>
               </div>
-              <div className="px-2 py-1 border-t sm:border-t-0 border-neutral-800/80 sm:border-l">
+              <div className="px-2 py-1 border-t sm:border-t-0 border-l border-neutral-800/80">
                 <div className="text-[10px] text-neutral-400 uppercase tracking-wider">Editor</div>
                 <div className="text-xs sm:text-sm font-bold text-white mt-0.5">Neovim (Lua)</div>
               </div>
-              <div className="px-2 py-1 border-t sm:border-t-0 border-l border-neutral-800/80">
+              <div className="px-2 py-1 border-t sm:border-t-0 border-neutral-800/80 sm:border-l col-span-2 sm:col-span-1">
                 <div className="text-[10px] text-neutral-400 uppercase tracking-wider">File Manager</div>
                 <div className="text-xs sm:text-sm font-bold text-emerald-400 mt-0.5">Yazi (Rust)</div>
               </div>
@@ -369,7 +390,7 @@ export const HobbySection: React.FC = () => {
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={riceData.screenshots[0]?.imagePath || "/rice/2026-08-19-221803_hyprshot.png"}
+                src={riceData.screenshots[0]?.imagePath || "/rice/2026-09-26-200554_hyprshot.png"}
                 alt="Hyprland Rice Preview"
                 className="w-full h-48 sm:h-64 object-cover object-top group-hover/shot:scale-[1.02] transition-transform duration-500"
               />

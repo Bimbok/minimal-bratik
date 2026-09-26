@@ -20,6 +20,7 @@ import {
   Sparkles,
   Command,
   Code2,
+  Play,
 } from "lucide-react";
 
 export const RiceDetailModal: React.FC = () => {
@@ -28,7 +29,7 @@ export const RiceDetailModal: React.FC = () => {
   
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [copiedRepo, setCopiedRepo] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<"gallery" | "dotfiles">("gallery");
+  const [activeTab, setActiveTab] = useState<"gallery" | "video" | "dotfiles">("gallery");
 
   const scrollWrapperRef = useRef<HTMLDivElement>(null);
   const scrollContentRef = useRef<HTMLDivElement>(null);
@@ -141,6 +142,19 @@ export const RiceDetailModal: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-2">
+            {riceData.youtubeId && (
+              <a
+                href={riceData.videoUrl || `https://youtu.be/${riceData.youtubeId}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => audioEngine.playKeyClick("enter")}
+                className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-950/40 hover:bg-red-900/60 border border-red-800/70 text-xs font-semibold text-red-200 hover:text-white transition-colors"
+              >
+                <Play className="w-3.5 h-3.5 text-red-400 fill-current" />
+                <span>Showcase Video</span>
+                <ExternalLink className="w-3 h-3 text-red-400" />
+              </a>
+            )}
             <a
               href={`https://github.com/${riceData.githubUser}?tab=repositories`}
               target="_blank"
@@ -172,16 +186,16 @@ export const RiceDetailModal: React.FC = () => {
             <div className="text-[11px] font-bold text-white truncate">Hyprland</div>
           </div>
           <div className="px-1.5 py-0.5 border-l border-neutral-800/80">
+            <div className="text-[9px] text-neutral-500 uppercase tracking-wider">Dynamic Island</div>
+            <div className="text-[11px] font-bold text-amber-400 truncate" title="Quickshell Tide-Island">Tide-Island</div>
+          </div>
+          <div className="px-1.5 py-0.5 border-t sm:border-t-0 border-neutral-800/80 sm:border-l">
             <div className="text-[9px] text-neutral-500 uppercase tracking-wider">Terminal</div>
             <div className="text-[11px] font-bold text-white truncate">Kitty & Ghostty</div>
           </div>
-          <div className="px-1.5 py-0.5 border-t sm:border-t-0 border-neutral-800/80 sm:border-l">
+          <div className="px-1.5 py-0.5 border-t sm:border-t-0 border-l border-neutral-800/80">
             <div className="text-[9px] text-neutral-500 uppercase tracking-wider">Editor</div>
             <div className="text-[11px] font-bold text-white truncate">Neovim (Lua)</div>
-          </div>
-          <div className="px-1.5 py-0.5 border-t sm:border-t-0 border-l border-neutral-800/80">
-            <div className="text-[9px] text-neutral-500 uppercase tracking-wider">Status Bar</div>
-            <div className="text-[11px] font-bold text-white truncate">Waybar</div>
           </div>
           <div className="px-1.5 py-0.5 border-t sm:border-t-0 border-neutral-800/80 sm:border-l col-span-2 sm:col-span-1">
             <div className="text-[9px] text-neutral-500 uppercase tracking-wider">File Manager</div>
@@ -206,6 +220,23 @@ export const RiceDetailModal: React.FC = () => {
               <Monitor className="w-3.5 h-3.5" />
               <span>Gallery ({riceData.screenshots.length})</span>
             </button>
+
+            {riceData.youtubeId && (
+              <button
+                onClick={() => {
+                  setActiveTab("video");
+                  audioEngine.playKeyClick("down");
+                }}
+                className={`px-3 py-1 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 shrink-0 ${
+                  activeTab === "video"
+                    ? "bg-red-600 text-white font-bold shadow-sm"
+                    : "bg-neutral-900/60 hover:bg-neutral-800 text-neutral-400 hover:text-white border border-neutral-800/80"
+                }`}
+              >
+                <Play className="w-3.5 h-3.5 text-red-500 fill-current" />
+                <span>Showcase Video</span>
+              </button>
+            )}
 
             <button
               onClick={() => {
@@ -313,7 +344,7 @@ export const RiceDetailModal: React.FC = () => {
                   <div className="text-[10px] font-mono text-neutral-500 uppercase tracking-wider mb-2">
                     Quick Switch Screenshots
                   </div>
-                  <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-10 gap-1.5 sm:gap-2">
+                  <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-12 gap-1.5 sm:gap-2">
                     {riceData.screenshots.map((shot, idx) => (
                       <button
                         key={shot.id}
@@ -341,6 +372,41 @@ export const RiceDetailModal: React.FC = () => {
                   </div>
                 </div>
 
+              </div>
+            )}
+
+            {/* TAB: VIDEO SHOWCASE */}
+            {activeTab === "video" && riceData.youtubeId && (
+              <div className="space-y-4">
+                <div className="p-3.5 rounded-xl bg-neutral-950 border border-neutral-800 text-xs text-neutral-300 font-sans flex items-start justify-between gap-3 flex-wrap">
+                  <div className="flex items-start gap-2.5">
+                    <Play className="w-4 h-4 text-red-500 fill-current shrink-0 mt-0.5" />
+                    <div>
+                      <span className="font-bold text-white">Hyprland & Quickshell Tide-Island Showcase Video: </span>
+                      Watch the live video recording of the dynamic island animations, widgets, and workflow on YouTube.
+                    </div>
+                  </div>
+                  <a
+                    href={riceData.videoUrl || `https://youtu.be/${riceData.youtubeId}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => audioEngine.playKeyClick("enter")}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-950/40 hover:bg-red-900/60 border border-red-800/80 text-xs font-semibold text-red-200 hover:text-white transition-colors shrink-0"
+                  >
+                    <span>Open on YouTube</span>
+                    <ExternalLink className="w-3 h-3 text-red-400" />
+                  </a>
+                </div>
+
+                <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-neutral-800 bg-black shadow-2xl">
+                  <iframe
+                    src={`https://www.youtube-nocookie.com/embed/${riceData.youtubeId}?rel=0`}
+                    title="Linux Rice Showcase Video"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="w-full h-full border-0"
+                  />
+                </div>
               </div>
             )}
 
