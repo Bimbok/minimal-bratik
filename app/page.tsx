@@ -57,6 +57,55 @@ export default function Home() {
 
             {/* Main Content Column */}
             <main className="relative z-10 space-y-8">
+              {/* Semantic Media Indexing for Search Engines & Screen Readers (Hidden visually, indexed by Googlebot-Image & crawlers) */}
+              <section className="sr-only" aria-label="Author Profile Photos & Media">
+                <h2>Bratik Mukherjee (Bimbok) - Profile Photographs & Media</h2>
+                <figure>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/images/profile/bratik-mukherjee-developer.jpg"
+                    alt="Bratik Mukherjee (Bimbok) - Full Stack & Software Developer, System Architect in Kolkata, India"
+                    width={941}
+                    height={1672}
+                    loading="lazy"
+                  />
+                  <figcaption>Bratik Mukherjee (Bimbok) - Software Developer Portrait Headshot</figcaption>
+                </figure>
+                <figure>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/images/profile/bratik-mukherjee-bimbok-speaker.jpg"
+                    alt="Bratik Mukherjee giving keynote speech on technology, system architecture, and tech entrepreneurship"
+                    width={1672}
+                    height={941}
+                    loading="lazy"
+                  />
+                  <figcaption>Bratik Mukherjee (Bimbok) Keynote Speaker on Technology & Entrepreneurship</figcaption>
+                </figure>
+                <figure>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/images/profile/bratik-mukherjee-keynote.jpg"
+                    alt="Bratik Mukherjee speaking at podium during technical presentation at Techno Main Salt Lake"
+                    width={1672}
+                    height={941}
+                    loading="lazy"
+                  />
+                  <figcaption>Bratik Mukherjee Stage Keynote Presentation</figcaption>
+                </figure>
+                <figure>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/images/profile/bratik-mukherjee-bimbok.jpg"
+                    alt="Bratik Mukherjee (Bimbok) portrait in West Bengal, India"
+                    width={1088}
+                    height={1446}
+                    loading="lazy"
+                  />
+                  <figcaption>Bratik Mukherjee (Bimbok) Outdoor Portrait</figcaption>
+                </figure>
+              </section>
+
               <HeroSection />
               <DiscordActivityWidget />
               <ExperienceSection />
