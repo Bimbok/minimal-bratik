@@ -20,7 +20,7 @@ import {
 } from "lucide-react";
 
 export const HobbySection: React.FC = () => {
-  const { setAnimeModalOpen, setRiceModalOpen, showToast } = useThemeContext();
+  const { setAnimeModalOpen, setRiceModalOpen, setRiceModalTab, showToast } = useThemeContext();
   const riceData = PORTFOLIO_DATA.hobbies.linuxRice;
   const [copiedDotfile, setCopiedDotfile] = useState<string | null>(null);
 
@@ -328,24 +328,39 @@ export const HobbySection: React.FC = () => {
 
               {/* Header Action: Watch Video & Open Full Rice Lightbox Modal */}
               <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
-                {riceData.youtubeId && (
+                {(riceData.localVideoUrl || riceData.youtubeId) && (
+                  <button
+                    onClick={() => {
+                      audioEngine.playKeyClick("enter");
+                      setRiceModalTab("video");
+                      setRiceModalOpen(true);
+                    }}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-red-950/40 hover:bg-red-900/60 border border-red-800/80 text-xs font-semibold text-red-200 hover:text-white transition-all shadow-sm group/yt"
+                  >
+                    <Play className="w-3.5 h-3.5 text-red-400 fill-current group-hover/yt:scale-110 transition-transform" />
+                    <span>Watch Rice Video</span>
+                  </button>
+                )}
+                {riceData.videoUrl && (
                   <a
-                    href={riceData.videoUrl || `https://youtu.be/${riceData.youtubeId}`}
+                    href={riceData.videoUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => {
                       e.stopPropagation();
                       audioEngine.playKeyClick("enter");
                     }}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-red-950/40 hover:bg-red-900/60 border border-red-800/80 text-xs font-semibold text-red-200 hover:text-white transition-all shadow-sm group/yt"
+                    className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-neutral-950 hover:bg-neutral-800 border border-neutral-800 text-xs font-semibold text-neutral-300 hover:text-white transition-all shadow-sm"
+                    title="Watch on YouTube"
                   >
-                    <Play className="w-3.5 h-3.5 text-red-400 fill-current group-hover/yt:scale-110 transition-transform" />
-                    <span>Watch Rice Video</span>
+                    <span>YouTube</span>
+                    <ExternalLink className="w-3 h-3 text-neutral-400" />
                   </a>
                 )}
                 <button
                   onClick={() => {
                     audioEngine.playKeyClick("enter");
+                    setRiceModalTab("gallery");
                     setRiceModalOpen(true);
                   }}
                   className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-neutral-950 hover:bg-neutral-800 border border-neutral-800 text-xs font-semibold text-white transition-all shadow-sm group/btn"

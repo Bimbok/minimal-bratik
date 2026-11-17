@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 
 export const RiceDetailModal: React.FC = () => {
-  const { riceModalOpen, setRiceModalOpen, showToast } = useThemeContext();
+  const { riceModalOpen, setRiceModalOpen, riceModalTab, setRiceModalTab, showToast } = useThemeContext();
   const riceData = PORTFOLIO_DATA.hobbies.linuxRice;
   
   const [activeImageIndex, setActiveImageIndex] = useState(0);
@@ -33,6 +33,23 @@ export const RiceDetailModal: React.FC = () => {
 
   const scrollWrapperRef = useRef<HTMLDivElement>(null);
   const scrollContentRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  // Sync tab when opened externally
+  useEffect(() => {
+    if (riceModalOpen && riceModalTab) {
+      setActiveTab(riceModalTab);
+    }
+  }, [riceModalOpen, riceModalTab]);
+
+  // Pause video when switching tab or closing modal
+  useEffect(() => {
+    if (!riceModalOpen || activeTab !== "video") {
+      if (videoRef.current) {
+        videoRef.current.pause();
+      }
+    }
+  }, [riceModalOpen, activeTab]);
 
   // Lock body scroll while modal is active
   useEffect(() => {
@@ -142,16 +159,17 @@ export const RiceDetailModal: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-2">
-            {riceData.youtubeId && (
+            {riceData.videoUrl && (
               <a
-                href={riceData.videoUrl || `https://youtu.be/${riceData.youtubeId}`}
+                href={riceData.videoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => audioEngine.playKeyClick("enter")}
                 className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-950/40 hover:bg-red-900/60 border border-red-800/70 text-xs font-semibold text-red-200 hover:text-white transition-colors"
+                title="Watch on YouTube"
               >
                 <Play className="w-3.5 h-3.5 text-red-400 fill-current" />
-                <span>Showcase Video</span>
+                <span>YouTube</span>
                 <ExternalLink className="w-3 h-3 text-red-400" />
               </a>
             )}
@@ -221,10 +239,11 @@ export const RiceDetailModal: React.FC = () => {
               <span>Gallery ({riceData.screenshots.length})</span>
             </button>
 
-            {riceData.youtubeId && (
+            {(riceData.localVideoUrl || riceData.youtubeId) && (
               <button
                 onClick={() => {
                   setActiveTab("video");
+                  setRiceModalTab("video");
                   audioEngine.playKeyClick("down");
                 }}
                 className={`px-3 py-1 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 shrink-0 ${
@@ -376,36 +395,53 @@ export const RiceDetailModal: React.FC = () => {
             )}
 
             {/* TAB: VIDEO SHOWCASE */}
-            {activeTab === "video" && riceData.youtubeId && (
+            {activeTab === "video" && (riceData.localVideoUrl || riceData.youtubeId) && (
               <div className="space-y-4">
                 <div className="p-3.5 rounded-xl bg-neutral-950 border border-neutral-800 text-xs text-neutral-300 font-sans flex items-start justify-between gap-3 flex-wrap">
-                  <div className="flex items-start gap-2.5">
+                  <div className="flex items-start gap-2.5 max-w-xl">
                     <Play className="w-4 h-4 text-red-500 fill-current shrink-0 mt-0.5" />
                     <div>
-                      <span className="font-bold text-white">Hyprland & Quickshell Tide-Island Showcase Video: </span>
-                      Watch the live video recording of the dynamic island animations, widgets, and workflow on YouTube.
+                      <span className="font-bold text-white">Hyprland & Quickshell Tide-Island Showcase: </span>
+                      Full desktop screen recording demonstrating the Tide-Island dynamic island widgets, music player with live visualizer, weather station, calendar, app launcher, and Arch Linux desktop workflow.
                     </div>
                   </div>
-                  <a
-                    href={riceData.videoUrl || `https://youtu.be/${riceData.youtubeId}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => audioEngine.playKeyClick("enter")}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-950/40 hover:bg-red-900/60 border border-red-800/80 text-xs font-semibold text-red-200 hover:text-white transition-colors shrink-0"
-                  >
-                    <span>Open on YouTube</span>
-                    <ExternalLink className="w-3 h-3 text-red-400" />
-                  </a>
+                  {riceData.videoUrl && (
+                    <a
+                      href={riceData.videoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => audioEngine.playKeyClick("enter")}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-950/40 hover:bg-red-900/60 border border-red-800/80 text-xs font-semibold text-red-200 hover:text-white transition-colors shrink-0"
+                    >
+                      <Play className="w-3.5 h-3.5 text-red-400 fill-current" />
+                      <span>Watch on YouTube</span>
+                      <ExternalLink className="w-3 h-3 text-red-400" />
+                    </a>
+                  )}
                 </div>
 
-                <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-neutral-800 bg-black shadow-2xl">
-                  <iframe
-                    src={`https://www.youtube-nocookie.com/embed/${riceData.youtubeId}?rel=0`}
-                    title="Linux Rice Showcase Video"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    className="w-full h-full border-0"
-                  />
+                <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-neutral-800 bg-black shadow-2xl flex items-center justify-center">
+                  {riceData.localVideoUrl ? (
+                    <video
+                      ref={videoRef}
+                      src={riceData.localVideoUrl}
+                      controls
+                      playsInline
+                      preload="metadata"
+                      poster="/rice/2026-09-26-200554_hyprshot.png"
+                      className="w-full h-full object-contain bg-black"
+                    >
+                      Your browser does not support HTML5 video.
+                    </video>
+                  ) : (
+                    <iframe
+                      src={`https://www.youtube-nocookie.com/embed/${riceData.youtubeId}?rel=0`}
+                      title="Linux Rice Showcase Video"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      className="w-full h-full border-0"
+                    />
+                  )}
                 </div>
               </div>
             )}
