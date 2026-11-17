@@ -44,7 +44,7 @@ NICKNAME:Bimbok
 TITLE:Full Stack & Software Developer — System Architect
 EMAIL;TYPE=INTERNET,HOME:bimbokmkj@gmail.com
 TEL;TYPE=CELL,VOICE:+919883593295
-URL:https://bimbok-portfolio.vercel.app
+URL:https://bratikmkj.vercel.app
 URL;TYPE=GitHub:https://github.com/Bimbok
 URL;TYPE=LinkedIn:https://linkedin.com/in/bimbok
 URL;TYPE=Bluesky:https://bsky.app/profile/bimbok.bsky.social

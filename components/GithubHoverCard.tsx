@@ -58,7 +58,7 @@ export const GithubHoverCard: React.FC = () => {
     public_repos: 39,
     followers: 20,
     following: 12,
-    blog: "https://bimbok-portfolio.vercel.app/",
+    blog: "https://bratikmkj.vercel.app/",
     bio: null,
   };
 

@@ -12,7 +12,7 @@ export default function robots(): MetadataRoute.Robots {
         allow: "/",
       },
     ],
-    sitemap: "https://bimbok-portfolio.vercel.app/sitemap.xml",
-    host: "https://bimbok-portfolio.vercel.app",
+    sitemap: "https://bratikmkj.vercel.app/sitemap.xml",
+    host: "https://bratikmkj.vercel.app",
   };
 }

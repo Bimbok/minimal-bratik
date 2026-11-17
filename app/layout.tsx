@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://bimbok-portfolio.vercel.app"),
+  metadataBase: new URL("https://bratikmkj.vercel.app"),
   title: {
     default: "Bratik Mukherjee (Bimbok) | Full Stack & Software Developer — System Architect",
     template: "%s | Bratik Mukherjee (Bimbok)",
@@ -79,7 +79,7 @@ export const metadata: Metadata = {
     title: "Bratik Mukherjee (Bimbok) | Full Stack & Software Developer — System Architect",
     description:
       "Official portfolio of Bratik Mukherjee (Bimbok Mukherjee). Co-Founder of AlgoScope, GSSoC 2026 Maintainer, AWS Hackathon Finalist. Systems & Web Architect specialized in Next.js, C/C++, Go, Kotlin & PostgreSQL.",
-    url: "https://bimbok-portfolio.vercel.app",
+    url: "https://bratikmkj.vercel.app",
     siteName: "Bratik Mukherjee (Bimbok) Portfolio",
     images: [
       {
@@ -129,7 +129,7 @@ export const metadata: Metadata = {
     ],
   },
   alternates: {
-    canonical: "https://bimbok-portfolio.vercel.app",
+    canonical: "https://bratikmkj.vercel.app",
   },
   verification: {
     google: "gFurputTJW0d-GTnJHv-VcLR0X_g7NSB-N2VV71rMno",
@@ -146,16 +146,16 @@ export default function RootLayout({
     "@graph": [
       {
         "@type": "ProfilePage",
-        "@id": "https://bimbok-portfolio.vercel.app/#webpage",
-        url: "https://bimbok-portfolio.vercel.app",
+        "@id": "https://bratikmkj.vercel.app/#webpage",
+        url: "https://bratikmkj.vercel.app",
         name: "Bratik Mukherjee (Bimbok) | Full Stack & Software Developer — System Architect",
         description:
           "Official portfolio of Bratik Mukherjee (Bimbok Mukherjee), Co-Founder at AlgoScope and Systems Architect based in Kolkata, India.",
-        mainEntity: { "@id": "https://bimbok-portfolio.vercel.app/#person" },
+        mainEntity: { "@id": "https://bratikmkj.vercel.app/#person" },
       },
       {
         "@type": "Person",
-        "@id": "https://bimbok-portfolio.vercel.app/#person",
+        "@id": "https://bratikmkj.vercel.app/#person",
         name: "Bratik Mukherjee",
         alternateName: ["Bimbok Mukherjee", "Bimbok", "bim_bok"],
         givenName: "Bratik",
@@ -163,13 +163,13 @@ export default function RootLayout({
         jobTitle: "Full Stack & Software Developer — System Architect",
         description:
           "Results-driven Full-Stack Developer & Systems Architect based in Kolkata, India. Co-Founder of AlgoScope, GSSoC 2026 Maintainer, AWS Hackathon Finalist.",
-        url: "https://bimbok-portfolio.vercel.app",
+        url: "https://bratikmkj.vercel.app",
         image: [
           {
             "@type": "ImageObject",
-            "@id": "https://bimbok-portfolio.vercel.app/images/profile/bratik-mukherjee-developer.jpg",
-            url: "https://bimbok-portfolio.vercel.app/images/profile/bratik-mukherjee-developer.jpg",
-            contentUrl: "https://bimbok-portfolio.vercel.app/images/profile/bratik-mukherjee-developer.jpg",
+            "@id": "https://bratikmkj.vercel.app/images/profile/bratik-mukherjee-developer.jpg",
+            url: "https://bratikmkj.vercel.app/images/profile/bratik-mukherjee-developer.jpg",
+            contentUrl: "https://bratikmkj.vercel.app/images/profile/bratik-mukherjee-developer.jpg",
             caption: "Bratik Mukherjee (Bimbok) - Full Stack Developer & Systems Architect",
             description:
               "Official portrait headshot of Bratik Mukherjee (also known as Bimbok), Software Developer and Co-Founder of AlgoScope.",
@@ -177,9 +177,9 @@ export default function RootLayout({
           },
           {
             "@type": "ImageObject",
-            "@id": "https://bimbok-portfolio.vercel.app/images/profile/bratik-mukherjee-bimbok-speaker.jpg",
-            url: "https://bimbok-portfolio.vercel.app/images/profile/bratik-mukherjee-bimbok-speaker.jpg",
-            contentUrl: "https://bimbok-portfolio.vercel.app/images/profile/bratik-mukherjee-bimbok-speaker.jpg",
+            "@id": "https://bratikmkj.vercel.app/images/profile/bratik-mukherjee-bimbok-speaker.jpg",
+            url: "https://bratikmkj.vercel.app/images/profile/bratik-mukherjee-bimbok-speaker.jpg",
+            contentUrl: "https://bratikmkj.vercel.app/images/profile/bratik-mukherjee-bimbok-speaker.jpg",
             caption: "Bratik Mukherjee (Bimbok) delivering keynote speech on technology and entrepreneurship",
             description:
               "Bratik Mukherjee speaking at technical keynote event discussing engineering, systems architecture, and entrepreneurship.",
@@ -187,9 +187,9 @@ export default function RootLayout({
           },
           {
             "@type": "ImageObject",
-            "@id": "https://bimbok-portfolio.vercel.app/images/profile/bratik-mukherjee-keynote.jpg",
-            url: "https://bimbok-portfolio.vercel.app/images/profile/bratik-mukherjee-keynote.jpg",
-            contentUrl: "https://bimbok-portfolio.vercel.app/images/profile/bratik-mukherjee-keynote.jpg",
+            "@id": "https://bratikmkj.vercel.app/images/profile/bratik-mukherjee-keynote.jpg",
+            url: "https://bratikmkj.vercel.app/images/profile/bratik-mukherjee-keynote.jpg",
+            contentUrl: "https://bratikmkj.vercel.app/images/profile/bratik-mukherjee-keynote.jpg",
             caption: "Bratik Mukherjee addressing audience during university presentation",
             description:
               "Bratik Mukherjee presenting software engineering principles at university symposium at Techno Main Salt Lake.",
@@ -197,9 +197,9 @@ export default function RootLayout({
           },
           {
             "@type": "ImageObject",
-            "@id": "https://bimbok-portfolio.vercel.app/images/profile/bratik-mukherjee-bimbok.jpg",
-            url: "https://bimbok-portfolio.vercel.app/images/profile/bratik-mukherjee-bimbok.jpg",
-            contentUrl: "https://bimbok-portfolio.vercel.app/images/profile/bratik-mukherjee-bimbok.jpg",
+            "@id": "https://bratikmkj.vercel.app/images/profile/bratik-mukherjee-bimbok.jpg",
+            url: "https://bratikmkj.vercel.app/images/profile/bratik-mukherjee-bimbok.jpg",
+            contentUrl: "https://bratikmkj.vercel.app/images/profile/bratik-mukherjee-bimbok.jpg",
             caption: "Bratik Mukherjee (Bimbok) portrait in West Bengal",
             description:
               "Photo of Bratik Mukherjee, Full Stack Developer and Systems Architect based in Kolkata, India.",
