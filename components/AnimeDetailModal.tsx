@@ -10,10 +10,7 @@ import {
   X,
   Star,
   ExternalLink,
-  Flame,
   CheckCircle2,
-  Bookmark,
-  Sparkles,
   Search,
 } from "lucide-react";
 

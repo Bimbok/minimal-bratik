@@ -58,7 +58,7 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [theme, setThemeState] = useState<ThemeMode>("dark");
   const [isMuted, setIsMuted] = useState<boolean>(false);
-  const [vimMode, setVimMode] = useState<VimMode>("NORMAL");
+  const [vimModeState, setVimMode] = useState<VimMode>("NORMAL");
   const [activeSection, setActiveSection] = useState<SectionId>("home");
 
   const [isAdmin, setIsAdminState] = useState<boolean>(false);
@@ -80,24 +80,27 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   // Load stored settings from localStorage
   useEffect(() => {
-    const savedTheme = localStorage.getItem("mini_portfolio_theme") as ThemeMode | null;
-    if (savedTheme && ["dark", "gruvbox", "crt"].includes(savedTheme)) {
-      setThemeState(savedTheme);
-    }
-    const savedAudio = localStorage.getItem("mini_portfolio_muted");
-    if (savedAudio !== null) {
-      const muted = savedAudio === "true";
-      setIsMuted(muted);
-      audioEngine.setMuted(muted);
-    }
-    const savedAdmin = localStorage.getItem("bimbok_admin_authenticated");
-    if (savedAdmin === "true") {
-      setIsAdminState(true);
-    }
-    const savedResumeId = localStorage.getItem("bimbok_active_resume_id");
-    if (savedResumeId) {
-      setActiveResumeIdState(savedResumeId);
-    }
+    const timer = setTimeout(() => {
+      const savedTheme = localStorage.getItem("mini_portfolio_theme") as ThemeMode | null;
+      if (savedTheme && ["dark", "gruvbox", "crt"].includes(savedTheme)) {
+        setThemeState(savedTheme);
+      }
+      const savedAudio = localStorage.getItem("mini_portfolio_muted");
+      if (savedAudio !== null) {
+        const muted = savedAudio === "true";
+        setIsMuted(muted);
+        audioEngine.setMuted(muted);
+      }
+      const savedAdmin = localStorage.getItem("bimbok_admin_authenticated");
+      if (savedAdmin === "true") {
+        setIsAdminState(true);
+      }
+      const savedResumeId = localStorage.getItem("bimbok_active_resume_id");
+      if (savedResumeId) {
+        setActiveResumeIdState(savedResumeId);
+      }
+    }, 0);
+    return () => clearTimeout(timer);
   }, []);
 
   const setIsAdmin = (val: boolean) => {
@@ -143,14 +146,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
 
-  // Sync Vim mode when prompts are open
-  useEffect(() => {
-    if (vimPromptOpen || commandPaletteOpen) {
-      setVimMode("COMMAND");
-    } else {
-      setVimMode("NORMAL");
-    }
-  }, [vimPromptOpen, commandPaletteOpen]);
+  // Derived Vim mode when prompts are open
+  const vimMode: VimMode = vimPromptOpen || commandPaletteOpen ? "COMMAND" : vimModeState;
 
   return (
     <ThemeContext.Provider

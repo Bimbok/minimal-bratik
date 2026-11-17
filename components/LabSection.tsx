@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useThemeContext } from "../lib/theme-context";
 import { audioEngine } from "../lib/audio";
 import { PORTFOLIO_DATA } from "../lib/portfolio-data";
-import { Terminal as TermIcon, Play, RefreshCw, Sparkles, Copy, Check } from "lucide-react";
+import { Terminal as TermIcon, Sparkles } from "lucide-react";
 
 interface HistoryEntry {
   command: string;
@@ -12,7 +12,7 @@ interface HistoryEntry {
 }
 
 export const LabSection: React.FC = () => {
-  const { setTheme, setMatrixRainActive, toggleAudio, setResumeOpen, setNeofetchOpen, showToast } = useThemeContext();
+  const { setTheme, setMatrixRainActive, toggleAudio, setResumeOpen, setNeofetchOpen } = useThemeContext();
   const [inputVal, setInputVal] = useState("");
   const [history, setHistory] = useState<HistoryEntry[]>([
     {

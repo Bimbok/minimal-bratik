@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { PORTFOLIO_DATA } from "../lib/portfolio-data";
-import { Code2, Disc, ExternalLink, Activity, Radio, Sparkles } from "lucide-react";
+import { Code2, Disc, ExternalLink, Radio } from "lucide-react";
 
 interface SpotifyData {
   track_id: string;
@@ -60,6 +60,20 @@ export const DiscordActivityWidget: React.FC = () => {
   const [progress, setProgress] = useState<number>(0);
   const [elapsedStr, setElapsedStr] = useState<string>("0:00");
   const [durationStr, setDurationStr] = useState<string>("0:00");
+  const [nowTimestamp, setNowTimestamp] = useState<number>(0);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setNowTimestamp(Date.now());
+    }, 0);
+    const interval = setInterval(() => {
+      setNowTimestamp(Date.now());
+    }, 1000);
+    return () => {
+      clearTimeout(timer);
+      clearInterval(interval);
+    };
+  }, []);
 
   const discordUsername = PORTFOLIO_DATA.profile.discordUsername || "bimbokmkj";
   const discordUserId = PORTFOLIO_DATA.profile.discordUserId || "1282246489430818827";
@@ -353,7 +367,7 @@ export const DiscordActivityWidget: React.FC = () => {
         let activityProgress: number | null = null;
         let activityTimeStr: string | null = null;
         if (act.timestamps?.start && act.timestamps?.end) {
-          const now = Date.now();
+          const now = nowTimestamp;
           const total = act.timestamps.end - act.timestamps.start;
           const current = Math.max(0, now - act.timestamps.start);
           activityProgress = Math.min(100, Math.max(0, (current / total) * 100));

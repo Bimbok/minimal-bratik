@@ -93,6 +93,29 @@ export const SkillsSection: React.FC = () => {
         </div>
       </div>
 
+      {/* Category Filter Pills */}
+      <div className="flex items-center gap-1.5 flex-wrap font-mono">
+        {["All", "Languages", "Frameworks", "Tools & Linux"].map((cat) => {
+          const isActive = activeCategory === cat;
+          return (
+            <button
+              key={cat}
+              onClick={() => {
+                audioEngine.playKeyClick("down");
+                setActiveCategory(cat);
+              }}
+              className={`px-2.5 py-1 rounded-lg text-[11px] transition-all cursor-pointer ${
+                isActive
+                  ? "bg-white text-black font-bold shadow-sm"
+                  : "bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-white hover:border-neutral-700"
+              }`}
+            >
+              {cat}
+            </button>
+          );
+        })}
+      </div>
+
       {/* Infinite Scrolling Marquee Container */}
       <div className="relative rounded-2xl bg-neutral-900/40 border border-neutral-800/60 p-2 overflow-hidden">
         
@@ -100,7 +123,7 @@ export const SkillsSection: React.FC = () => {
         <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-[#0e0f12] to-transparent z-10 pointer-events-none" />
         <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-[#0e0f12] to-transparent z-10 pointer-events-none" />
 
-        {!searchQuery ? (
+        {!searchQuery && activeCategory === "All" ? (
           <div className="space-y-2">
             {/* Row 1: Forward Marquee */}
             <Marquee pauseOnHover repeat={4} className="[--duration:30s]">

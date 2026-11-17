@@ -31,14 +31,11 @@ export const ProjectGithubHoverCard: React.FC<{
   fallbackStars?: number;
   fallbackForks?: number;
 }> = ({ repoPath, fallbackStars = 0, fallbackForks = 0 }) => {
-  const [stats, setStats] = useState<RepoStats | null>(statsCache[repoPath] || null);
-  const [loading, setLoading] = useState<boolean>(!statsCache[repoPath]);
+  const [stats, setStats] = useState<RepoStats | null>(() => statsCache[repoPath] || null);
   const [hovered, setHovered] = useState<boolean>(false);
 
   useEffect(() => {
     if (statsCache[repoPath]) {
-      setStats(statsCache[repoPath]);
-      setLoading(false);
       return;
     }
 
@@ -51,7 +48,6 @@ export const ProjectGithubHoverCard: React.FC<{
           statsCache[repoPath] = data;
           if (isMounted) {
             setStats(data);
-            setLoading(false);
           }
         }
       } catch (err) {

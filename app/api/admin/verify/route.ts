@@ -4,11 +4,17 @@ export async function POST(request: Request) {
   try {
     const { password } = await request.json();
 
-    // Dynamically retrieve ADMIN_PASSWORD from process.env (.env or .env.local) with safe fallback
+    // Dynamically retrieve ADMIN_PASSWORD from process.env (.env or .env.local)
     const expectedPassword =
       process.env.ADMIN_PASSWORD ||
-      process.env.NEXT_PUBLIC_ADMIN_PASSWORD ||
-      "333333";
+      process.env.NEXT_PUBLIC_ADMIN_PASSWORD;
+
+    if (!expectedPassword) {
+      return NextResponse.json(
+        { success: false, error: "Admin password not configured in environment" },
+        { status: 500 }
+      );
+    }
 
     if (typeof password === "string" && password.trim() === expectedPassword.trim()) {
       return NextResponse.json({ success: true });

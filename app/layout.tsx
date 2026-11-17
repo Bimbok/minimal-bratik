@@ -75,6 +75,12 @@ export const metadata: Metadata = {
     siteName: "Bratik Mukherjee (Bimbok) Portfolio",
     images: [
       {
+        url: "/banner.png",
+        width: 1200,
+        height: 630,
+        alt: "Bratik Mukherjee (Bimbok) Portfolio Banner",
+      },
+      {
         url: "https://avatars.githubusercontent.com/u/132834022?v=4",
         width: 460,
         height: 460,
@@ -89,8 +95,8 @@ export const metadata: Metadata = {
     title: "Bratik Mukherjee (Bimbok) | Full Stack & Software Developer — System Architect",
     description:
       "Bratik Mukherjee (Bimbok) - Full-Stack Developer & Systems Architect. Co-Founder of AlgoScope, GSSoC 2026 Lead Maintainer, AWS Hackathon Finalist.",
-    creator: "@Bim__Bok",
-    images: ["https://avatars.githubusercontent.com/u/132834022?v=4"],
+    creator: "@bimbokmkj",
+    images: ["/banner.png"],
   },
   alternates: {
     canonical: "https://bimbok-portfolio.vercel.app",

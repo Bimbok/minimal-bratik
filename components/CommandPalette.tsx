@@ -296,7 +296,7 @@ END:VCARD`;
               >
                 <div className="flex items-center gap-2">
                   <Award className="w-4 h-4 text-neutral-300" />
-                  <span>cat certificates (SIH '25, AWS AI Bharat, Cisco & Udemy)</span>
+                  <span>{"cat certificates (SIH '25, AWS AI Bharat, Cisco & Udemy)"}</span>
                 </div>
               </Command.Item>
 

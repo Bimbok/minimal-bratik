@@ -9,10 +9,8 @@ import {
   Tv,
   Star,
   ExternalLink,
-  Sparkles,
   ArrowRight,
   Play,
-  Flame,
   Monitor,
   FolderGit2,
   Copy,
@@ -77,7 +75,7 @@ export const HobbySection: React.FC = () => {
               ~/.config/hobbies
             </span>
             <span className="text-xs text-neutral-400 font-mono hidden sm:inline">
-              // personal interests & creative outlets
+              {"// personal interests & creative outlets"}
             </span>
           </div>
           <h2 className="text-xl sm:text-2xl font-extrabold text-white mt-1.5 tracking-tight font-sans flex items-center gap-2">
@@ -88,8 +86,8 @@ export const HobbySection: React.FC = () => {
 
         <div className="flex items-center gap-2 self-start sm:self-auto">
           <span className="text-[11px] font-mono px-2.5 py-1 rounded-lg bg-neutral-900/80 border border-neutral-800 text-neutral-300 flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>MAL Synced (@{PORTFOLIO_DATA.hobbies.myAnimeListUsername})</span>
+            <span className={`w-2 h-2 rounded-full ${isLiveSynced ? "bg-emerald-400 animate-pulse" : "bg-neutral-500"}`} />
+            <span>{isLiveSynced ? "MAL Live Synced" : "MAL Cached"} (@{PORTFOLIO_DATA.hobbies.myAnimeListUsername})</span>
           </span>
         </div>
       </div>

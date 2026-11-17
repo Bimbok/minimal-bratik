@@ -28,9 +28,11 @@ export const VimCommandPrompt: React.FC = () => {
 
   useEffect(() => {
     if (vimPromptOpen) {
-      setTimeout(() => inputRef.current?.focus(), 50);
-    } else {
-      setInputVal("");
+      const timer = setTimeout(() => inputRef.current?.focus(), 50);
+      return () => {
+        clearTimeout(timer);
+        setInputVal("");
+      };
     }
   }, [vimPromptOpen]);
 

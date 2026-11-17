@@ -15,10 +15,6 @@ import {
   ExternalLink,
   Terminal,
   FolderGit2,
-  Cpu,
-  Layers,
-  Sparkles,
-  Command,
   Code2,
   Play,
 } from "lucide-react";
@@ -29,18 +25,12 @@ export const RiceDetailModal: React.FC = () => {
   
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [copiedRepo, setCopiedRepo] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<"gallery" | "video" | "dotfiles">("gallery");
+  const activeTab = riceModalTab || "gallery";
+  const setActiveTab = setRiceModalTab;
 
   const scrollWrapperRef = useRef<HTMLDivElement>(null);
   const scrollContentRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-
-  // Sync tab when opened externally
-  useEffect(() => {
-    if (riceModalOpen && riceModalTab) {
-      setActiveTab(riceModalTab);
-    }
-  }, [riceModalOpen, riceModalTab]);
 
   // Pause video when switching tab or closing modal
   useEffect(() => {

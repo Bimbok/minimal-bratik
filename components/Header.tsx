@@ -3,7 +3,7 @@
 import React from "react";
 import { useThemeContext, SectionId, ThemeMode } from "../lib/theme-context";
 import { audioEngine } from "../lib/audio";
-import { Terminal, Volume2, VolumeX, Command, HelpCircle, Palette, Sparkles } from "lucide-react";
+import { Terminal, Volume2, VolumeX, Command, HelpCircle, Palette } from "lucide-react";
 import { motion } from "framer-motion";
 
 export const Header: React.FC = () => {

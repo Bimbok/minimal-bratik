@@ -71,7 +71,7 @@ export const ProjectsSection: React.FC = () => {
                       <span>{project.tech[0]} Architecture</span>
                     </div>
                     <div className="space-y-1 text-neutral-400 py-2 leading-relaxed">
-                      <div className="text-neutral-300 font-bold">// {project.title} Execution Context</div>
+                      <div className="text-neutral-300 font-bold">{"//"} {project.title} Execution Context</div>
                       <div><span className="text-neutral-400">fn</span> <span className="text-white">init</span>() &#123;</div>
                       <div className="pl-4"><span className="text-neutral-400">val</span> status = <span className="text-neutral-200">&quot;OK&quot;</span>;</div>
                       <div className="pl-4"><span className="text-neutral-300">println</span>(<span className="text-neutral-200">&quot;Ready: &quot;</span> + status);</div>

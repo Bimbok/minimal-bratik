@@ -1,9 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useSyncExternalStore } from "react";
 import { GitHubCalendar } from "react-github-calendar";
-import { Activity, ExternalLink, GitBranch, Star, Code2, Users, FolderGit2, Flame } from "lucide-react";
+import { Activity, ExternalLink, Code2, Users, FolderGit2, Flame } from "lucide-react";
 import { GithubIcon } from "./BrandIcons";
+
+const emptySubscribe = () => () => {};
 
 interface GithubUserData {
   public_repos: number;
@@ -13,7 +15,7 @@ interface GithubUserData {
 }
 
 export const GithubHeatmap: React.FC = () => {
-  const [mounted, setMounted] = useState(false);
+  const mounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
   const [activeView, setActiveView] = useState<"calendar" | "stats">("calendar");
   const [githubData, setGithubData] = useState<GithubUserData | null>({
     public_repos: 40,
@@ -23,8 +25,6 @@ export const GithubHeatmap: React.FC = () => {
   });
 
   useEffect(() => {
-    setMounted(true);
-
     // Fetch live GitHub stats from official GitHub REST API
     fetch("https://api.github.com/users/Bimbok")
       .then((res) => res.json())

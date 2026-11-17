@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useThemeContext } from "../lib/theme-context";
+import { useThemeContext, SectionId } from "../lib/theme-context";
 import { audioEngine } from "../lib/audio";
 import { User, Briefcase, FolderGit2, Activity, Cpu, Heart, Mail } from "lucide-react";
 
@@ -35,6 +35,7 @@ export const IconNavSidebar: React.FC = () => {
           const rect = elem.getBoundingClientRect();
           if (rect.top <= 250 && rect.bottom >= 100) {
             setActiveId(id);
+            setActiveSection(id as SectionId);
             break;
           }
         }
@@ -42,10 +43,11 @@ export const IconNavSidebar: React.FC = () => {
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [setActiveSection]);
 
   const handleNavClick = (id: string) => {
     setActiveId(id);
+    setActiveSection(id as SectionId);
     audioEngine.playKeyClick("down");
     const elem = document.getElementById(id);
     if (elem) {

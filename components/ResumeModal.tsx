@@ -65,7 +65,10 @@ export const ResumeModal: React.FC = () => {
   // Trigger live fetch when modal opens or when Admin logs in
   useEffect(() => {
     if (resumeOpen) {
-      fetchLiveResumes(false);
+      const timer = setTimeout(() => {
+        fetchLiveResumes(false);
+      }, 0);
+      return () => clearTimeout(timer);
     }
   }, [resumeOpen, fetchLiveResumes]);
 

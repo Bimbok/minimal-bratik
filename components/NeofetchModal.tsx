@@ -4,7 +4,7 @@ import React from "react";
 import { useThemeContext } from "../lib/theme-context";
 import { audioEngine } from "../lib/audio";
 import { PORTFOLIO_DATA } from "../lib/portfolio-data";
-import { Cpu, X, Terminal, Copy, Check } from "lucide-react";
+import { Cpu, X, Copy, Check } from "lucide-react";
 
 export const NeofetchModal: React.FC = () => {
   const { neofetchOpen, setNeofetchOpen, showToast } = useThemeContext();
@@ -54,9 +54,10 @@ export const NeofetchModal: React.FC = () => {
           <div className="flex items-center gap-2">
             <button
               onClick={handleCopySpecs}
-              className="px-2 py-1 rounded bg-[var(--bg-main)] border border-[var(--border-color)] hover:border-[var(--accent-color)] text-[10px] text-[var(--text-secondary)]"
+              className="px-2 py-1 rounded bg-[var(--bg-main)] border border-[var(--border-color)] hover:border-[var(--accent-color)] text-[10px] text-[var(--text-secondary)] flex items-center gap-1"
             >
-              {copied ? "Copied!" : "Copy JSON"}
+              {copied ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+              <span>{copied ? "Copied!" : "Copy JSON"}</span>
             </button>
             <button
               onClick={() => setNeofetchOpen(false)}
