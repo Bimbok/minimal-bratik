@@ -5,7 +5,7 @@ import { PORTFOLIO_DATA } from "../lib/portfolio-data";
 import { useThemeContext } from "../lib/theme-context";
 import { audioEngine } from "../lib/audio";
 import { GithubHoverCard } from "./GithubHoverCard";
-import { XIcon } from "./BrandIcons";
+import { XIcon, BlueskyIcon, InstagramIcon, YoutubeIcon, RedditIcon } from "./BrandIcons";
 import { Mail, FileText, Command, Sun, Award } from "lucide-react";
 
 export const HeroSection: React.FC = () => {
@@ -159,6 +159,61 @@ export const HeroSection: React.FC = () => {
                 className="w-4 h-4 object-contain shrink-0"
               />
               <span>LinkedIn</span>
+            </a>
+
+            {/* Bluesky Link */}
+            <a
+              href={PORTFOLIO_DATA.profile.socials.bluesky}
+              target="_blank"
+              rel="noreferrer"
+              className="px-3 py-1.5 rounded-lg bg-neutral-900 border border-neutral-800 text-neutral-300 hover:text-white hover:border-neutral-700 transition-all flex items-center gap-2 text-xs font-mono"
+            >
+              <BlueskyIcon className="w-3.5 h-3.5 text-[#0285FF] shrink-0" />
+              <span>Bluesky</span>
+            </a>
+
+            {/* Instagram Link */}
+            <a
+              href={PORTFOLIO_DATA.profile.socials.instagram}
+              target="_blank"
+              rel="noreferrer"
+              className="px-3 py-1.5 rounded-lg bg-neutral-900 border border-neutral-800 text-neutral-300 hover:text-white hover:border-neutral-700 transition-all flex items-center gap-2 text-xs font-mono"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="https://skillicons.dev/icons?i=instagram"
+                alt="Instagram"
+                className="w-4 h-4 object-contain shrink-0"
+                onError={(e) => {
+                  e.currentTarget.style.display = "none";
+                  const fallback = e.currentTarget.parentElement?.querySelector(".ig-fallback");
+                  if (fallback) (fallback as HTMLElement).classList.remove("hidden");
+                }}
+              />
+              <InstagramIcon className="w-3.5 h-3.5 text-[#E4405F] shrink-0 ig-fallback hidden" />
+              <span>Instagram</span>
+            </a>
+
+            {/* YouTube Link */}
+            <a
+              href={PORTFOLIO_DATA.profile.socials.youtube}
+              target="_blank"
+              rel="noreferrer"
+              className="px-3 py-1.5 rounded-lg bg-neutral-900 border border-neutral-800 text-neutral-300 hover:text-white hover:border-neutral-700 transition-all flex items-center gap-2 text-xs font-mono"
+            >
+              <YoutubeIcon className="w-3.5 h-3.5 text-[#FF0000] shrink-0" />
+              <span>YouTube</span>
+            </a>
+
+            {/* Reddit Link */}
+            <a
+              href={PORTFOLIO_DATA.profile.socials.reddit}
+              target="_blank"
+              rel="noreferrer"
+              className="px-3 py-1.5 rounded-lg bg-neutral-900 border border-neutral-800 text-neutral-300 hover:text-white hover:border-neutral-700 transition-all flex items-center gap-2 text-xs font-mono"
+            >
+              <RedditIcon className="w-3.5 h-3.5 text-[#FF4500] shrink-0" />
+              <span>Reddit</span>
             </a>
 
             {/* Resume Action */}

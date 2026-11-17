@@ -134,7 +134,11 @@ export default function RootLayout({
     sameAs: [
       "https://github.com/Bimbok",
       "https://linkedin.com/in/bimbok",
-      "https://x.com/Bim__Bok",
+      "https://x.com/bimbokmkj",
+      "https://bsky.app/profile/bimbok.bsky.social",
+      "https://www.instagram.com/bimbokmkj/",
+      "https://youtube.com/@bimbokmkj",
+      "https://www.reddit.com/user/bim_bok/",
     ],
     knowsAbout: [
       "Software Development",

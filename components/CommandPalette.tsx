@@ -94,6 +94,10 @@ TEL;TYPE=CELL,VOICE:+919883593295
 URL:https://bratikmkj.vercel.app
 URL;TYPE=GitHub:https://github.com/Bimbok
 URL;TYPE=LinkedIn:https://linkedin.com/in/bimbok
+URL;TYPE=Bluesky:https://bsky.app/profile/bimbok.bsky.social
+URL;TYPE=Instagram:https://www.instagram.com/bimbokmkj/
+URL;TYPE=YouTube:https://youtube.com/@bimbokmkj
+URL;TYPE=Reddit:https://www.reddit.com/user/bim_bok/
 ADR;TYPE=HOME:;;West Bengal;India;;;
 NOTE:Full Stack & Software Developer specializing in C++, Go, Python, React 19, and Linux Systems.
 END:VCARD`;
