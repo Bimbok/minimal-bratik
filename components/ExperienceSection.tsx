@@ -69,7 +69,7 @@ export const ExperienceSection: React.FC = () => {
                     <img
                       src={item.logoUrl}
                       alt={item.company}
-                      className="w-full h-full object-cover rounded-lg"
+                      className="w-full h-full object-contain rounded-lg"
                     />
                   </div>
 

@@ -238,7 +238,7 @@ export const PORTFOLIO_DATA = {
       dates: "2024 – 2026",
       location: "West Bengal, India",
       type: "Systems",
-      logoUrl: "https://avatars.githubusercontent.com/u/132834022?v=4",
+      logoUrl: "/linux.svg",
       description: [
         "Developed high-performance terminal file manager (Fyzenor) leveraging C++ and system-level APIs to handle 10,000+ files seamlessly with 40% latency reduction.",
         "Architected offline Kotlin/MVVM knowledge base application (bDoci) with Room SQLite & Base64 P2P data sharing.",
