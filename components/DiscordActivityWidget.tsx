@@ -154,7 +154,7 @@ export const DiscordActivityWidget: React.FC = () => {
       return "/lastwave.svg";
     }
     if (name.includes("crunchyroll") || name.includes("cranchiroll")) {
-      return "https://avatars.githubusercontent.com/u/799638?s=200";
+      return "/crunchyroll.svg";
     }
     if (name.includes("youtube music") || name.includes("yt music") || name.includes("youtubemusic")) {
       return "https://upload.wikimedia.org/wikipedia/commons/6/6a/Youtube_Music_icon.svg";
