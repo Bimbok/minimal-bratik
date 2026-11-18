@@ -124,9 +124,13 @@ export const MovieDetailModal: React.FC<{ cinemaData?: TraktData }> = ({ cinemaD
             <div className="relative w-14 h-14 rounded-2xl overflow-hidden border-2 border-neutral-700 bg-neutral-950 shrink-0 shadow-lg">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/banner.png"
-                alt="Bimbok"
-                className="w-full h-full object-cover object-top"
+                src={cinema.avatarUrl || "https://media.trakt.tv/users/18230155/avatar.webp?v=1795001515"}
+                alt={cinema.traktUsername}
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  e.currentTarget.src = "/banner.png";
+                }}
               />
               <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-neutral-950 border border-neutral-700 flex items-center justify-center">
                 <TraktIcon className="w-3 h-3 text-[#ED1C24]" />

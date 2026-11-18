@@ -111,14 +111,29 @@ export async function GET(request: Request) {
     // 4. Recent History (contains chronological feed of episodes & movies)
     const historyUrl = `https://api.trakt.tv/users/${encodeURIComponent(username)}/history?extended=full&limit=30`;
 
-    const [watchingRes, showsRes, moviesRes, historyRes] = await Promise.allSettled([
+    // 5. User Profile with avatar
+    const userProfileUrl = `https://api.trakt.tv/users/${encodeURIComponent(username)}?extended=full`;
+
+    const [watchingRes, showsRes, moviesRes, historyRes, userRes] = await Promise.allSettled([
       fetch(watchingUrl, { headers, signal: controller.signal, cache: "no-store" }),
       fetch(showsUrl, { headers, signal: controller.signal, cache: "no-store" }),
       fetch(moviesUrl, { headers, signal: controller.signal, cache: "no-store" }),
       fetch(historyUrl, { headers, signal: controller.signal, cache: "no-store" }),
+      fetch(userProfileUrl, { headers, signal: controller.signal, next: { revalidate: 3600 } }),
     ]);
 
     clearTimeout(timeoutId);
+
+    let avatarUrl =
+      PORTFOLIO_DATA.hobbies.cinema?.avatarUrl ||
+      "https://media.trakt.tv/users/18230155/avatar.webp?v=1795001515";
+
+    if (userRes.status === "fulfilled" && userRes.value.ok) {
+      const userData = await userRes.value.json();
+      if (userData?.images?.avatar?.full) {
+        avatarUrl = userData.images.avatar.full;
+      }
+    }
 
     let nowWatching: TraktHistoryItem | null = null;
     let recentHistory: TraktHistoryItem[] = PORTFOLIO_DATA.hobbies.cinema?.recentHistory || [];
@@ -322,6 +337,7 @@ export async function GET(request: Request) {
     const payload: TraktData = {
       traktUsername: username,
       traktProfileUrl: `https://trakt.tv/users/${encodeURIComponent(username)}`,
+      avatarUrl,
       stats: {
         moviesWatched: totalMoviesCount || PORTFOLIO_DATA.hobbies.cinema?.stats.moviesWatched || 48,
         episodesWatched: totalEpisodesCount || PORTFOLIO_DATA.hobbies.cinema?.stats.episodesWatched || 123,

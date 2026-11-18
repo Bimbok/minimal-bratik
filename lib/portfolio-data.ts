@@ -130,6 +130,7 @@ export interface MusicStats {
 export interface MusicData {
   lastfmUsername: string;
   lastfmProfileUrl: string;
+  avatarUrl?: string;
   stats: MusicStats;
   topTrack?: MusicTrack;
   nowPlaying?: MusicTrack | null;
@@ -188,6 +189,7 @@ export interface TraktMovieItem {
 export interface TraktData {
   traktUsername: string;
   traktProfileUrl: string;
+  avatarUrl?: string;
   stats: TraktStats;
   nowWatching?: TraktHistoryItem | null;
   featured?: {
@@ -1836,6 +1838,7 @@ GitHub: github.com/Bimbok | LinkedIn: linkedin.com/in/bimbok
     cinema: {
       traktUsername: "bimbok",
       traktProfileUrl: "https://trakt.tv/users/bimbok",
+      avatarUrl: "https://media.trakt.tv/users/18230155/avatar.webp?v=1795001515",
       stats: {
         moviesWatched: 48,
         episodesWatched: 123,
