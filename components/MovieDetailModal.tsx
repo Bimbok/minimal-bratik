@@ -8,11 +8,12 @@ import { Modal } from "./ui/modal";
 import { Button, LinkButton } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { TraktIcon } from "./BrandIcons";
-import { Clapperboard, Film, Tv, Star, ExternalLink } from "lucide-react";
+import { Clapperboard, Film, Tv, Star, ExternalLink, Search } from "lucide-react";
 
 export const MovieDetailModal: React.FC<{ cinemaData?: TraktData }> = ({ cinemaData: propData }) => {
   const { movieModalOpen, setMovieModalOpen } = useThemeContext();
-  const [activeTab, setActiveTab] = useState<"history" | "shows" | "movies">("history");
+  const [activeTab, setActiveTab] = useState<"history" | "shows" | "movies">("movies");
+  const [searchQuery, setSearchQuery] = useState("");
   const [liveCinema, setLiveCinema] = useState<TraktData | undefined>(propData || PORTFOLIO_DATA.hobbies.cinema);
 
   const scrollWrapperRef = useRef<HTMLDivElement>(null);
@@ -95,6 +96,36 @@ export const MovieDetailModal: React.FC<{ cinemaData?: TraktData }> = ({ cinemaD
   const movies = cinema.movies || [];
   const nowWatching = cinema.nowWatching;
 
+  const query = searchQuery.trim().toLowerCase();
+
+  const filteredHistory = history.filter((item) => {
+    if (!query) return true;
+    return (
+      item.title.toLowerCase().includes(query) ||
+      item.showTitle?.toLowerCase().includes(query) ||
+      item.genres?.some((g) => g.toLowerCase().includes(query))
+    );
+  });
+
+  const filteredShows = shows.filter((s) => {
+    if (!query) return true;
+    return (
+      s.title.toLowerCase().includes(query) ||
+      s.network?.toLowerCase().includes(query) ||
+      s.genres?.some((g) => g.toLowerCase().includes(query)) ||
+      String(s.year || "").includes(query)
+    );
+  });
+
+  const filteredMovies = movies.filter((m) => {
+    if (!query) return true;
+    return (
+      m.title.toLowerCase().includes(query) ||
+      m.genres?.some((g) => g.toLowerCase().includes(query)) ||
+      String(m.year || "").includes(query)
+    );
+  });
+
   return (
     <Modal
       isOpen={movieModalOpen}
@@ -173,9 +204,25 @@ export const MovieDetailModal: React.FC<{ cinemaData?: TraktData }> = ({ cinemaD
           </div>
         </div>
 
-        {/* Tab Navigation */}
+        {/* Tab Navigation & Search Bar */}
         <div className="flex items-center justify-between border-b border-neutral-800/80 pb-3 gap-2 flex-wrap shrink-0">
-          <div className="flex items-center gap-1.5 font-mono text-xs">
+          <div className="flex items-center gap-1.5 font-mono text-xs flex-wrap">
+            <Button
+              variant={activeTab === "movies" ? "primary" : "secondary"}
+              size="sm"
+              onClick={() => setActiveTab("movies")}
+            >
+              <Film className="w-3.5 h-3.5 text-amber-400" />
+              <span>Movies ({movies.length})</span>
+            </Button>
+            <Button
+              variant={activeTab === "shows" ? "primary" : "secondary"}
+              size="sm"
+              onClick={() => setActiveTab("shows")}
+            >
+              <Tv className="w-3.5 h-3.5 text-[#ED1C24]" />
+              <span>TV Series ({shows.length})</span>
+            </Button>
             <Button
               variant={activeTab === "history" ? "primary" : "secondary"}
               size="sm"
@@ -184,27 +231,19 @@ export const MovieDetailModal: React.FC<{ cinemaData?: TraktData }> = ({ cinemaD
               <Clapperboard className="w-3.5 h-3.5" />
               <span>Watch History ({history.length})</span>
             </Button>
-            <Button
-              variant={activeTab === "shows" ? "primary" : "secondary"}
-              size="sm"
-              onClick={() => setActiveTab("shows")}
-            >
-              <Tv className="w-3.5 h-3.5 text-[#ED1C24]" />
-              <span>TV Series ({shows.length || stats.showsWatched})</span>
-            </Button>
-            <Button
-              variant={activeTab === "movies" ? "primary" : "secondary"}
-              size="sm"
-              onClick={() => setActiveTab("movies")}
-            >
-              <Film className="w-3.5 h-3.5 text-amber-400" />
-              <span>Movies ({movies.length || stats.moviesWatched})</span>
-            </Button>
           </div>
 
-          <span className="text-[10px] text-neutral-500 font-mono hidden sm:inline">
-            Tracking live via Trakt.tv
-          </span>
+          {/* Quick Search */}
+          <div className="relative w-full sm:w-52 shrink-0 font-mono text-xs">
+            <Search className="w-3.5 h-3.5 text-neutral-500 absolute left-2.5 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search title, genre..."
+              className="w-full pl-8 pr-3 py-1 rounded-lg bg-neutral-950 border border-neutral-800 text-xs text-white placeholder:text-neutral-500 focus:outline-none focus:border-neutral-600 font-mono"
+            />
+          </div>
         </div>
 
         {/* Dedicated Smooth Scrollable Body with Lenis momentum */}
@@ -255,171 +294,189 @@ export const MovieDetailModal: React.FC<{ cinemaData?: TraktData }> = ({ cinemaD
             {/* Tab 1: Watch History */}
             {activeTab === "history" && (
               <div className="space-y-2.5">
-                {history.map((item) => (
-                  <div
-                    key={item.id}
-                    className="p-3 rounded-xl bg-neutral-950/70 border border-neutral-800/80 hover:border-neutral-700 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 group"
-                  >
-                    <div className="flex items-center gap-3.5 min-w-0">
-                      {/* Thumbnail / Screenshot */}
-                      <div className="relative w-20 sm:w-24 aspect-[16/9] rounded-lg bg-neutral-900 border border-neutral-800 overflow-hidden shrink-0 flex items-center justify-center shadow-md">
-                        {item.screenshotUrl || item.posterUrl ? (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img
-                            src={item.screenshotUrl || item.posterUrl}
-                            alt={item.title}
-                            referrerPolicy="no-referrer"
-                            className="w-full h-full object-cover"
-                            loading="lazy"
-                            onError={(e) => {
-                              e.currentTarget.style.display = "none";
-                            }}
-                          />
-                        ) : (
-                          <Film className="w-4 h-4 text-neutral-500" />
-                        )}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                        <span className="absolute bottom-0.5 left-1 text-[8px] font-mono text-white/90 font-bold uppercase">
-                          {item.type}
-                        </span>
-                      </div>
-
-                      <div className="min-w-0">
-                        <div className="flex items-center gap-2">
-                          <h4 className="font-bold text-xs sm:text-sm text-neutral-100 group-hover:text-white truncate font-sans">
-                            {item.showTitle ? `${item.showTitle}: ` : ""}{item.title}
-                          </h4>
-                          {item.rating && (
-                            <span className="inline-flex items-center gap-0.5 text-[10px] font-mono text-amber-400 font-semibold shrink-0">
-                              <Star className="w-2.5 h-2.5 fill-current" />
-                              <span>{item.rating}</span>
-                            </span>
-                          )}
-                        </div>
-                        <div className="text-xs text-neutral-400 font-mono truncate flex items-center gap-2 mt-0.5">
-                          {item.season && item.number && (
-                            <Badge variant="subtle" className="text-[9px] px-1.5 py-0.2">
-                              S{item.season} E{item.number}
-                            </Badge>
-                          )}
-                          <span>{item.watchedAt}</span>
-                          {item.year && <span className="text-neutral-500">• {item.year}</span>}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-2 shrink-0 self-end sm:self-auto">
-                      {item.url && (
-                        <a
-                          href={item.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-xs text-neutral-400 hover:text-white font-mono flex items-center gap-1 hover:underline"
-                        >
-                          <span>Details</span>
-                          <ExternalLink className="w-3 h-3" />
-                        </a>
-                      )}
-                    </div>
+                {filteredHistory.length === 0 ? (
+                  <div className="py-12 text-center text-neutral-500 font-mono text-xs">
+                    No history items match &quot;{searchQuery}&quot;
                   </div>
-                ))}
+                ) : (
+                  filteredHistory.map((item) => (
+                    <div
+                      key={item.id}
+                      className="p-3 rounded-xl bg-neutral-950/70 border border-neutral-800/80 hover:border-neutral-700 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 group"
+                    >
+                      <div className="flex items-center gap-3.5 min-w-0">
+                        {/* Thumbnail / Screenshot */}
+                        <div className="relative w-20 sm:w-24 aspect-[16/9] rounded-lg bg-neutral-900 border border-neutral-800 overflow-hidden shrink-0 flex items-center justify-center shadow-md">
+                          {item.screenshotUrl || item.posterUrl ? (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img
+                              src={item.screenshotUrl || item.posterUrl}
+                              alt={item.title}
+                              referrerPolicy="no-referrer"
+                              className="w-full h-full object-cover"
+                              loading="lazy"
+                              onError={(e) => {
+                                e.currentTarget.style.display = "none";
+                              }}
+                            />
+                          ) : (
+                            <Film className="w-4 h-4 text-neutral-500" />
+                          )}
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                          <span className="absolute bottom-0.5 left-1 text-[8px] font-mono text-white/90 font-bold uppercase">
+                            {item.type}
+                          </span>
+                        </div>
+
+                        <div className="min-w-0">
+                          <div className="flex items-center gap-2">
+                            <h4 className="font-bold text-xs sm:text-sm text-neutral-100 group-hover:text-white truncate font-sans">
+                              {item.showTitle ? `${item.showTitle}: ` : ""}{item.title}
+                            </h4>
+                            {item.rating && (
+                              <span className="inline-flex items-center gap-0.5 text-[10px] font-mono text-amber-400 font-semibold shrink-0">
+                                <Star className="w-2.5 h-2.5 fill-current" />
+                                <span>{item.rating}</span>
+                              </span>
+                            )}
+                          </div>
+                          <div className="text-xs text-neutral-400 font-mono truncate flex items-center gap-2 mt-0.5">
+                            {item.season && item.number && (
+                              <Badge variant="subtle" className="text-[9px] px-1.5 py-0.2">
+                                S{item.season} E{item.number}
+                              </Badge>
+                            )}
+                            <span>{item.watchedAt}</span>
+                            {item.year && <span className="text-neutral-500">• {item.year}</span>}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2 shrink-0 self-end sm:self-auto">
+                        {item.url && (
+                          <a
+                            href={item.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-xs text-neutral-400 hover:text-white font-mono flex items-center gap-1 hover:underline"
+                          >
+                            <span>Details</span>
+                            <ExternalLink className="w-3 h-3" />
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  ))
+                )}
               </div>
             )}
 
             {/* Tab 2: TV Shows & Series */}
             {activeTab === "shows" && (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-                {shows.map((show) => (
-                  <div
-                    key={show.id}
-                    className="p-3.5 rounded-xl bg-neutral-950/70 border border-neutral-800/80 hover:border-neutral-700 transition-all flex gap-3.5 group"
-                  >
-                    <div className="w-20 aspect-[2/3] rounded-lg bg-neutral-900 border border-neutral-800 overflow-hidden shrink-0 shadow-md relative flex items-center justify-center">
-                      {show.posterUrl ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                          src={show.posterUrl}
-                          alt={show.title}
-                          referrerPolicy="no-referrer"
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                          loading="lazy"
-                        />
-                      ) : (
-                        <Tv className="w-6 h-6 text-neutral-500 m-auto" />
-                      )}
-                    </div>
-
-                    <div className="flex-1 min-w-0 flex flex-col justify-between py-0.5">
-                      <div>
-                        <div className="flex items-center justify-between gap-1">
-                          <h4 className="font-bold text-xs sm:text-sm text-white truncate font-sans group-hover:text-neutral-100">
-                            {show.title}
-                          </h4>
-                          {show.rating && (
-                            <span className="inline-flex items-center gap-0.5 text-[10px] font-mono text-amber-400 font-semibold shrink-0">
-                              <Star className="w-2.5 h-2.5 fill-current" />
-                              <span>{show.rating}</span>
-                            </span>
-                          )}
-                        </div>
-                        <div className="text-[10px] text-neutral-400 font-mono mt-0.5 truncate">
-                          {show.year} {show.network && `• ${show.network}`}
-                        </div>
-                      </div>
-
-                      <div className="pt-2">
-                        <Badge variant="subtle" className="text-[9px]">
-                          {show.plays} episodes watched
-                        </Badge>
-                      </div>
-                    </div>
+                {filteredShows.length === 0 ? (
+                  <div className="col-span-full py-12 text-center text-neutral-500 font-mono text-xs">
+                    No TV shows match &quot;{searchQuery}&quot;
                   </div>
-                ))}
+                ) : (
+                  filteredShows.map((show) => (
+                    <div
+                      key={show.id}
+                      className="p-3.5 rounded-xl bg-neutral-950/70 border border-neutral-800/80 hover:border-neutral-700 transition-all flex gap-3.5 group"
+                    >
+                      <div className="w-20 aspect-[2/3] rounded-lg bg-neutral-900 border border-neutral-800 overflow-hidden shrink-0 shadow-md relative flex items-center justify-center">
+                        {show.posterUrl ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={show.posterUrl}
+                            alt={show.title}
+                            referrerPolicy="no-referrer"
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                            loading="lazy"
+                          />
+                        ) : (
+                          <Tv className="w-6 h-6 text-neutral-500 m-auto" />
+                        )}
+                      </div>
+
+                      <div className="flex-1 min-w-0 flex flex-col justify-between py-0.5">
+                        <div>
+                          <div className="flex items-center justify-between gap-1">
+                            <h4 className="font-bold text-xs sm:text-sm text-white truncate font-sans group-hover:text-neutral-100">
+                              {show.title}
+                            </h4>
+                            {show.rating && (
+                              <span className="inline-flex items-center gap-0.5 text-[10px] font-mono text-amber-400 font-semibold shrink-0">
+                                <Star className="w-2.5 h-2.5 fill-current" />
+                                <span>{show.rating}</span>
+                              </span>
+                            )}
+                          </div>
+                          <div className="text-[10px] text-neutral-400 font-mono mt-0.5 truncate">
+                            {show.year} {show.network && `• ${show.network}`}
+                          </div>
+                        </div>
+
+                        <div className="pt-2">
+                          <Badge variant="subtle" className="text-[9px]">
+                            {show.plays} episodes watched
+                          </Badge>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                )}
               </div>
             )}
 
             {/* Tab 3: Movies */}
             {activeTab === "movies" && (
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3.5">
-                {movies.map((movie) => (
-                  <a
-                    key={movie.id}
-                    href={movie.url || `https://trakt.tv/movies/${encodeURIComponent(movie.title)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2.5 rounded-xl bg-neutral-950/70 border border-neutral-800/80 hover:border-neutral-700 hover:bg-neutral-900 transition-all flex flex-col justify-between group"
-                  >
-                    <div className="aspect-[2/3] w-full rounded-xl bg-neutral-900 border border-neutral-800 overflow-hidden mb-2 shadow-md relative flex items-center justify-center">
-                      {movie.posterUrl ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                          src={movie.posterUrl}
-                          alt={movie.title}
-                          referrerPolicy="no-referrer"
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                          loading="lazy"
-                        />
-                      ) : (
-                        <Film className="w-8 h-8 text-neutral-500 m-auto" />
-                      )}
-                    </div>
-
-                    <div className="px-0.5">
-                      <h4 className="font-bold text-xs text-white truncate font-sans group-hover:text-neutral-100">
-                        {movie.title}
-                      </h4>
-                      <div className="flex items-center justify-between text-[10px] font-mono text-neutral-400 mt-1">
-                        <span>{movie.year || "Movie"}</span>
-                        {movie.rating && (
-                          <span className="inline-flex items-center gap-0.5 text-amber-400 font-semibold">
-                            <Star className="w-2.5 h-2.5 fill-current" />
-                            <span>{movie.rating}</span>
-                          </span>
+                {filteredMovies.length === 0 ? (
+                  <div className="col-span-full py-12 text-center text-neutral-500 font-mono text-xs">
+                    No movies match &quot;{searchQuery}&quot;
+                  </div>
+                ) : (
+                  filteredMovies.map((movie) => (
+                    <a
+                      key={movie.id}
+                      href={movie.url || `https://trakt.tv/movies/${encodeURIComponent(movie.title)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-2.5 rounded-xl bg-neutral-950/70 border border-neutral-800/80 hover:border-neutral-700 hover:bg-neutral-900 transition-all flex flex-col justify-between group"
+                    >
+                      <div className="aspect-[2/3] w-full rounded-xl bg-neutral-900 border border-neutral-800 overflow-hidden mb-2 shadow-md relative flex items-center justify-center">
+                        {movie.posterUrl ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={movie.posterUrl}
+                            alt={movie.title}
+                            referrerPolicy="no-referrer"
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            loading="lazy"
+                          />
+                        ) : (
+                          <Film className="w-8 h-8 text-neutral-500 m-auto" />
                         )}
                       </div>
-                    </div>
-                  </a>
-                ))}
+
+                      <div className="px-0.5">
+                        <h4 className="font-bold text-xs text-white truncate font-sans group-hover:text-neutral-100">
+                          {movie.title}
+                        </h4>
+                        <div className="flex items-center justify-between text-[10px] font-mono text-neutral-400 mt-1">
+                          <span>{movie.year || "Movie"}</span>
+                          {movie.rating && (
+                            <span className="inline-flex items-center gap-0.5 text-amber-400 font-semibold">
+                              <Star className="w-2.5 h-2.5 fill-current" />
+                              <span>{movie.rating}</span>
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </a>
+                  ))
+                )}
               </div>
             )}
           </div>

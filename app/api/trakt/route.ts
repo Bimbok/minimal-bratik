@@ -103,14 +103,15 @@ export async function GET(request: Request) {
     // 1. Live Watching (200 = currently playing, 204 = idle)
     const watchingUrl = `https://api.trakt.tv/users/${encodeURIComponent(username)}/watching?_=${ts}`;
 
-    // 2. Watched Shows (contains all completed shows and episode counts)
-    const showsUrl = `https://api.trakt.tv/users/${encodeURIComponent(username)}/watched/shows?extended=full&_=${ts}`;
+    // 2. Watched Shows (contains all completed shows and episode counts, max 250)
+    const showsUrl = `https://api.trakt.tv/users/${encodeURIComponent(username)}/watched/shows?extended=full&limit=250&_=${ts}`;
 
-    // 3. Watched Movies (contains all watched movies)
-    const moviesUrl = `https://api.trakt.tv/users/${encodeURIComponent(username)}/watched/movies?extended=full&_=${ts}`;
+    // 3. Watched Movies (contains all watched movies, max 250 per page across 2 pages = up to 500 movies)
+    const moviesUrl = `https://api.trakt.tv/users/${encodeURIComponent(username)}/watched/movies?extended=full&limit=250&page=1&_=${ts}`;
+    const moviesUrl2 = `https://api.trakt.tv/users/${encodeURIComponent(username)}/watched/movies?extended=full&limit=250&page=2&_=${ts}`;
 
     // 4. Recent History (contains chronological feed of episodes & movies)
-    const historyUrl = `https://api.trakt.tv/users/${encodeURIComponent(username)}/history?extended=full&limit=30&_=${ts}`;
+    const historyUrl = `https://api.trakt.tv/users/${encodeURIComponent(username)}/history?extended=full&limit=50&_=${ts}`;
 
     // 5. User Profile with avatar
     const userProfileUrl = `https://api.trakt.tv/users/${encodeURIComponent(username)}?extended=full&_=${ts}`;
@@ -119,10 +120,11 @@ export async function GET(request: Request) {
     const epCountUrl = `https://api.trakt.tv/users/${encodeURIComponent(username)}/history/episodes?limit=1&_=${ts}`;
     const mvCountUrl = `https://api.trakt.tv/users/${encodeURIComponent(username)}/history/movies?limit=1&_=${ts}`;
 
-    const [watchingRes, showsRes, moviesRes, historyRes, userRes, epCountRes, mvCountRes] = await Promise.allSettled([
+    const [watchingRes, showsRes, moviesRes, moviesRes2, historyRes, userRes, epCountRes, mvCountRes] = await Promise.allSettled([
       fetch(watchingUrl, { headers, signal: controller.signal, cache: "no-store" }),
       fetch(showsUrl, { headers, signal: controller.signal, cache: "no-store" }),
       fetch(moviesUrl, { headers, signal: controller.signal, cache: "no-store" }),
+      fetch(moviesUrl2, { headers, signal: controller.signal, cache: "no-store" }),
       fetch(historyUrl, { headers, signal: controller.signal, cache: "no-store" }),
       fetch(userProfileUrl, { headers, signal: controller.signal, next: { revalidate: 3600 } }),
       fetch(epCountUrl, { headers, signal: controller.signal, cache: "no-store" }),
@@ -243,31 +245,38 @@ export async function GET(request: Request) {
       }
     }
 
-    // Parse Watched Movies
+    // Parse Watched Movies (Combined across pages to ensure 100% of movies load)
+    const combinedMovies: RawTraktWatchedMovie[] = [];
     if (moviesRes.status === "fulfilled" && moviesRes.value.ok) {
-      const rawMovies = await moviesRes.value.json();
-      if (Array.isArray(rawMovies)) {
-        totalMoviesCount = rawMovies.length;
-        moviesList = rawMovies.map((m: RawTraktWatchedMovie) => {
-          const mv = m.movie;
-          const runtime = mv?.runtime || 110;
-          totalMinutesWatched += runtime * (m.plays || 1);
+      const data1 = await moviesRes.value.json();
+      if (Array.isArray(data1)) combinedMovies.push(...data1);
+    }
+    if (moviesRes2.status === "fulfilled" && moviesRes2.value.ok) {
+      const data2 = await moviesRes2.value.json();
+      if (Array.isArray(data2)) combinedMovies.push(...data2);
+    }
 
-          const posterUrl = mv?.ids?.trakt
-            ? `https://media.trakt.tv/movies/${mv.ids.trakt}/medium/poster.webp`
-            : undefined;
+    if (combinedMovies.length > 0) {
+      totalMoviesCount = Math.max(totalMoviesCount, combinedMovies.length);
+      moviesList = combinedMovies.map((m: RawTraktWatchedMovie) => {
+        const mv = m.movie;
+        const runtime = mv?.runtime || 110;
+        totalMinutesWatched += runtime * (m.plays || 1);
 
-          return {
-            id: mv?.ids?.trakt || mv?.title || "trakt-movie",
-            title: mv?.title || "Unknown Movie",
-            year: mv?.year,
-            rating: mv?.rating ? Math.round(mv.rating * 10) / 10 : undefined,
-            posterUrl,
-            genres: mv?.genres || [],
-            url: mv?.ids?.slug ? `https://trakt.tv/movies/${mv.ids.slug}` : undefined,
-          };
-        });
-      }
+        const posterUrl = mv?.ids?.trakt
+          ? `https://media.trakt.tv/movies/${mv.ids.trakt}/medium/poster.webp`
+          : undefined;
+
+        return {
+          id: mv?.ids?.trakt || mv?.title || "trakt-movie",
+          title: mv?.title || "Unknown Movie",
+          year: mv?.year,
+          rating: mv?.rating ? Math.round(mv.rating * 10) / 10 : undefined,
+          posterUrl,
+          genres: mv?.genres || [],
+          url: mv?.ids?.slug ? `https://trakt.tv/movies/${mv.ids.slug}` : undefined,
+        };
+      });
     }
 
     // Parse Recent History
