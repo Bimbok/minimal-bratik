@@ -6,6 +6,7 @@ import { audioEngine } from "../lib/audio";
 import { Marquee } from "./ui/marquee";
 import { Cpu, Search } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Section, Badge, Button } from "./ui";
 
 interface SkillItemWithCategory {
   name: string;
@@ -71,8 +72,7 @@ export const SkillsSection: React.FC = () => {
   });
 
   return (
-    <section id="skills" className="space-y-4 pt-6 border-t border-neutral-800/80">
-      
+    <Section id="skills" className="space-y-4">
       {/* Section Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 font-sans">
         <h2 className="text-xl font-bold tracking-tight text-white flex items-center gap-2">
@@ -98,20 +98,14 @@ export const SkillsSection: React.FC = () => {
         {["All", "Languages", "Frameworks", "Tools & Linux"].map((cat) => {
           const isActive = activeCategory === cat;
           return (
-            <button
+            <Button
               key={cat}
-              onClick={() => {
-                audioEngine.playKeyClick("down");
-                setActiveCategory(cat);
-              }}
-              className={`px-2.5 py-1 rounded-lg text-[11px] transition-all cursor-pointer ${
-                isActive
-                  ? "bg-white text-black font-bold shadow-sm"
-                  : "bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-white hover:border-neutral-700"
-              }`}
+              variant={isActive ? "primary" : "secondary"}
+              size="sm"
+              onClick={() => setActiveCategory(cat)}
             >
               {cat}
-            </button>
+            </Button>
           );
         })}
       </div>
@@ -164,7 +158,7 @@ export const SkillsSection: React.FC = () => {
         )}
       </div>
 
-    </section>
+    </Section>
   );
 };
 
@@ -182,7 +176,7 @@ const SkillCardItem: React.FC<{
     >
       <button
         onClick={() => audioEngine.playKeyClick("down")}
-        className={`px-3 py-2 rounded-xl border transition-all duration-200 flex items-center gap-2.5 text-xs font-mono focus:outline-none ${
+        className={`px-3 py-2 rounded-xl border transition-all duration-200 flex items-center gap-2.5 text-xs font-mono focus:outline-none cursor-pointer ${
           isHovered
             ? "bg-neutral-800 text-white border-neutral-700 shadow-md scale-105"
             : "bg-neutral-900/90 border-neutral-800/80 text-neutral-200 hover:border-neutral-700"
@@ -199,9 +193,9 @@ const SkillCardItem: React.FC<{
 
         <span className="font-semibold text-xs whitespace-nowrap">{skill.name}</span>
         
-        <span className="text-[10px] px-1.5 py-0.2 rounded bg-neutral-950 text-neutral-400 border border-neutral-800 font-mono">
+        <Badge variant="subtle" className="text-[10px] px-1.5 py-0.2">
           {skill.experience}
-        </span>
+        </Badge>
       </button>
 
       {/* Hover Tooltip Popup */}
@@ -231,12 +225,13 @@ const SkillCardItem: React.FC<{
             </p>
             <div className="flex flex-wrap gap-1 pt-1">
               {skill.tags.map((t) => (
-                <span
+                <Badge
                   key={t}
-                  className="px-1.5 py-0.5 rounded text-[9px] bg-neutral-950 text-neutral-400 border border-neutral-800"
+                  variant="subtle"
+                  className="text-[9px] px-1.5 py-0.5"
                 >
                   #{t}
-                </span>
+                </Badge>
               ))}
             </div>
           </motion.div>

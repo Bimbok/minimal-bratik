@@ -2,8 +2,8 @@
 
 import React, { useEffect } from "react";
 import { useThemeContext } from "../lib/theme-context";
-import { audioEngine } from "../lib/audio";
-import { Keyboard, X } from "lucide-react";
+import { Keyboard } from "lucide-react";
+import { Modal } from "./ui/modal";
 
 export const KeyboardHelpModal: React.FC = () => {
   const { keyboardHelpOpen, setKeyboardHelpOpen } = useThemeContext();
@@ -20,8 +20,6 @@ export const KeyboardHelpModal: React.FC = () => {
     };
   }, [keyboardHelpOpen]);
 
-  if (!keyboardHelpOpen) return null;
-
   const shortcuts = [
     { key: "j / k", action: "Scroll down / up smoothly" },
     { key: "gg", action: "Jump to top of page" },
@@ -35,59 +33,35 @@ export const KeyboardHelpModal: React.FC = () => {
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-150 font-mono">
-      <div
-        className="fixed inset-0"
-        onClick={() => {
-          audioEngine.playKeyClick("down");
-          setKeyboardHelpOpen(false);
-        }}
-      />
-
-      <div className="relative w-full max-w-lg rounded-2xl bg-[#0e0f12] border border-neutral-700 shadow-2xl overflow-hidden z-10 text-xs text-neutral-200">
-        
-        {/* Header */}
-        <div className="px-5 py-4 bg-neutral-950 border-b border-neutral-800 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <Keyboard className="w-4.5 h-4.5 text-white" />
-            <span className="font-extrabold text-sm text-white font-sans tracking-tight">
-              Keyboard Shortcuts & Keybindings
+    <Modal
+      isOpen={keyboardHelpOpen}
+      onClose={() => setKeyboardHelpOpen(false)}
+      title="Keyboard Shortcuts & Keybindings"
+      icon={<Keyboard className="w-4.5 h-4.5 text-white" />}
+      maxWidth="lg"
+      className="bg-[#0e0f12] border-neutral-700 text-xs text-neutral-200"
+    >
+      {/* Shortcuts List */}
+      <div className="space-y-2 bg-[#08090b] -m-4 sm:-m-5 p-5">
+        {shortcuts.map((sc, idx) => (
+          <div
+            key={idx}
+            className="flex items-center justify-between p-2.5 rounded-xl bg-neutral-900/60 border border-neutral-800/80 text-xs hover:border-neutral-700 transition-colors"
+          >
+            <kbd className="px-2.5 py-1 rounded-md bg-neutral-950 border border-neutral-800 text-white font-bold text-[11px] font-mono shadow-inner">
+              {sc.key}
+            </kbd>
+            <span className="text-neutral-300 text-right font-sans text-xs font-medium pl-3">
+              {sc.action}
             </span>
           </div>
-          <button
-            onClick={() => {
-              audioEngine.playKeyClick("down");
-              setKeyboardHelpOpen(false);
-            }}
-            className="p-1.5 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-900 transition-colors"
-          >
-            <X className="w-4 h-4" />
-          </button>
-        </div>
+        ))}
 
-        {/* Shortcuts List */}
-        <div className="p-5 space-y-2 max-h-[70vh] overflow-y-auto bg-[#08090b]">
-          {shortcuts.map((sc, idx) => (
-            <div
-              key={idx}
-              className="flex items-center justify-between p-2.5 rounded-xl bg-neutral-900/60 border border-neutral-800/80 text-xs hover:border-neutral-700 transition-colors"
-            >
-              <kbd className="px-2.5 py-1 rounded-md bg-neutral-950 border border-neutral-800 text-white font-bold text-[11px] font-mono shadow-inner">
-                {sc.key}
-              </kbd>
-              <span className="text-neutral-300 text-right font-sans text-xs font-medium pl-3">
-                {sc.action}
-              </span>
-            </div>
-          ))}
-        </div>
-
-        {/* Footer */}
-        <div className="px-5 py-3 bg-neutral-950 border-t border-neutral-800 text-[11px] text-neutral-400 text-center font-mono">
+        {/* Footer info */}
+        <div className="pt-3 text-[11px] text-neutral-500 text-center font-mono">
           Neovim & Vim keybindings are enabled globally on desktop!
         </div>
-
       </div>
-    </div>
+    </Modal>
   );
 };

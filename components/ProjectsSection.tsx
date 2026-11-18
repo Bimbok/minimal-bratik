@@ -7,6 +7,7 @@ import { audioEngine } from "../lib/audio";
 import { ArrowUpRight, Pin, Code2, FolderGit2, ChevronDown, Play } from "lucide-react";
 import { ProjectGithubHoverCard } from "./ProjectGithubHoverCard";
 import { motion, AnimatePresence } from "framer-motion";
+import { Section, SectionHeader, Button } from "./ui";
 
 export const ProjectsSection: React.FC = () => {
   const { setSelectedProject } = useThemeContext();
@@ -15,21 +16,14 @@ export const ProjectsSection: React.FC = () => {
   const visibleProjects = showAll ? PORTFOLIO_DATA.projects : PORTFOLIO_DATA.projects.slice(0, 4);
 
   return (
-    <section id="projects" className="space-y-5 pt-6 border-t border-neutral-800/80">
-      
+    <Section id="projects" className="space-y-5">
       {/* Section Header */}
-      <div className="flex items-center justify-between font-sans">
-        <h2 className="text-xl font-bold tracking-tight text-white flex items-center gap-2">
-          <FolderGit2 className="w-5 h-5 text-neutral-300" />
-          <span>Projects</span>
-          <span className="text-xs px-2 py-0.5 rounded-full bg-neutral-900 border border-neutral-800 text-neutral-400 font-mono font-normal">
-            {PORTFOLIO_DATA.projects.length} Total
-          </span>
-        </h2>
-        <span className="text-[11px] font-mono text-neutral-500">
-          Hover cards to zoom & view live GitHub stats
-        </span>
-      </div>
+      <SectionHeader
+        title="Projects"
+        icon={<FolderGit2 className="w-5 h-5 text-neutral-300" />}
+        badge={`${PORTFOLIO_DATA.projects.length} Total`}
+        subtitle="Hover cards to zoom & view live GitHub stats"
+      />
 
       {/* 2-Column Grid with Monochrome Blackish Styling */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-mono">
@@ -178,12 +172,11 @@ export const ProjectsSection: React.FC = () => {
       {/* Show More / Show Less Interactive Button */}
       {PORTFOLIO_DATA.projects.length > 4 && (
         <div className="flex justify-center pt-3">
-          <button
-            onClick={() => {
-              audioEngine.playKeyClick("down");
-              setShowAll((prev) => !prev);
-            }}
-            className="group relative inline-flex items-center gap-2.5 px-6 py-2.5 rounded-xl bg-[#0e0f13] border border-neutral-800 hover:border-neutral-600 text-neutral-200 hover:text-white font-mono text-xs font-semibold shadow-xl hover:shadow-black/60 transition-all duration-300 active:scale-95 cursor-pointer"
+          <Button
+            variant="outline"
+            size="lg"
+            onClick={() => setShowAll((prev) => !prev)}
+            className="group relative px-6 py-2.5 rounded-xl bg-[#0e0f13] border-neutral-800 hover:border-neutral-600 font-mono text-xs font-semibold shadow-xl hover:shadow-black/60"
           >
             <span>
               {showAll ? "Show Less" : `Show More Projects (+${PORTFOLIO_DATA.projects.length - 4})`}
@@ -193,9 +186,9 @@ export const ProjectsSection: React.FC = () => {
                 showAll ? "rotate-180" : ""
               }`}
             />
-          </button>
+          </Button>
         </div>
       )}
-    </section>
+    </Section>
   );
 };

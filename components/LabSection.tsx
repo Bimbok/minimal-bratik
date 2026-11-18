@@ -5,6 +5,7 @@ import { useThemeContext } from "../lib/theme-context";
 import { audioEngine } from "../lib/audio";
 import { PORTFOLIO_DATA } from "../lib/portfolio-data";
 import { Terminal as TermIcon, Sparkles } from "lucide-react";
+import { Button } from "./ui";
 
 interface HistoryEntry {
   command: string;
@@ -189,32 +190,20 @@ export const LabSection: React.FC = () => {
 
         {/* Tab switcher */}
         <div className="flex items-center gap-2 font-mono text-xs">
-          <button
-            onClick={() => {
-              audioEngine.playKeyClick("down");
-              setActiveTab("terminal");
-            }}
-            className={`px-3 py-1.5 rounded-md border transition-colors ${
-              activeTab === "terminal"
-                ? "bg-[var(--badge-bg)] border-[var(--accent-color)] text-[var(--badge-text)] font-bold"
-                : "bg-[var(--bg-card)] border-[var(--border-color)] text-[var(--text-secondary)]"
-            }`}
+          <Button
+            variant={activeTab === "terminal" ? "primary" : "secondary"}
+            size="sm"
+            onClick={() => setActiveTab("terminal")}
           >
             [CLI Shell]
-          </button>
-          <button
-            onClick={() => {
-              audioEngine.playKeyClick("down");
-              setActiveTab("utility");
-            }}
-            className={`px-3 py-1.5 rounded-md border transition-colors ${
-              activeTab === "utility"
-                ? "bg-[var(--badge-bg)] border-[var(--accent-color)] text-[var(--badge-text)] font-bold"
-                : "bg-[var(--bg-card)] border-[var(--border-color)] text-[var(--text-secondary)]"
-            }`}
+          </Button>
+          <Button
+            variant={activeTab === "utility" ? "primary" : "secondary"}
+            size="sm"
+            onClick={() => setActiveTab("utility")}
           >
             [Dev Utils]
-          </button>
+          </Button>
         </div>
       </div>
 

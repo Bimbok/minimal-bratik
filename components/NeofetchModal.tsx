@@ -4,13 +4,13 @@ import React from "react";
 import { useThemeContext } from "../lib/theme-context";
 import { audioEngine } from "../lib/audio";
 import { PORTFOLIO_DATA } from "../lib/portfolio-data";
-import { Cpu, X, Copy, Check } from "lucide-react";
+import { Cpu, Copy, Check } from "lucide-react";
+import { Modal } from "./ui/modal";
+import { Button } from "./ui/button";
 
 export const NeofetchModal: React.FC = () => {
   const { neofetchOpen, setNeofetchOpen, showToast } = useThemeContext();
   const [copied, setCopied] = React.useState(false);
-
-  if (!neofetchOpen) return null;
 
   const specs = PORTFOLIO_DATA.systemSpecs;
 
@@ -37,60 +37,45 @@ export const NeofetchModal: React.FC = () => {
   `;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in duration-150 font-mono">
-      <div
-        className="fixed inset-0"
-        onClick={() => setNeofetchOpen(false)}
-      />
+    <Modal
+      isOpen={neofetchOpen}
+      onClose={() => setNeofetchOpen(false)}
+      title="system_specs.neofetch"
+      icon={<Cpu className="w-4 h-4 text-emerald-400" />}
+      maxWidth="2xl"
+      className="bg-[var(--bg-card)] border-[var(--border-color)] text-xs text-[var(--text-primary)]"
+      headerActions={
+        <Button
+          variant="secondary"
+          size="sm"
+          onClick={handleCopySpecs}
+          className="text-[10px] gap-1 px-2 py-1"
+        >
+          {copied ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+          <span>{copied ? "Copied!" : "Copy JSON"}</span>
+        </Button>
+      }
+    >
+      <div className="space-y-4">
+        <pre className="text-[var(--accent-color)] font-mono text-[11px] sm:text-xs leading-tight overflow-x-auto">
+          {asciiLogo}
+        </pre>
 
-      <div className="relative w-full max-w-2xl rounded-xl bg-[var(--bg-card)] border border-[var(--border-color)] shadow-2xl overflow-hidden z-10 text-xs text-[var(--text-primary)]">
-        
-        {/* Header */}
-        <div className="px-4 py-3 bg-[var(--terminal-bg)] border-b border-[var(--border-color)] flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Cpu className="w-4 h-4 text-[var(--accent-color)]" />
-            <span className="font-bold">system_specs.neofetch</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={handleCopySpecs}
-              className="px-2 py-1 rounded bg-[var(--bg-main)] border border-[var(--border-color)] hover:border-[var(--accent-color)] text-[10px] text-[var(--text-secondary)] flex items-center gap-1"
-            >
-              {copied ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
-              <span>{copied ? "Copied!" : "Copy JSON"}</span>
-            </button>
-            <button
-              onClick={() => setNeofetchOpen(false)}
-              className="p-1 text-[var(--text-muted)] hover:text-[var(--text-primary)]"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-
-        {/* Content */}
-        <div className="p-6 space-y-4">
-          <pre className="text-[var(--accent-color)] font-mono text-[11px] sm:text-xs leading-tight overflow-x-auto">
-            {asciiLogo}
-          </pre>
-
-          {/* Color palette test strip */}
-          <div className="flex items-center gap-2 pt-2 border-t border-[var(--border-color)]">
-            <span className="text-[10px] text-[var(--text-muted)]">Colors:</span>
-            <div className="flex gap-1.5">
-              <span className="w-4 h-4 bg-black rounded" />
-              <span className="w-4 h-4 bg-red-500 rounded" />
-              <span className="w-4 h-4 bg-green-500 rounded" />
-              <span className="w-4 h-4 bg-yellow-500 rounded" />
-              <span className="w-4 h-4 bg-blue-500 rounded" />
-              <span className="w-4 h-4 bg-purple-500 rounded" />
-              <span className="w-4 h-4 bg-cyan-500 rounded" />
-              <span className="w-4 h-4 bg-white rounded" />
-            </div>
+        {/* Color palette test strip */}
+        <div className="flex items-center gap-2 pt-2 border-t border-[var(--border-color)]">
+          <span className="text-[10px] text-[var(--text-muted)]">Colors:</span>
+          <div className="flex gap-1.5">
+            <span className="w-4 h-4 bg-black rounded" />
+            <span className="w-4 h-4 bg-red-500 rounded" />
+            <span className="w-4 h-4 bg-green-500 rounded" />
+            <span className="w-4 h-4 bg-yellow-500 rounded" />
+            <span className="w-4 h-4 bg-blue-500 rounded" />
+            <span className="w-4 h-4 bg-purple-500 rounded" />
+            <span className="w-4 h-4 bg-cyan-500 rounded" />
+            <span className="w-4 h-4 bg-white rounded" />
           </div>
         </div>
-
       </div>
-    </div>
+    </Modal>
   );
 };

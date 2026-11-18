@@ -16,6 +16,7 @@ import {
   Copy,
   Check,
 } from "lucide-react";
+import { Section, Card, Badge } from "./ui";
 
 export const HobbySection: React.FC = () => {
   const { setAnimeModalOpen, setRiceModalOpen, setRiceModalTab, showToast } = useThemeContext();
@@ -66,14 +67,14 @@ export const HobbySection: React.FC = () => {
   ].slice(0, 2);
 
   return (
-    <section id="hobbies" className="space-y-6 pt-4">
+    <Section id="hobbies" className="space-y-6 pt-4">
       {/* Section Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-neutral-800/80">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-xs font-mono px-2 py-0.5 rounded bg-neutral-900 border border-neutral-800 text-neutral-400">
+            <Badge variant="subtle" className="text-xs px-2 py-0.5">
               ~/.config/hobbies
-            </span>
+            </Badge>
             <span className="text-xs text-neutral-400 font-mono hidden sm:inline">
               {"// personal interests & creative outlets"}
             </span>
@@ -85,10 +86,10 @@ export const HobbySection: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-2 self-start sm:self-auto">
-          <span className="text-[11px] font-mono px-2.5 py-1 rounded-lg bg-neutral-900/80 border border-neutral-800 text-neutral-300 flex items-center gap-1.5">
+          <Badge variant="subtle" className="text-[11px] px-2.5 py-1 gap-1.5">
             <span className={`w-2 h-2 rounded-full ${isLiveSynced ? "bg-emerald-400 animate-pulse" : "bg-neutral-500"}`} />
             <span>{isLiveSynced ? "MAL Live Synced" : "MAL Cached"} (@{PORTFOLIO_DATA.hobbies.myAnimeListUsername})</span>
-          </span>
+          </Badge>
         </div>
       </div>
 
@@ -98,7 +99,7 @@ export const HobbySection: React.FC = () => {
         {/* ========================================================= */}
         {/* HOBBY 1: ANIME & MANGA MODULE                             */}
         {/* ========================================================= */}
-        <div className="p-5 sm:p-6 rounded-2xl bg-neutral-900/40 border border-neutral-800 hover:border-neutral-700 transition-all duration-300 relative overflow-hidden group">
+        <Card variant="interactive" className="p-5 sm:p-6 bg-neutral-900/40 border-neutral-800 relative">
           
           {/* Subtle Top Gradient Accent */}
           <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-neutral-600 to-transparent opacity-40 group-hover:opacity-100 transition-opacity" />
@@ -292,13 +293,13 @@ export const HobbySection: React.FC = () => {
             </div>
           </div>
 
-        </div>
+        </Card>
 
         {/* ========================================================= */}
         {/* HOBBY 2: LINUX & HYPRLAND RICE SHOWCASE                   */}
         {/* ========================================================= */}
         {riceData && (
-          <div className="p-5 sm:p-6 rounded-2xl bg-neutral-900/40 border border-neutral-800 hover:border-neutral-700 transition-all duration-300 relative overflow-hidden group">
+          <Card variant="interactive" className="p-5 sm:p-6 bg-neutral-900/40 border-neutral-800 relative">
             
             {/* Subtle Top Gradient Accent */}
             <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-40 group-hover:opacity-100 transition-opacity" />
@@ -523,10 +524,10 @@ export const HobbySection: React.FC = () => {
               </div>
             </div>
 
-          </div>
+          </Card>
         )}
 
       </div>
-    </section>
+    </Section>
   );
 };

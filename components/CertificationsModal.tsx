@@ -6,6 +6,7 @@ import { useThemeContext } from "../lib/theme-context";
 import { PORTFOLIO_DATA, CertificationItem } from "../lib/portfolio-data";
 import { audioEngine } from "../lib/audio";
 import { Award, X, ExternalLink, Calendar, CheckCircle2, Maximize2 } from "lucide-react";
+import { Badge, Button, LinkButton } from "./ui";
 
 export const CertificationsModal: React.FC = () => {
   const { certificationsOpen, setCertificationsOpen } = useThemeContext();
@@ -161,25 +162,23 @@ export const CertificationsModal: React.FC = () => {
                 <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-neutral-800/80">
                   <div className="flex flex-wrap gap-1.5">
                     {cert.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-2 py-0.5 rounded-md bg-neutral-900 text-neutral-300 border border-neutral-800 text-[10px] font-mono"
-                      >
+                      <Badge key={tag} variant="subtle" className="text-[10px] px-2 py-0.5">
                         {tag}
-                      </span>
+                      </Badge>
                     ))}
                   </div>
 
                   {cert.credentialUrl && (
-                    <a
+                    <LinkButton
+                      variant="secondary"
+                      size="md"
                       href={cert.credentialUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="px-3 py-1.5 rounded-lg bg-neutral-900 border border-neutral-800 text-white hover:bg-neutral-800 transition-all flex items-center gap-1.5 text-xs font-mono shrink-0"
                     >
                       <span>Verify Credential</span>
                       <ExternalLink className="w-3.5 h-3.5 text-neutral-400" />
-                    </a>
+                    </LinkButton>
                   )}
                 </div>
               </div>
@@ -190,12 +189,13 @@ export const CertificationsModal: React.FC = () => {
         {/* Footer */}
         <div className="px-5 py-3 border-t border-neutral-800 bg-neutral-950 flex items-center justify-between text-xs text-neutral-500 shrink-0">
           <span>Official documents verified & cataloged</span>
-          <button
+          <Button
+            variant="default"
+            size="sm"
             onClick={() => setCertificationsOpen(false)}
-            className="px-3 py-1 rounded-lg bg-neutral-900 border border-neutral-800 text-neutral-300 hover:text-white hover:bg-neutral-800 transition-all font-mono text-[11px]"
           >
             Close
-          </button>
+          </Button>
         </div>
 
       </div>

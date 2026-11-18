@@ -5,6 +5,7 @@ import { PORTFOLIO_DATA } from "../lib/portfolio-data";
 import { audioEngine } from "../lib/audio";
 import { ChevronDown, MapPin } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Section, SectionHeader, Badge, Card } from "./ui";
 
 export const ExperienceSection: React.FC = () => {
   const [openId, setOpenId] = useState<string | null>("algoscope-exp");
@@ -37,25 +38,18 @@ export const ExperienceSection: React.FC = () => {
   };
 
   return (
-    <section id="experience" className="space-y-4 pt-4 border-t border-neutral-800/80">
+    <Section id="experience" className="space-y-4 pt-4">
       {/* Section Title */}
-      <div className="flex items-center justify-between font-sans">
-        <h2 className="text-xl font-bold tracking-tight text-white">
-          Experiences
-        </h2>
-        <span className="text-[11px] font-mono text-neutral-500">
-          Work & Mentorship
-        </span>
-      </div>
+      <SectionHeader title="Experiences" subtitle="Work & Mentorship" />
 
       {/* Accordion List */}
       <div className="space-y-2.5">
         {PORTFOLIO_DATA.experiences.map((item) => {
           const isOpen = openId === item.id;
           return (
-            <div
+            <Card
               key={item.id}
-              className="rounded-xl bg-neutral-900/60 border border-neutral-800/70 hover:border-neutral-700/80 transition-colors overflow-hidden font-mono"
+              className="rounded-xl bg-neutral-900/60 border border-neutral-800/70 hover:border-neutral-700/80 transition-colors font-mono"
             >
               {/* Header Row */}
               <button
@@ -80,9 +74,9 @@ export const ExperienceSection: React.FC = () => {
                         {item.title}
                       </h3>
                       {item.type && (
-                        <span className="hidden sm:inline-block text-[10px] px-2 py-0.5 rounded bg-neutral-800 text-neutral-300 border border-neutral-700 font-medium">
+                        <Badge variant="default" className="hidden sm:inline-block">
                           {item.type}
-                        </span>
+                        </Badge>
                       )}
                     </div>
                     <div className="text-xs text-neutral-400 truncate">
@@ -151,10 +145,10 @@ export const ExperienceSection: React.FC = () => {
                 )}
               </AnimatePresence>
 
-            </div>
+            </Card>
           );
         })}
       </div>
-    </section>
+    </Section>
   );
 };
