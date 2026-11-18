@@ -171,7 +171,10 @@ export const DiscordActivityWidget: React.FC = () => {
     if (name.includes("archivetune") || name.includes("archive tune")) {
       return "https://avatars.githubusercontent.com/u/161427771?s=200";
     }
-    if (name.includes("neovim") || name.includes("nvim") || name.includes("vim")) {
+    if (name.includes("neovim") || name.includes("nvim")) {
+      return "/neovim.svg";
+    }
+    if (name.includes("vim")) {
       return "https://skillicons.dev/icons?i=vim&theme=dark";
     }
     if (name.includes("obsidian")) {
