@@ -213,8 +213,8 @@ export const MovieDetailModal: React.FC<{ cinemaData?: TraktData }> = ({ cinemaD
             {/* Live Now Watching Banner if currently streaming */}
             {nowWatching && (
               <div className="p-4 rounded-xl bg-gradient-to-r from-red-950/40 via-neutral-900 to-neutral-950 border border-red-800/80 flex items-center justify-between gap-4">
-                <div className="flex items-center gap-3 min-w-0">
-                  <div className="w-12 h-16 rounded-lg bg-neutral-900 border border-neutral-700 overflow-hidden shrink-0 shadow-lg">
+                <div className="flex items-center gap-3.5 min-w-0">
+                  <div className="w-14 aspect-[2/3] rounded-lg bg-neutral-900 border border-neutral-700 overflow-hidden shrink-0 shadow-lg relative flex items-center justify-center">
                     {nowWatching.posterUrl ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
@@ -258,7 +258,7 @@ export const MovieDetailModal: React.FC<{ cinemaData?: TraktData }> = ({ cinemaD
                   >
                     <div className="flex items-center gap-3.5 min-w-0">
                       {/* Thumbnail / Screenshot */}
-                      <div className="relative w-16 h-10 sm:w-20 sm:h-12 rounded-lg bg-neutral-900 border border-neutral-800 overflow-hidden shrink-0 flex items-center justify-center shadow-md">
+                      <div className="relative w-20 sm:w-24 aspect-[16/9] rounded-lg bg-neutral-900 border border-neutral-800 overflow-hidden shrink-0 flex items-center justify-center shadow-md">
                         {item.screenshotUrl || item.posterUrl ? (
                           // eslint-disable-next-line @next/next/no-img-element
                           <img
@@ -328,9 +328,9 @@ export const MovieDetailModal: React.FC<{ cinemaData?: TraktData }> = ({ cinemaD
                 {shows.map((show) => (
                   <div
                     key={show.id}
-                    className="p-3.5 rounded-xl bg-neutral-950/70 border border-neutral-800/80 hover:border-neutral-700 transition-all flex gap-3 group"
+                    className="p-3.5 rounded-xl bg-neutral-950/70 border border-neutral-800/80 hover:border-neutral-700 transition-all flex gap-3.5 group"
                   >
-                    <div className="w-16 h-22 rounded-lg bg-neutral-900 border border-neutral-800 overflow-hidden shrink-0 shadow-md">
+                    <div className="w-20 aspect-[2/3] rounded-lg bg-neutral-900 border border-neutral-800 overflow-hidden shrink-0 shadow-md relative flex items-center justify-center">
                       {show.posterUrl ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
@@ -341,11 +341,11 @@ export const MovieDetailModal: React.FC<{ cinemaData?: TraktData }> = ({ cinemaD
                           loading="lazy"
                         />
                       ) : (
-                        <Tv className="w-6 h-6 text-neutral-500 m-auto mt-7" />
+                        <Tv className="w-6 h-6 text-neutral-500 m-auto" />
                       )}
                     </div>
 
-                    <div className="flex-1 min-w-0 flex flex-col justify-between">
+                    <div className="flex-1 min-w-0 flex flex-col justify-between py-0.5">
                       <div>
                         <div className="flex items-center justify-between gap-1">
                           <h4 className="font-bold text-xs sm:text-sm text-white truncate font-sans group-hover:text-neutral-100">
@@ -358,7 +358,7 @@ export const MovieDetailModal: React.FC<{ cinemaData?: TraktData }> = ({ cinemaD
                             </span>
                           )}
                         </div>
-                        <div className="text-[10px] text-neutral-400 font-mono mt-0.5">
+                        <div className="text-[10px] text-neutral-400 font-mono mt-0.5 truncate">
                           {show.year} {show.network && `• ${show.network}`}
                         </div>
                       </div>
@@ -376,7 +376,7 @@ export const MovieDetailModal: React.FC<{ cinemaData?: TraktData }> = ({ cinemaD
 
             {/* Tab 3: Movies */}
             {activeTab === "movies" && (
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3.5">
                 {movies.map((movie) => (
                   <a
                     key={movie.id}
@@ -385,29 +385,29 @@ export const MovieDetailModal: React.FC<{ cinemaData?: TraktData }> = ({ cinemaD
                     rel="noopener noreferrer"
                     className="p-2.5 rounded-xl bg-neutral-950/70 border border-neutral-800/80 hover:border-neutral-700 hover:bg-neutral-900 transition-all flex flex-col justify-between group"
                   >
-                    <div className="h-40 w-full rounded-lg bg-neutral-900 border border-neutral-800 overflow-hidden mb-2 shadow-md">
+                    <div className="aspect-[2/3] w-full rounded-xl bg-neutral-900 border border-neutral-800 overflow-hidden mb-2 shadow-md relative flex items-center justify-center">
                       {movie.posterUrl ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
                           src={movie.posterUrl}
                           alt={movie.title}
                           referrerPolicy="no-referrer"
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                           loading="lazy"
                         />
                       ) : (
-                        <Film className="w-8 h-8 text-neutral-500 m-auto mt-16" />
+                        <Film className="w-8 h-8 text-neutral-500 m-auto" />
                       )}
                     </div>
 
-                    <div>
+                    <div className="px-0.5">
                       <h4 className="font-bold text-xs text-white truncate font-sans group-hover:text-neutral-100">
                         {movie.title}
                       </h4>
                       <div className="flex items-center justify-between text-[10px] font-mono text-neutral-400 mt-1">
                         <span>{movie.year || "Movie"}</span>
                         {movie.rating && (
-                          <span className="inline-flex items-center gap-0.5 text-amber-400">
+                          <span className="inline-flex items-center gap-0.5 text-amber-400 font-semibold">
                             <Star className="w-2.5 h-2.5 fill-current" />
                             <span>{movie.rating}</span>
                           </span>

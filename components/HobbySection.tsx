@@ -920,7 +920,7 @@ export const HobbySection: React.FC = () => {
                     </div>
 
                     <div className="flex items-center gap-3">
-                      <div className="w-12 h-16 rounded-lg bg-neutral-900 border border-neutral-800 overflow-hidden shrink-0 shadow-lg">
+                      <div className="w-14 aspect-[2/3] rounded-lg bg-neutral-900 border border-neutral-800 overflow-hidden shrink-0 shadow-lg relative flex items-center justify-center">
                         {spotlight.posterUrl ? (
                           // eslint-disable-next-line @next/next/no-img-element
                           <img
@@ -988,7 +988,7 @@ export const HobbySection: React.FC = () => {
                             src={item.screenshotUrl || item.posterUrl}
                             alt={item.title}
                             referrerPolicy="no-referrer"
-                            className="w-7 h-5 rounded object-cover shrink-0"
+                            className="w-10 h-7 rounded object-cover shrink-0"
                             loading="lazy"
                             onError={(e) => {
                               e.currentTarget.style.display = "none";
