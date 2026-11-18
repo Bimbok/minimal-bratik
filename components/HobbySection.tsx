@@ -2,8 +2,9 @@
 
 import React, { useState, useEffect } from "react";
 import { useThemeContext } from "../lib/theme-context";
-import { PORTFOLIO_DATA, AnimeItem } from "../lib/portfolio-data";
+import { PORTFOLIO_DATA, AnimeItem, MusicData } from "../lib/portfolio-data";
 import { audioEngine } from "../lib/audio";
+import { LastFmIcon } from "./BrandIcons";
 import {
   Heart,
   Tv,
@@ -15,17 +16,20 @@ import {
   FolderGit2,
   Copy,
   Check,
+  Disc,
 } from "lucide-react";
 import { Section, Card, Badge } from "./ui";
 
 export const HobbySection: React.FC = () => {
-  const { setAnimeModalOpen, setRiceModalOpen, setRiceModalTab, showToast } = useThemeContext();
+  const { setAnimeModalOpen, setRiceModalOpen, setRiceModalTab, setMusicModalOpen, showToast } = useThemeContext();
   const riceData = PORTFOLIO_DATA.hobbies.linuxRice;
   const [copiedDotfile, setCopiedDotfile] = useState<string | null>(null);
 
   const [animeData, setAnimeData] = useState<AnimeItem[]>(PORTFOLIO_DATA.hobbies.anime);
   const [profileUrl, setProfileUrl] = useState<string>(PORTFOLIO_DATA.hobbies.animeProfileUrl);
   const [isLiveSynced, setIsLiveSynced] = useState<boolean>(false);
+  const [musicData, setMusicData] = useState<MusicData | undefined>(PORTFOLIO_DATA.hobbies.music);
+  const [isMusicLiveSynced, setIsMusicLiveSynced] = useState<boolean>(false);
   const [stats, setStats] = useState(
     PORTFOLIO_DATA.hobbies.stats || {
       daysWatched: 7.2,
@@ -56,6 +60,21 @@ export const HobbySection: React.FC = () => {
       .catch(() => {
         // Fallback already in place
       });
+  }, []);
+
+  // Fetch dynamic Last.fm music data via API route
+  useEffect(() => {
+    fetch(`/api/lastfm?username=${PORTFOLIO_DATA.hobbies.music?.lastfmUsername || "bimbokmkj"}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.success && data?.music) {
+          setMusicData(data.music);
+          if (data.isLiveSynced) {
+            setIsMusicLiveSynced(true);
+          }
+        }
+      })
+      .catch(() => {});
   }, []);
 
   // Filter 1-2 featured anime: Watching first, then recently completed
@@ -519,6 +538,174 @@ export const HobbySection: React.FC = () => {
                   className="text-xs text-neutral-400 hover:text-white font-medium flex items-center gap-1 hover:underline"
                 >
                   <span>All Dotfiles on GitHub</span>
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              </div>
+            </div>
+
+          </Card>
+        )}
+
+        {/* ========================================================= */}
+        {/* HOBBY 3: MUSIC & AUDIO STREAMING (LAST.FM)               */}
+        {/* ========================================================= */}
+        {musicData && (
+          <Card variant="interactive" className="p-5 sm:p-6 bg-neutral-900/40 border-neutral-800 relative">
+            {/* Subtle Top Gradient Accent */}
+            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#D51007] to-transparent opacity-40 group-hover:opacity-100 transition-opacity" />
+
+            {/* Module Header */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-neutral-950 border border-neutral-800 flex items-center justify-center text-white shadow-inner">
+                  <LastFmIcon className="w-5 h-5 text-[#D51007]" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-base sm:text-lg font-bold text-white font-sans tracking-tight">
+                      Music & Audio Streaming
+                    </h3>
+                    <Badge variant="subtle" className="text-[10px]">
+                      Hobby 03
+                    </Badge>
+                  </div>
+                  <p className="text-xs text-neutral-400 font-sans mt-0.5">
+                    Bollywood, Sufi & Indie flow-state soundtrack scrobbled live via Last.fm.
+                  </p>
+                </div>
+              </div>
+
+              {/* Header Right: Live Sync Pill */}
+              <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
+                <Badge variant="subtle" className="text-[11px] px-2.5 py-1 gap-1.5 font-mono">
+                  <span className={`w-2 h-2 rounded-full ${isMusicLiveSynced ? "bg-emerald-400 animate-pulse" : "bg-[#D51007]"}`} />
+                  <span>{isMusicLiveSynced ? "Last.fm Live Synced" : "Last.fm Scrobbler"} (@{musicData.lastfmUsername})</span>
+                </Badge>
+              </div>
+            </div>
+
+            {/* Stats Row */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4 font-mono text-center">
+              <div className="p-2.5 rounded-xl bg-neutral-950/70 border border-neutral-800/80">
+                <div className="text-base font-extrabold text-white">{musicData.stats.scrobbles.toLocaleString()}</div>
+                <div className="text-[10px] text-neutral-500 uppercase tracking-wider">Scrobbles</div>
+              </div>
+              <div className="p-2.5 rounded-xl bg-neutral-950/70 border border-neutral-800/80">
+                <div className="text-base font-extrabold text-white">{musicData.stats.artists}</div>
+                <div className="text-[10px] text-neutral-500 uppercase tracking-wider">Artists</div>
+              </div>
+              <div className="p-2.5 rounded-xl bg-neutral-950/70 border border-neutral-800/80">
+                <div className="text-base font-extrabold text-white">{musicData.stats.lovedTracks}</div>
+                <div className="text-[10px] text-neutral-500 uppercase tracking-wider">Loved Tracks</div>
+              </div>
+              <div className="p-2.5 rounded-xl bg-neutral-950/70 border border-neutral-800/80">
+                <div className="text-base font-extrabold text-white">125</div>
+                <div className="text-[10px] text-neutral-500 uppercase tracking-wider">This Week</div>
+              </div>
+            </div>
+
+            {/* Main Content: Featured Obsession Track + Recent Scrobbles Strip */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 mb-4">
+              
+              {/* Left Column: Featured Obsession / Top Track (5 cols) */}
+              {musicData.topTrack && (
+                <div className="lg:col-span-5 p-3.5 rounded-xl bg-neutral-950/90 border border-neutral-800 flex flex-col justify-between space-y-3 relative overflow-hidden group/top">
+                  <div className="flex items-center justify-between text-xs font-mono">
+                    <span className="text-[10px] text-[#D51007] font-bold uppercase tracking-wider flex items-center gap-1.5">
+                      <Heart className="w-3 h-3 fill-current" />
+                      <span>Top All-Time Track</span>
+                    </span>
+                    <Badge variant="subtle" className="text-[9px]">Rank #1</Badge>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    {/* Vinyl spinning graphic */}
+                    <div className="relative w-12 h-12 rounded-full bg-neutral-900 border-2 border-neutral-700 flex items-center justify-center shrink-0 shadow-lg group-hover/top:rotate-90 transition-transform duration-700">
+                      <div className="w-4 h-4 rounded-full bg-neutral-950 border border-neutral-600 flex items-center justify-center">
+                        <div className="w-1.5 h-1.5 rounded-full bg-[#D51007]" />
+                      </div>
+                    </div>
+
+                    <div className="min-w-0">
+                      <h4 className="font-bold text-sm text-white font-sans tracking-tight truncate">
+                        {musicData.topTrack.name}
+                      </h4>
+                      <p className="text-xs text-neutral-400 font-mono truncate">
+                        {musicData.topTrack.artist} • <span className="text-neutral-500">{musicData.topTrack.album}</span>
+                      </p>
+                    </div>
+                  </div>
+
+                  {musicData.topTrack.url && (
+                    <a
+                      href={musicData.topTrack.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-xs text-neutral-300 hover:text-white font-medium hover:underline pt-1"
+                    >
+                      <Play className="w-3 h-3 fill-current text-white" />
+                      <span>Listen on Last.fm</span>
+                    </a>
+                  )}
+                </div>
+              )}
+
+              {/* Right Column: Recent Tracks Mini-Feed (7 cols) */}
+              <div className="lg:col-span-7 space-y-1.5">
+                <div className="text-[10px] font-mono text-neutral-500 uppercase tracking-wider mb-1 flex items-center justify-between">
+                  <span>Recently Scrobbled</span>
+                  <span>From LastWave / YTM</span>
+                </div>
+
+                <div className="space-y-1.5">
+                  {musicData.recentTracks.slice(0, 3).map((track, idx) => (
+                    <div
+                      key={idx}
+                      className="p-2 rounded-lg bg-neutral-950/60 border border-neutral-850 hover:border-neutral-700 transition-colors flex items-center justify-between gap-3 text-xs"
+                    >
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <Disc className="w-3.5 h-3.5 text-neutral-500 shrink-0" />
+                        <span className="font-semibold text-neutral-200 truncate font-sans">{track.name}</span>
+                        <span className="text-neutral-500 font-mono text-[11px] truncate">— {track.artist}</span>
+                      </div>
+                      <span className="text-[10px] font-mono text-neutral-500 shrink-0">{track.playedAt}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+            </div>
+
+            {/* Module Bottom Bar */}
+            <div className="pt-3 border-t border-neutral-800/80 flex flex-col sm:flex-row items-center justify-between gap-2.5 text-xs">
+              <div className="flex items-center gap-2 text-neutral-400 text-[11px] font-sans">
+                <span className="text-white font-semibold">{musicData.stats.artists} Artists</span>
+                <span>•</span>
+                <span>{musicData.stats.lovedTracks} Loved Tracks</span>
+                <span>•</span>
+                <span className="text-neutral-500">Top: Kumar Sanu, Pritam, A.R. Rahman</span>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => {
+                    audioEngine.playKeyClick("down");
+                    setMusicModalOpen(true);
+                  }}
+                  className="text-xs text-neutral-300 hover:text-white font-medium flex items-center gap-1 hover:underline cursor-pointer"
+                >
+                  <span>Explore Music Vault</span>
+                  <ArrowRight className="w-3 h-3" />
+                </button>
+
+                <a
+                  href={musicData.lastfmProfileUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => audioEngine.playKeyClick("enter")}
+                  className="text-xs text-neutral-400 hover:text-white font-medium flex items-center gap-1 hover:underline"
+                >
+                  <span>Last.fm Profile</span>
                   <ExternalLink className="w-3 h-3" />
                 </a>
               </div>

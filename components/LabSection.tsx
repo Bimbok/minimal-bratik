@@ -13,7 +13,7 @@ interface HistoryEntry {
 }
 
 export const LabSection: React.FC = () => {
-  const { setTheme, setMatrixRainActive, toggleAudio, setResumeOpen, setNeofetchOpen } = useThemeContext();
+  const { setTheme, setMatrixRainActive, toggleAudio, setResumeOpen, setNeofetchOpen, setMusicModalOpen } = useThemeContext();
   const [inputVal, setInputVal] = useState("");
   const [history, setHistory] = useState<HistoryEntry[]>([
     {
@@ -83,6 +83,9 @@ export const LabSection: React.FC = () => {
         if (arg === "resume" || arg === "resume.txt") {
           setResumeOpen(true);
           output = <p className="text-xs text-[var(--accent-color)]">Opening resume viewer modal...</p>;
+        } else if (arg === "music" || arg === "music.json" || arg === "lastfm") {
+          setMusicModalOpen(true);
+          output = <p className="text-xs text-red-400 font-bold">Opening Last.fm Music Vault modal...</p>;
         } else if (arg === "bio" || arg === "bio.md") {
           output = <p className="text-xs">{PORTFOLIO_DATA.profile.bio}</p>;
         } else if (arg === "skills" || arg === "skills.yml") {
@@ -92,6 +95,11 @@ export const LabSection: React.FC = () => {
         } else {
           output = <p className="text-xs text-red-400">File not found: {arg || "(no file specified)"}</p>;
         }
+        break;
+
+      case "music":
+        setMusicModalOpen(true);
+        output = <p className="text-xs text-red-400 font-bold">Opening Last.fm Music Vault modal...</p>;
         break;
 
       case "fetch":

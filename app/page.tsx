@@ -20,6 +20,7 @@ import { ResumeModal } from "../components/ResumeModal";
 import { CertificationsModal } from "../components/CertificationsModal";
 import { AnimeDetailModal } from "../components/AnimeDetailModal";
 import { RiceDetailModal } from "../components/RiceDetailModal";
+import { MusicDetailModal } from "../components/MusicDetailModal";
 import { KeyboardHelpModal } from "../components/KeyboardHelpModal";
 import { ProjectDetailModal } from "../components/ProjectDetailModal";
 import { ToastNotification } from "../components/ToastNotification";
@@ -131,6 +132,7 @@ export default function Home() {
         <CertificationsModal />
         <AnimeDetailModal />
         <RiceDetailModal />
+        <MusicDetailModal />
         <KeyboardHelpModal />
         <ProjectDetailModal />
         <ToastNotification />

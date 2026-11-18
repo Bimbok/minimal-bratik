@@ -101,6 +101,42 @@ export interface LinuxRiceData {
   dotfiles: DotfileRepo[];
 }
 
+export interface MusicTrack {
+  id?: string;
+  name: string;
+  artist: string;
+  album?: string;
+  imageUrl?: string;
+  url?: string;
+  nowPlaying?: boolean;
+  playedAt?: string;
+  loved?: boolean;
+}
+
+export interface MusicArtist {
+  name: string;
+  playcount?: number;
+  imageUrl?: string;
+  url?: string;
+}
+
+export interface MusicStats {
+  scrobbles: number;
+  artists: number;
+  lovedTracks: number;
+  scrobblesThisWeek?: number;
+}
+
+export interface MusicData {
+  lastfmUsername: string;
+  lastfmProfileUrl: string;
+  stats: MusicStats;
+  topTrack?: MusicTrack;
+  recentTracks: MusicTrack[];
+  topArtists?: MusicArtist[];
+  topGenres?: string[];
+}
+
 export interface HobbyData {
   myAnimeListUsername: string;
   animeProfileUrl: string;
@@ -114,6 +150,7 @@ export interface HobbyData {
   };
   anime: AnimeItem[];
   linuxRice?: LinuxRiceData;
+  music?: MusicData;
 }
 
 export interface SkillCategory {
@@ -1621,6 +1658,104 @@ GitHub: github.com/Bimbok | LinkedIn: linkedin.com/in/bimbok
             "git clone https://github.com/Bimbok/yazi.git ~/.config/yazi",
         },
       ],
+    },
+    music: {
+      lastfmUsername: "bimbokmkj",
+      lastfmProfileUrl: "https://www.last.fm/user/bimbokmkj",
+      stats: {
+        scrobbles: 521,
+        artists: 222,
+        lovedTracks: 132,
+        scrobblesThisWeek: 125,
+      },
+      topTrack: {
+        name: "Paas woh aane lage",
+        artist: "Kumar Sanu",
+        album: "Main Khiladi Tu Anari",
+        url: "https://www.last.fm/music/Kumar+Sanu/_/Paas+woh+aane+lage",
+      },
+      recentTracks: [
+        {
+          name: "Tera Hone Laga Hoon",
+          artist: "Pritam Chakraborty",
+          album: "Ajab Prem Ki Ghazab Kahani",
+          imageUrl: "https://upload.wikimedia.org/wikipedia/en/2/27/Ajab_Prem_Ki_Ghazab_Kahani.jpg",
+          url: "https://www.last.fm/music/Pritam+Chakraborty/_/Tera+Hone+Laga+Hoon",
+          playedAt: "4 hours ago",
+        },
+        {
+          name: "Baarish",
+          artist: "Mohammed Irfan",
+          album: "Yaariyan",
+          url: "https://www.last.fm/music/Mohammed+Irfan/_/Baarish",
+          playedAt: "4 hours ago",
+        },
+        {
+          name: "Jaiye Sajana (From 'Dhurandhar The Revenge')",
+          artist: "Shashwat Sachdev",
+          album: "Dhurandhar",
+          url: "https://www.last.fm/music/Shashwat+Sachdev/_/Jaiye+Sajana",
+          playedAt: "4 hours ago",
+        },
+        {
+          name: "Tu Meri Dhadak Hai (From 'Dhadak 2')",
+          artist: "Vishal Mishra",
+          album: "Dhadak 2",
+          url: "https://www.last.fm/music/Vishal+Mishra/_/Tu+Meri+Dhadak+Hai",
+          playedAt: "5 hours ago",
+        },
+        {
+          name: "Sunn Raha Hai",
+          artist: "Ankit Tiwari",
+          album: "Aashiqui 2",
+          url: "https://www.last.fm/music/Ankit+Tiwari/_/Sunn+Raha+Hai",
+          playedAt: "5 hours ago",
+        },
+        {
+          name: "Tere Ishk Mein",
+          artist: "A.R. Rahman",
+          album: "Raanjhanaa",
+          url: "https://www.last.fm/music/A.R.+Rahman/_/Tere+Ishk+Mein",
+          playedAt: "5 hours ago",
+        },
+        {
+          name: "Saiyaara (Movie: Saiyaara)",
+          artist: "Faheem Abdullah",
+          album: "Saiyaara",
+          url: "https://www.last.fm/music/Faheem+Abdullah/_/Saiyaara+(Movie:+Saiyaara)",
+          playedAt: "5 hours ago",
+        },
+        {
+          name: "Tera Ishq Bada Teekha",
+          artist: "Sajid Khan, Wajid Khan, Jawad",
+          album: "Rowdy Rathore",
+          url: "https://www.last.fm/music/Sajid+Khan/_/Tera+Ishq+Bada+Teekha",
+          playedAt: "7 hours ago",
+        },
+        {
+          name: "Bulleya (From 'Ae Dil Hai Mushkil')",
+          artist: "Pritam",
+          album: "Ae Dil Hai Mushkil",
+          url: "https://www.last.fm/music/Pritam/_/Bulleya",
+          playedAt: "18 hours ago",
+        },
+        {
+          name: "Jeene Laga Hoon",
+          artist: "Atif Aslam",
+          album: "Ramaiya Vastavaiya",
+          url: "https://www.last.fm/music/Atif+Aslam/_/Jeene+Laga+Hoon",
+          playedAt: "18 hours ago",
+        },
+      ],
+      topArtists: [
+        { name: "Kumar Sanu", playcount: 42, url: "https://www.last.fm/music/Kumar+Sanu" },
+        { name: "Pritam", playcount: 38, url: "https://www.last.fm/music/Pritam" },
+        { name: "A.R. Rahman", playcount: 34, url: "https://www.last.fm/music/A.R.+Rahman" },
+        { name: "Faheem Abdullah", playcount: 28, url: "https://www.last.fm/music/Faheem+Abdullah" },
+        { name: "Vishal Mishra", playcount: 26, url: "https://www.last.fm/music/Vishal+Mishra" },
+        { name: "Atif Aslam", playcount: 24, url: "https://www.last.fm/music/Atif+Aslam" },
+      ],
+      topGenres: ["Bollywood", "Indian Indie", "Sufi & Acoustic", "Romantic", "Film Score"],
     },
   } as HobbyData,
 };
