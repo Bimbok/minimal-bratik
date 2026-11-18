@@ -169,7 +169,7 @@ export const DiscordActivityWidget: React.FC = () => {
       return "https://skillicons.dev/icons?i=androidstudio&theme=dark";
     }
     if (name.includes("archivetune") || name.includes("archive tune")) {
-      return "https://avatars.githubusercontent.com/u/161427771?s=200";
+      return "/archivetune.svg";
     }
     if (name.includes("neovim") || name.includes("nvim")) {
       return "/neovim.svg";
