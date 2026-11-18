@@ -98,28 +98,35 @@ export async function GET(request: Request) {
   try {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 8000);
+    const ts = Date.now();
 
     // 1. Live Watching (200 = currently playing, 204 = idle)
-    const watchingUrl = `https://api.trakt.tv/users/${encodeURIComponent(username)}/watching`;
+    const watchingUrl = `https://api.trakt.tv/users/${encodeURIComponent(username)}/watching?_=${ts}`;
 
     // 2. Watched Shows (contains all completed shows and episode counts)
-    const showsUrl = `https://api.trakt.tv/users/${encodeURIComponent(username)}/watched/shows?extended=full`;
+    const showsUrl = `https://api.trakt.tv/users/${encodeURIComponent(username)}/watched/shows?extended=full&_=${ts}`;
 
-    // 3. Watched Movies (contains all 48+ watched movies)
-    const moviesUrl = `https://api.trakt.tv/users/${encodeURIComponent(username)}/watched/movies?extended=full`;
+    // 3. Watched Movies (contains all watched movies)
+    const moviesUrl = `https://api.trakt.tv/users/${encodeURIComponent(username)}/watched/movies?extended=full&_=${ts}`;
 
     // 4. Recent History (contains chronological feed of episodes & movies)
-    const historyUrl = `https://api.trakt.tv/users/${encodeURIComponent(username)}/history?extended=full&limit=30`;
+    const historyUrl = `https://api.trakt.tv/users/${encodeURIComponent(username)}/history?extended=full&limit=30&_=${ts}`;
 
     // 5. User Profile with avatar
-    const userProfileUrl = `https://api.trakt.tv/users/${encodeURIComponent(username)}?extended=full`;
+    const userProfileUrl = `https://api.trakt.tv/users/${encodeURIComponent(username)}?extended=full&_=${ts}`;
 
-    const [watchingRes, showsRes, moviesRes, historyRes, userRes] = await Promise.allSettled([
+    // 6. Fast header probes for live real-time counts
+    const epCountUrl = `https://api.trakt.tv/users/${encodeURIComponent(username)}/history/episodes?limit=1&_=${ts}`;
+    const mvCountUrl = `https://api.trakt.tv/users/${encodeURIComponent(username)}/history/movies?limit=1&_=${ts}`;
+
+    const [watchingRes, showsRes, moviesRes, historyRes, userRes, epCountRes, mvCountRes] = await Promise.allSettled([
       fetch(watchingUrl, { headers, signal: controller.signal, cache: "no-store" }),
       fetch(showsUrl, { headers, signal: controller.signal, cache: "no-store" }),
       fetch(moviesUrl, { headers, signal: controller.signal, cache: "no-store" }),
       fetch(historyUrl, { headers, signal: controller.signal, cache: "no-store" }),
       fetch(userProfileUrl, { headers, signal: controller.signal, next: { revalidate: 3600 } }),
+      fetch(epCountUrl, { headers, signal: controller.signal, cache: "no-store" }),
+      fetch(mvCountUrl, { headers, signal: controller.signal, cache: "no-store" }),
     ]);
 
     clearTimeout(timeoutId);
@@ -144,6 +151,16 @@ export async function GET(request: Request) {
     let totalEpisodesCount = 0;
     let totalMoviesCount = 0;
     let totalMinutesWatched = 0;
+
+    // Probe live episode & movie counts from Trakt's instant pagination headers
+    if (epCountRes.status === "fulfilled" && epCountRes.value.ok) {
+      const headerEp = epCountRes.value.headers.get("x-pagination-item-count");
+      if (headerEp) totalEpisodesCount = parseInt(headerEp, 10);
+    }
+    if (mvCountRes.status === "fulfilled" && mvCountRes.value.ok) {
+      const headerMv = mvCountRes.value.headers.get("x-pagination-item-count");
+      if (headerMv) totalMoviesCount = parseInt(headerMv, 10);
+    }
 
     // Parse Live Watching
     if (watchingRes.status === "fulfilled" && watchingRes.value.status === 200) {
@@ -339,10 +356,10 @@ export async function GET(request: Request) {
       traktProfileUrl: `https://trakt.tv/users/${encodeURIComponent(username)}`,
       avatarUrl,
       stats: {
-        moviesWatched: totalMoviesCount || PORTFOLIO_DATA.hobbies.cinema?.stats.moviesWatched || 48,
-        episodesWatched: totalEpisodesCount || PORTFOLIO_DATA.hobbies.cinema?.stats.episodesWatched || 123,
-        showsWatched: totalShowsCount || PORTFOLIO_DATA.hobbies.cinema?.stats.showsWatched || 6,
-        totalHours: Math.round(totalMinutesWatched / 60) || PORTFOLIO_DATA.hobbies.cinema?.stats.totalHours || 224,
+        moviesWatched: totalMoviesCount || PORTFOLIO_DATA.hobbies.cinema?.stats.moviesWatched || 82,
+        episodesWatched: totalEpisodesCount || PORTFOLIO_DATA.hobbies.cinema?.stats.episodesWatched || 270,
+        showsWatched: totalShowsCount || PORTFOLIO_DATA.hobbies.cinema?.stats.showsWatched || 11,
+        totalHours: Math.max(Math.round(totalMinutesWatched / 60), 346),
       },
       nowWatching,
       featured,
