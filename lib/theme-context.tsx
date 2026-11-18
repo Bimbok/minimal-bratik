@@ -39,6 +39,8 @@ interface ThemeContextType {
   setAnimeModalOpen: (open: boolean) => void;
   musicModalOpen: boolean;
   setMusicModalOpen: (open: boolean) => void;
+  movieModalOpen: boolean;
+  setMovieModalOpen: (open: boolean) => void;
   riceModalOpen: boolean;
   setRiceModalOpen: (open: boolean) => void;
   riceModalTab: "gallery" | "video" | "dotfiles";
@@ -73,6 +75,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [certificationsOpen, setCertificationsOpen] = useState(false);
   const [animeModalOpen, setAnimeModalOpen] = useState(false);
   const [musicModalOpen, setMusicModalOpen] = useState(false);
+  const [movieModalOpen, setMovieModalOpen] = useState(false);
   const [riceModalOpen, setRiceModalOpen] = useState(false);
   const [riceModalTab, setRiceModalTab] = useState<"gallery" | "video" | "dotfiles">("gallery");
   const [keyboardHelpOpen, setKeyboardHelpOpen] = useState(false);
@@ -181,6 +184,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         setAnimeModalOpen,
         musicModalOpen,
         setMusicModalOpen,
+        movieModalOpen,
+        setMovieModalOpen,
         riceModalOpen,
         setRiceModalOpen,
         riceModalTab,

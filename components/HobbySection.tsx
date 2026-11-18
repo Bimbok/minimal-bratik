@@ -2,9 +2,9 @@
 
 import React, { useState, useEffect } from "react";
 import { useThemeContext } from "../lib/theme-context";
-import { PORTFOLIO_DATA, AnimeItem, MusicData } from "../lib/portfolio-data";
+import { PORTFOLIO_DATA, AnimeItem, MusicData, TraktData } from "../lib/portfolio-data";
 import { audioEngine } from "../lib/audio";
-import { LastFmIcon } from "./BrandIcons";
+import { LastFmIcon, TraktIcon } from "./BrandIcons";
 import {
   Heart,
   Tv,
@@ -17,11 +17,12 @@ import {
   Copy,
   Check,
   Disc,
+  Film,
 } from "lucide-react";
 import { Section, Card, Badge } from "./ui";
 
 export const HobbySection: React.FC = () => {
-  const { setAnimeModalOpen, setRiceModalOpen, setRiceModalTab, setMusicModalOpen, showToast } = useThemeContext();
+  const { setAnimeModalOpen, setRiceModalOpen, setRiceModalTab, setMusicModalOpen, setMovieModalOpen, showToast } = useThemeContext();
   const riceData = PORTFOLIO_DATA.hobbies.linuxRice;
   const [copiedDotfile, setCopiedDotfile] = useState<string | null>(null);
 
@@ -30,6 +31,8 @@ export const HobbySection: React.FC = () => {
   const [isLiveSynced, setIsLiveSynced] = useState<boolean>(false);
   const [musicData, setMusicData] = useState<MusicData | undefined>(PORTFOLIO_DATA.hobbies.music);
   const [isMusicLiveSynced, setIsMusicLiveSynced] = useState<boolean>(false);
+  const [cinemaData, setCinemaData] = useState<TraktData | undefined>(PORTFOLIO_DATA.hobbies.cinema);
+  const [isCinemaLiveSynced, setIsCinemaLiveSynced] = useState<boolean>(false);
   const [stats, setStats] = useState(
     PORTFOLIO_DATA.hobbies.stats || {
       daysWatched: 7.2,
@@ -85,6 +88,35 @@ export const HobbySection: React.FC = () => {
 
     fetchMusic();
     const interval = setInterval(fetchMusic, 4000);
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+    };
+  }, []);
+
+  // Real-time polling for Trakt.tv Cinema & Series (every 4 seconds, just like Discord & Last.fm)
+  useEffect(() => {
+    let isMounted = true;
+    const fetchCinema = async () => {
+      try {
+        const res = await fetch(
+          `/api/trakt?username=${PORTFOLIO_DATA.hobbies.cinema?.traktUsername || "bimbok"}&t=${Date.now()}`
+        );
+        if (!res.ok) return;
+        const data = await res.json();
+        if (isMounted && data?.success && data?.cinema) {
+          setCinemaData(data.cinema);
+          if (data.isLiveSynced) {
+            setIsCinemaLiveSynced(true);
+          }
+        }
+      } catch {
+        // Keep fallback data
+      }
+    };
+
+    fetchCinema();
+    const interval = setInterval(fetchCinema, 4000);
     return () => {
       isMounted = false;
       clearInterval(interval);
@@ -778,6 +810,240 @@ export const HobbySection: React.FC = () => {
                   className="text-xs text-neutral-400 hover:text-white font-medium flex items-center gap-1 hover:underline"
                 >
                   <span>Last.fm Profile</span>
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              </div>
+            </div>
+
+          </Card>
+        )}
+
+        {/* ========================================================= */}
+        {/* HOBBY 4: CINEMA & TELEVISION (TRAKT.TV)                  */}
+        {/* ========================================================= */}
+        {cinemaData && (
+          <Card variant="interactive" className="p-5 sm:p-6 bg-neutral-900/40 border-neutral-800 relative">
+            {/* Subtle Top Gradient Accent */}
+            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#ED1C24] to-transparent opacity-40 group-hover:opacity-100 transition-opacity" />
+
+            {/* Module Header */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-neutral-950 border border-neutral-800 flex items-center justify-center text-white shadow-inner">
+                  <TraktIcon className="w-5 h-5 text-[#ED1C24]" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-base sm:text-lg font-bold text-white font-sans tracking-tight">
+                      Cinema & Television
+                    </h3>
+                    <Badge variant="subtle" className="text-[10px]">
+                      Hobby 04
+                    </Badge>
+                  </div>
+                  <p className="text-xs text-neutral-400 font-sans mt-0.5">
+                    Psychological Thrillers, Mythological Crime & Web Series tracked live via Trakt.tv.
+                  </p>
+                </div>
+              </div>
+
+              {/* Header Right: Live Sync Pill */}
+              <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
+                <Badge variant="subtle" className="text-[11px] px-2.5 py-1 gap-1.5 font-mono">
+                  <span className={`w-2 h-2 rounded-full ${isCinemaLiveSynced ? "bg-emerald-400 animate-pulse" : "bg-[#ED1C24]"}`} />
+                  <span>{isCinemaLiveSynced ? "Trakt.tv Live Synced" : "Trakt.tv Scrobbler"} (@{cinemaData.traktUsername})</span>
+                </Badge>
+              </div>
+            </div>
+
+            {/* Stats Row */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4 font-mono text-center">
+              <div className="p-2.5 rounded-xl bg-neutral-950/70 border border-neutral-800/80">
+                <div className="text-base font-extrabold text-white">{cinemaData.stats.episodesWatched}</div>
+                <div className="text-[10px] text-neutral-500 uppercase tracking-wider">Episodes</div>
+              </div>
+              <div className="p-2.5 rounded-xl bg-neutral-950/70 border border-neutral-800/80">
+                <div className="text-base font-extrabold text-white">{cinemaData.stats.showsWatched}</div>
+                <div className="text-[10px] text-neutral-500 uppercase tracking-wider">Shows</div>
+              </div>
+              <div className="p-2.5 rounded-xl bg-neutral-950/70 border border-neutral-800/80">
+                <div className="text-base font-extrabold text-white">{cinemaData.stats.totalHours}h</div>
+                <div className="text-[10px] text-neutral-500 uppercase tracking-wider">Hours Watched</div>
+              </div>
+              <div className="p-2.5 rounded-xl bg-neutral-950/70 border border-neutral-800/80">
+                <div className="text-base font-extrabold text-white">{cinemaData.stats.moviesWatched}</div>
+                <div className="text-[10px] text-neutral-500 uppercase tracking-wider">Movies</div>
+              </div>
+            </div>
+
+            {/* Main Content: Featured / Live Watching + Recent History Strip */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 mb-4">
+              
+              {/* Left Column: Live Now Watching OR Featured Series Spotlight (5 cols) */}
+              {(() => {
+                const isWatching = Boolean(cinemaData.nowWatching);
+                const spotlight = cinemaData.nowWatching || (cinemaData.featured ? {
+                  title: cinemaData.featured.title,
+                  posterUrl: cinemaData.featured.posterUrl,
+                  rating: cinemaData.featured.rating,
+                  year: cinemaData.featured.year,
+                  url: cinemaData.featured.url,
+                  overview: cinemaData.featured.overview,
+                } : null);
+
+                if (!spotlight) return null;
+
+                return (
+                  <div className="lg:col-span-5 p-3.5 rounded-xl bg-neutral-950/90 border border-neutral-800 flex flex-col justify-between space-y-3 relative overflow-hidden group/top">
+                    <div className="flex items-center justify-between text-xs font-mono">
+                      {isWatching ? (
+                        <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-wider flex items-center gap-1.5">
+                          <span className="flex items-center gap-0.5 h-2.5">
+                            <span className="w-0.5 h-full bg-emerald-400 rounded-full animate-pulse" />
+                            <span className="w-0.5 h-2/3 bg-emerald-400 rounded-full animate-pulse [animation-delay:150ms]" />
+                            <span className="w-0.5 h-4/5 bg-emerald-400 rounded-full animate-pulse [animation-delay:300ms]" />
+                          </span>
+                          <span>Now Watching</span>
+                        </span>
+                      ) : (
+                        <span className="text-[10px] text-[#ED1C24] font-bold uppercase tracking-wider flex items-center gap-1.5">
+                          <Film className="w-3 h-3 text-[#ED1C24]" />
+                          <span>Currently Binging</span>
+                        </span>
+                      )}
+                      <Badge
+                        variant={isWatching ? "status" : "subtle"}
+                        className={isWatching ? "text-emerald-400 border-emerald-800/60 bg-emerald-950/60 text-[9px]" : "text-[9px]"}
+                      >
+                        {isWatching ? "Live Stream" : "Featured"}
+                      </Badge>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-16 rounded-lg bg-neutral-900 border border-neutral-800 overflow-hidden shrink-0 shadow-lg">
+                        {spotlight.posterUrl ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={spotlight.posterUrl}
+                            alt={spotlight.title}
+                            referrerPolicy="no-referrer"
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              e.currentTarget.style.display = "none";
+                            }}
+                          />
+                        ) : (
+                          <Tv className="w-6 h-6 text-neutral-500 m-auto" />
+                        )}
+                      </div>
+
+                      <div className="min-w-0">
+                        <h4 className="font-bold text-sm text-white font-sans tracking-tight truncate">
+                          {spotlight.title}
+                        </h4>
+                        <div className="text-xs text-neutral-400 font-mono truncate flex items-center gap-2 mt-0.5">
+                          {spotlight.year && <span>{spotlight.year}</span>}
+                          {spotlight.rating && (
+                            <span className="inline-flex items-center gap-0.5 text-amber-400 font-semibold">
+                              <Star className="w-2.5 h-2.5 fill-current" />
+                              <span>{spotlight.rating}</span>
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    {spotlight.url && (
+                      <a
+                        href={spotlight.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-xs text-neutral-300 hover:text-white font-medium hover:underline pt-1"
+                      >
+                        <Play className="w-3 h-3 fill-current text-white" />
+                        <span>Explore on Trakt.tv</span>
+                      </a>
+                    )}
+                  </div>
+                );
+              })()}
+
+              {/* Right Column: Recent Watched Episodes & Movies (7 cols) */}
+              <div className="lg:col-span-7 space-y-1.5">
+                <div className="text-[10px] font-mono text-neutral-500 uppercase tracking-wider mb-1 flex items-center justify-between">
+                  <span>Recently Watched</span>
+                  <span>From Stremio / Web</span>
+                </div>
+
+                <div className="space-y-1.5">
+                  {cinemaData.recentHistory.slice(0, 3).map((item) => (
+                    <div
+                      key={item.id}
+                      className="p-2 rounded-lg bg-neutral-950/60 border border-neutral-850 hover:border-neutral-700 transition-colors flex items-center justify-between gap-3 text-xs"
+                    >
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        {item.posterUrl || item.screenshotUrl ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={item.screenshotUrl || item.posterUrl}
+                            alt={item.title}
+                            referrerPolicy="no-referrer"
+                            className="w-7 h-5 rounded object-cover shrink-0"
+                            loading="lazy"
+                            onError={(e) => {
+                              e.currentTarget.style.display = "none";
+                            }}
+                          />
+                        ) : (
+                          <Film className="w-3.5 h-3.5 text-neutral-500 shrink-0" />
+                        )}
+                        <span className="font-semibold text-neutral-200 truncate font-sans">
+                          {item.showTitle ? `${item.showTitle}: ` : ""}{item.title}
+                        </span>
+                        {item.season && item.number && (
+                          <span className="text-[10px] font-mono text-neutral-400 shrink-0">
+                            S{item.season}E{item.number}
+                          </span>
+                        )}
+                      </div>
+                      <span className="text-[10px] font-mono text-neutral-500 shrink-0">{item.watchedAt}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+            </div>
+
+            {/* Module Bottom Bar */}
+            <div className="pt-3 border-t border-neutral-800/80 flex flex-col sm:flex-row items-center justify-between gap-2.5 text-xs">
+              <div className="flex items-center gap-2 text-neutral-400 text-[11px] font-sans">
+                <span className="text-white font-semibold">Asur Season 2</span>
+                <span>•</span>
+                <span>16 Episodes</span>
+                <span>•</span>
+                <span className="text-neutral-500">JioCinema • Crime Thriller</span>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => {
+                    audioEngine.playKeyClick("down");
+                    setMovieModalOpen(true);
+                  }}
+                  className="text-xs text-neutral-300 hover:text-white font-medium flex items-center gap-1 hover:underline cursor-pointer"
+                >
+                  <span>Explore Cinema Vault</span>
+                  <ArrowRight className="w-3 h-3" />
+                </button>
+
+                <a
+                  href={cinemaData.traktProfileUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => audioEngine.playKeyClick("enter")}
+                  className="text-xs text-neutral-400 hover:text-white font-medium flex items-center gap-1 hover:underline"
+                >
+                  <span>Trakt Profile</span>
                   <ExternalLink className="w-3 h-3" />
                 </a>
               </div>

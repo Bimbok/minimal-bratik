@@ -13,7 +13,7 @@ interface HistoryEntry {
 }
 
 export const LabSection: React.FC = () => {
-  const { setTheme, setMatrixRainActive, toggleAudio, setResumeOpen, setNeofetchOpen, setMusicModalOpen } = useThemeContext();
+  const { setTheme, setMatrixRainActive, toggleAudio, setResumeOpen, setNeofetchOpen, setMusicModalOpen, setMovieModalOpen } = useThemeContext();
   const [inputVal, setInputVal] = useState("");
   const [history, setHistory] = useState<HistoryEntry[]>([
     {
@@ -86,6 +86,9 @@ export const LabSection: React.FC = () => {
         } else if (arg === "music" || arg === "music.json" || arg === "lastfm") {
           setMusicModalOpen(true);
           output = <p className="text-xs text-red-400 font-bold">Opening Last.fm Music Vault modal...</p>;
+        } else if (arg === "cinema" || arg === "movies" || arg === "trakt") {
+          setMovieModalOpen(true);
+          output = <p className="text-xs text-[#ED1C24] font-bold">Opening Trakt.tv Cinema & Series Vault modal...</p>;
         } else if (arg === "bio" || arg === "bio.md") {
           output = <p className="text-xs">{PORTFOLIO_DATA.profile.bio}</p>;
         } else if (arg === "skills" || arg === "skills.yml") {
@@ -100,6 +103,13 @@ export const LabSection: React.FC = () => {
       case "music":
         setMusicModalOpen(true);
         output = <p className="text-xs text-red-400 font-bold">Opening Last.fm Music Vault modal...</p>;
+        break;
+
+      case "cinema":
+      case "movies":
+      case "trakt":
+        setMovieModalOpen(true);
+        output = <p className="text-xs text-[#ED1C24] font-bold">Opening Trakt.tv Cinema & Series Vault modal...</p>;
         break;
 
       case "fetch":

@@ -138,6 +138,48 @@ export interface MusicData {
   topGenres?: string[];
 }
 
+export interface TraktHistoryItem {
+  id: string | number;
+  type: "movie" | "episode";
+  title: string;
+  showTitle?: string;
+  season?: number;
+  number?: number;
+  year?: number;
+  rating?: number;
+  posterUrl?: string;
+  screenshotUrl?: string;
+  watchedAt?: string;
+  genres?: string[];
+  overview?: string;
+  url?: string;
+}
+
+export interface TraktStats {
+  moviesWatched: number;
+  episodesWatched: number;
+  showsWatched: number;
+  totalHours: number;
+}
+
+export interface TraktData {
+  traktUsername: string;
+  traktProfileUrl: string;
+  stats: TraktStats;
+  nowWatching?: TraktHistoryItem | null;
+  featured?: {
+    title: string;
+    year: number;
+    posterUrl: string;
+    bannerUrl?: string;
+    rating: number;
+    genres: string[];
+    overview: string;
+    url: string;
+  };
+  recentHistory: TraktHistoryItem[];
+}
+
 export interface HobbyData {
   myAnimeListUsername: string;
   animeProfileUrl: string;
@@ -152,6 +194,7 @@ export interface HobbyData {
   anime: AnimeItem[];
   linuxRice?: LinuxRiceData;
   music?: MusicData;
+  cinema?: TraktData;
 }
 
 export interface SkillCategory {
@@ -1764,6 +1807,109 @@ GitHub: github.com/Bimbok | LinkedIn: linkedin.com/in/bimbok
         { name: "Atif Aslam", playcount: 24, url: "https://www.last.fm/music/Atif+Aslam" },
       ],
       topGenres: ["Bollywood", "Indian Indie", "Sufi & Acoustic", "Romantic", "Film Score"],
+    },
+    cinema: {
+      traktUsername: "bimbok",
+      traktProfileUrl: "https://trakt.tv/users/bimbok",
+      stats: {
+        moviesWatched: 0,
+        episodesWatched: 16,
+        showsWatched: 1,
+        totalHours: 13,
+      },
+      featured: {
+        title: "Asur: Welcome to Your Dark Side",
+        year: 2020,
+        posterUrl: "https://media.trakt.tv/shows/159192/medium/poster.webp",
+        bannerUrl: "https://media.trakt.tv/shows/159192/medium/fanart.webp",
+        rating: 7.9,
+        genres: ["Crime", "Psychological Thriller", "Mystery"],
+        overview:
+          "Set in the backdrop of the mystical city of Varanasi, Asur follows Nikhil Nair, a forensic-expert-turned-teacher, who returns to his roots at the Central Bureau of Investigation, and along with his former mentor Dhananjay Rajpoot, finds himself caught in a cat-and-mouse game with a brutal serial killer.",
+        url: "https://trakt.tv/shows/asur",
+      },
+      recentHistory: [
+        {
+          id: 14644914745,
+          type: "episode",
+          title: "Birth of the New God",
+          showTitle: "Asur",
+          season: 2,
+          number: 7,
+          year: 2020,
+          rating: 7.9,
+          screenshotUrl: "https://media.trakt.tv/episodes/10703094/medium/screenshot.webp",
+          posterUrl: "https://media.trakt.tv/shows/159192/medium/poster.webp",
+          watchedAt: "Just recently",
+          overview:
+            "The CBI members are at their lowest ebb and as they take in the ramifications, there is a hostage situation at a restaurant. While the team races against time to stop Shubh, in a stunning surprise DJ has one last trick up his sleeve.",
+          url: "https://trakt.tv/shows/asur/seasons/2/episodes/7",
+        },
+        {
+          id: 14644914715,
+          type: "episode",
+          title: "The Domino Effect",
+          showTitle: "Asur",
+          season: 2,
+          number: 6,
+          year: 2020,
+          rating: 8.0,
+          screenshotUrl: "https://media.trakt.tv/episodes/10703093/medium/screenshot.webp",
+          posterUrl: "https://media.trakt.tv/shows/159192/medium/poster.webp",
+          watchedAt: "Just recently",
+          overview:
+            "ATF has to stop Shubh's next attack. While DJ goes behind Shubh's roots, the ATF team manages to get clues from Nusrat's kidnapper. They all eventually realize what Shubh's plan & attack is & how he carefully orchestrated it.",
+          url: "https://trakt.tv/shows/asur/seasons/2/episodes/6",
+        },
+        {
+          id: 14644914462,
+          type: "episode",
+          title: "The countdown begins",
+          showTitle: "Asur",
+          season: 2,
+          number: 5,
+          year: 2020,
+          rating: 7.7,
+          screenshotUrl: "https://media.trakt.tv/episodes/10703092/medium/screenshot.webp",
+          posterUrl: "https://media.trakt.tv/shows/159192/medium/poster.webp",
+          watchedAt: "Just recently",
+          overview:
+            "The CBI team is trying to rescue Nusrat against all odds. Nikhil gets a clue, but before they can discover Shubh's plans, Rasul threatens them for Nusrat's life. They don't know yet that Rasul is leading them into a devious trap.",
+          url: "https://trakt.tv/shows/asur/seasons/2/episodes/5",
+        },
+        {
+          id: 14644914391,
+          type: "episode",
+          title: "Designing the future",
+          showTitle: "Asur",
+          season: 2,
+          number: 4,
+          year: 2020,
+          rating: 7.8,
+          screenshotUrl: "https://media.trakt.tv/episodes/10703091/medium/screenshot.webp",
+          posterUrl: "https://media.trakt.tv/shows/159192/medium/poster.webp",
+          watchedAt: "Just recently",
+          overview:
+            "The investigation deepens as Nikhil discovers Shubh is leveraging psychological algorithms to predict each move.",
+          url: "https://trakt.tv/shows/asur/seasons/2/episodes/4",
+        },
+        {
+          id: 14644914365,
+          type: "episode",
+          title: "Burning the Forest",
+          showTitle: "Asur",
+          season: 2,
+          number: 3,
+          year: 2020,
+          rating: 7.8,
+          screenshotUrl: "https://media.trakt.tv/episodes/10703090/medium/screenshot.webp",
+          posterUrl: "https://media.trakt.tv/shows/159192/medium/poster.webp",
+          watchedAt: "Just recently",
+          overview:
+            "DJ and Nikhil struggle to find common ground as past traumas resurface amidst a new wave of calculated assassinations.",
+          url: "https://trakt.tv/shows/asur/seasons/2/episodes/3",
+        },
+      ],
     },
   } as HobbyData,
 };

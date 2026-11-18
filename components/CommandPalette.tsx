@@ -26,6 +26,7 @@ import {
   Heart,
   Monitor,
   Music,
+  Clapperboard,
 } from "lucide-react";
 
 export const CommandPalette: React.FC = () => {
@@ -42,6 +43,7 @@ export const CommandPalette: React.FC = () => {
     setCertificationsOpen,
     setAnimeModalOpen,
     setMusicModalOpen,
+    setMovieModalOpen,
     setRiceModalOpen,
     setKeyboardHelpOpen,
     setMatrixRainActive,
@@ -285,6 +287,20 @@ END:VCARD`;
                 <div className="flex items-center gap-2">
                   <Music className="w-4 h-4 text-[#D51007]" />
                   <span>cat music (View Music Vault & Last.fm Scrobbles)</span>
+                </div>
+              </Command.Item>
+
+              <Command.Item
+                onSelect={() => {
+                  setCommandPaletteOpen(false);
+                  setMovieModalOpen(true);
+                  audioEngine.playKeyClick("enter");
+                }}
+                className="flex items-center justify-between p-2.5 rounded-md hover:bg-neutral-800 text-neutral-200 cursor-pointer aria-selected:bg-neutral-800 aria-selected:text-white"
+              >
+                <div className="flex items-center gap-2">
+                  <Clapperboard className="w-4 h-4 text-[#ED1C24]" />
+                  <span>cat cinema (View Cinema & Trakt.tv Series Watchlist)</span>
                 </div>
               </Command.Item>
 
