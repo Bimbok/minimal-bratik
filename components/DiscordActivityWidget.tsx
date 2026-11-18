@@ -55,7 +55,9 @@ interface LanyardResponse {
 }
 
 export const DiscordActivityWidget: React.FC = () => {
-  const [lanyardData, setLanyardData] = useState<LanyardResponse["data"] | null>(null);
+  const [lanyardData, setLanyardData] = useState<
+    LanyardResponse["data"] | null
+  >(null);
   const [isNotMonitored, setIsNotMonitored] = useState<boolean>(false);
   const [progress, setProgress] = useState<number>(0);
   const [elapsedStr, setElapsedStr] = useState<string>("0:00");
@@ -76,18 +78,23 @@ export const DiscordActivityWidget: React.FC = () => {
   }, []);
 
   const discordUsername = PORTFOLIO_DATA.profile.discordUsername || "bimbokmkj";
-  const discordUserId = PORTFOLIO_DATA.profile.discordUserId || "1282246489430818827";
+  const discordUserId =
+    PORTFOLIO_DATA.profile.discordUserId || "1282246489430818827";
 
   useEffect(() => {
     let isMounted = true;
 
     const fetchLanyardStatus = async () => {
       try {
-        let res = await fetch(`https://api.lanyard.rest/v1/users/${discordUserId}`);
+        let res = await fetch(
+          `https://api.lanyard.rest/v1/users/${discordUserId}`,
+        );
         if (!res.ok) {
-          res = await fetch(`https://api.lanyard.rest/v1/users/${discordUsername}`);
+          res = await fetch(
+            `https://api.lanyard.rest/v1/users/${discordUsername}`,
+          );
         }
-        
+
         const data: LanyardResponse = await res.json();
 
         if (isMounted) {
@@ -115,7 +122,8 @@ export const DiscordActivityWidget: React.FC = () => {
 
   // Real-time track progress timer for Spotify
   useEffect(() => {
-    if (!lanyardData?.listening_to_spotify || !lanyardData?.spotify?.timestamps) return;
+    if (!lanyardData?.listening_to_spotify || !lanyardData?.spotify?.timestamps)
+      return;
 
     const updateProgress = () => {
       const { start, end } = lanyardData.spotify!.timestamps!;
@@ -156,7 +164,11 @@ export const DiscordActivityWidget: React.FC = () => {
     if (name.includes("crunchyroll") || name.includes("cranchiroll")) {
       return "/crunchyroll.svg";
     }
-    if (name.includes("youtube music") || name.includes("yt music") || name.includes("youtubemusic")) {
+    if (
+      name.includes("youtube music") ||
+      name.includes("yt music") ||
+      name.includes("youtubemusic")
+    ) {
       return "https://upload.wikimedia.org/wikipedia/commons/6/6a/Youtube_Music_icon.svg";
     }
     if (name.includes("youtube") || name.includes("yt")) {
@@ -165,7 +177,14 @@ export const DiscordActivityWidget: React.FC = () => {
     if (name.includes("zed")) {
       return "/zed.svg";
     }
-    if (name.includes("android studio") || name.includes("androidstudio") || name.includes("android")) {
+    if (name.includes("cursor")) {
+      return "/cursor.svg";
+    }
+    if (
+      name.includes("android studio") ||
+      name.includes("androidstudio") ||
+      name.includes("android")
+    ) {
       return "https://skillicons.dev/icons?i=androidstudio&theme=dark";
     }
     if (name.includes("archivetune") || name.includes("archive tune")) {
@@ -180,7 +199,11 @@ export const DiscordActivityWidget: React.FC = () => {
     if (name.includes("obsidian")) {
       return "https://skillicons.dev/icons?i=obsidian&theme=dark";
     }
-    if (name.includes("visual studio code") || name.includes("vscode") || name.includes("code")) {
+    if (
+      name.includes("visual studio code") ||
+      name.includes("vscode") ||
+      name.includes("code")
+    ) {
       return "https://skillicons.dev/icons?i=vscode&theme=dark";
     }
     if (name.includes("arch") || name.includes("linux")) {
@@ -242,10 +265,14 @@ export const DiscordActivityWidget: React.FC = () => {
             <Radio className="w-4 h-4 animate-pulse" />
             <span>Discord Presence Setup Required</span>
           </div>
-          <span className="text-[10px] text-neutral-500">@{discordUsername}</span>
+          <span className="text-[10px] text-neutral-500">
+            @{discordUsername}
+          </span>
         </div>
         <p className="text-xs text-neutral-300 font-sans">
-          To show your live Discord activity (Neovim, Android Studio, ArchiveTune, LastWave, YouTube, Crunchyroll, Spotify, Games & Status) on your portfolio, join the Lanyard Discord server once:
+          To show your live Discord activity (Neovim, Cursor, Android Studio,
+          ArchiveTune, LastWave, YouTube, Crunchyroll, Spotify, Games & Status)
+          on your portfolio, join the Lanyard Discord server once:
         </p>
         <div className="pt-1">
           <a
@@ -266,8 +293,11 @@ export const DiscordActivityWidget: React.FC = () => {
   const rawActivities =
     lanyardData?.activities?.filter(
       (act) =>
-        (act.type === 0 || act.type === 1 || act.type === 2 || act.type === 3) &&
-        act.name.toLowerCase() !== "spotify"
+        (act.type === 0 ||
+          act.type === 1 ||
+          act.type === 2 ||
+          act.type === 3) &&
+        act.name.toLowerCase() !== "spotify",
     ) || [];
 
   // Deduplicate activities by application_id and name, prioritizing richer activities (with details/assets/timestamps)
@@ -279,8 +309,16 @@ export const DiscordActivityWidget: React.FC = () => {
     if (!existing) {
       activityMap.set(key, act);
     } else {
-      const existingScore = (existing.details ? 3 : 0) + (existing.assets?.large_image ? 3 : 0) + (existing.state ? 2 : 0) + (existing.type === 3 || existing.type === 2 ? 1 : 0);
-      const currentScore = (act.details ? 3 : 0) + (act.assets?.large_image ? 3 : 0) + (act.state ? 2 : 0) + (act.type === 3 || act.type === 2 ? 1 : 0);
+      const existingScore =
+        (existing.details ? 3 : 0) +
+        (existing.assets?.large_image ? 3 : 0) +
+        (existing.state ? 2 : 0) +
+        (existing.type === 3 || existing.type === 2 ? 1 : 0);
+      const currentScore =
+        (act.details ? 3 : 0) +
+        (act.assets?.large_image ? 3 : 0) +
+        (act.state ? 2 : 0) +
+        (act.type === 3 || act.type === 2 ? 1 : 0);
       if (currentScore > existingScore) {
         activityMap.set(key, act);
       }
@@ -289,14 +327,19 @@ export const DiscordActivityWidget: React.FC = () => {
 
   // Drop empty stub activities that have no details, state, or assets
   const activeAppActivities = Array.from(activityMap.values()).filter(
-    (act) => act.details || act.state || act.assets?.large_image
+    (act) => act.details || act.state || act.assets?.large_image,
   );
 
   const customStatus = lanyardData?.activities?.find((act) => act.type === 4);
-  const isListeningSpotify = lanyardData?.listening_to_spotify && lanyardData?.spotify;
+  const isListeningSpotify =
+    lanyardData?.listening_to_spotify && lanyardData?.spotify;
 
   // RULE: If nothing active is happening on Discord, HIDE COMPLETELY!
-  if (!isListeningSpotify && activeAppActivities.length === 0 && !customStatus?.state) {
+  if (
+    !isListeningSpotify &&
+    activeAppActivities.length === 0 &&
+    !customStatus?.state
+  ) {
     return null;
   }
 
@@ -310,7 +353,6 @@ export const DiscordActivityWidget: React.FC = () => {
 
   return (
     <div className="rounded-2xl bg-[#0b0c0f]/95 border border-neutral-800/90 p-4 sm:p-5 shadow-2xl space-y-4 font-mono relative overflow-hidden group backdrop-blur-xl">
-      
       {/* Dynamic Ambient Background Glows */}
       <div className="absolute -top-16 -right-16 w-44 h-44 bg-gradient-to-br from-emerald-500/10 via-teal-500/5 to-transparent rounded-full blur-3xl pointer-events-none group-hover:from-emerald-500/15 transition-all duration-700" />
       <div className="absolute -bottom-16 -left-16 w-44 h-44 bg-gradient-to-tr from-neutral-800/10 to-transparent rounded-full blur-3xl pointer-events-none" />
@@ -319,7 +361,9 @@ export const DiscordActivityWidget: React.FC = () => {
       <div className="flex items-center justify-between text-xs border-b border-neutral-800/70 pb-3">
         <div className="flex items-center gap-2.5">
           <div className="relative flex items-center justify-center">
-            <span className={`w-2.5 h-2.5 rounded-full ${statusColor} shadow-sm`} />
+            <span
+              className={`w-2.5 h-2.5 rounded-full ${statusColor} shadow-sm`}
+            />
             {lanyardData?.discord_status === "online" && (
               <span className="absolute w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping opacity-75" />
             )}
@@ -340,7 +384,10 @@ export const DiscordActivityWidget: React.FC = () => {
 
         <div className="flex items-center gap-2">
           <span className="text-[10px] text-neutral-400 font-mono px-2 py-0.5 rounded-full bg-neutral-900 border border-neutral-800/80">
-            @{discordUsername} • <span className="capitalize">{lanyardData?.discord_status || "online"}</span>
+            @{discordUsername} •{" "}
+            <span className="capitalize">
+              {lanyardData?.discord_status || "online"}
+            </span>
           </span>
         </div>
       </div>
@@ -371,7 +418,8 @@ export const DiscordActivityWidget: React.FC = () => {
           act.type === 3 ||
           act.name.toLowerCase().includes("crunchyroll") ||
           act.name.toLowerCase().includes("cranchiroll") ||
-          (act.name.toLowerCase().includes("youtube") && !act.name.toLowerCase().includes("music"));
+          (act.name.toLowerCase().includes("youtube") &&
+            !act.name.toLowerCase().includes("music"));
 
         // Calculate progress percentage if start & end timestamps exist
         let activityProgress: number | null = null;
@@ -380,7 +428,10 @@ export const DiscordActivityWidget: React.FC = () => {
           const now = nowTimestamp;
           const total = act.timestamps.end - act.timestamps.start;
           const current = Math.max(0, now - act.timestamps.start);
-          activityProgress = Math.min(100, Math.max(0, (current / total) * 100));
+          activityProgress = Math.min(
+            100,
+            Math.max(0, (current / total) * 100),
+          );
 
           const formatSec = (ms: number) => {
             const totalSec = Math.floor(ms / 1000);
@@ -578,7 +629,6 @@ export const DiscordActivityWidget: React.FC = () => {
           </div>
         </div>
       )}
-
     </div>
   );
 };
