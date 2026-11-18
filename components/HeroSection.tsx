@@ -212,7 +212,7 @@ export const HeroSection: React.FC = () => {
               rel="noreferrer"
               className="px-3 py-1.5 rounded-lg bg-neutral-900 border border-neutral-800 text-neutral-300 hover:text-white hover:border-neutral-700 transition-all flex items-center gap-2 text-xs font-mono"
             >
-              <RedditIcon className="w-3.5 h-3.5 text-[#FF4500] shrink-0" />
+              <RedditIcon className="w-3.5 h-3.5 text-[#FC471E] shrink-0" />
               <span>Reddit</span>
             </a>
 
