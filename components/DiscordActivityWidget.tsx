@@ -215,20 +215,27 @@ export const DiscordActivityWidget: React.FC = () => {
     return null;
   };
 
+  // Helper to safely resolve Discord RPC assets via our own caching proxy
+  const resolveDiscordAssetUrl = (img?: string, appId?: string): string | null => {
+    if (!img) return null;
+
+    if (img.startsWith("mp:external/")) {
+      return `/api/discord-image?url=${encodeURIComponent(img)}`;
+    }
+    if (img.startsWith("https://") || img.startsWith("http://")) {
+      return `/api/discord-image?url=${encodeURIComponent(img)}`;
+    }
+    if (appId) {
+      return `https://cdn.discordapp.com/app-assets/${appId}/${img}.png`;
+    }
+    return null;
+  };
+
   // Helper to resolve track / video / media artwork thumbnail
   const getActivityThumbnailUrl = (act: ActivityItem): string | null => {
     // Check Discord RPC dynamic large image first (e.g. song cover art, video thumbnail)
-    if (act.assets?.large_image) {
-      const img = act.assets.large_image;
-      if (img.startsWith("mp:external/")) {
-        const match = img.match(/https\/(.*)$/);
-        if (match) return `https://${match[1]}`;
-      } else if (img.startsWith("https://") || img.startsWith("http://")) {
-        return img;
-      } else if (act.application_id) {
-        return `https://cdn.discordapp.com/app-assets/${act.application_id}/${img}.png`;
-      }
-    }
+    const dynamicImg = resolveDiscordAssetUrl(act.assets?.large_image, act.application_id);
+    if (dynamicImg) return dynamicImg;
 
     // Fallback to app brand icon
     return getAppIconUrl(act);
@@ -236,17 +243,8 @@ export const DiscordActivityWidget: React.FC = () => {
 
   // Helper to resolve small corner badge (e.g. play icon, Neovim icon over Lua, or app logo)
   const getSmallBadgeUrl = (act: ActivityItem): string | null => {
-    if (act.assets?.small_image) {
-      const img = act.assets.small_image;
-      if (img.startsWith("mp:external/")) {
-        const match = img.match(/https\/(.*)$/);
-        if (match) return `https://${match[1]}`;
-      } else if (img.startsWith("https://") || img.startsWith("http://")) {
-        return img;
-      } else if (act.application_id) {
-        return `https://cdn.discordapp.com/app-assets/${act.application_id}/${img}.png`;
-      }
-    }
+    const dynamicSmall = resolveDiscordAssetUrl(act.assets?.small_image, act.application_id);
+    if (dynamicSmall) return dynamicSmall;
 
     const appIcon = getAppIconUrl(act);
     const thumb = getActivityThumbnailUrl(act);
@@ -459,7 +457,13 @@ export const DiscordActivityWidget: React.FC = () => {
                   <img
                     src={thumbnailUrl}
                     alt={act.name}
+                    referrerPolicy="no-referrer"
                     className="w-full h-full object-cover rounded-lg"
+                    onError={(e) => {
+                      if (appIconUrl && e.currentTarget.src !== appIconUrl) {
+                        e.currentTarget.src = appIconUrl;
+                      }
+                    }}
                   />
                 ) : (
                   <div className="w-full h-full rounded-lg bg-neutral-900 flex items-center justify-center text-white">
@@ -478,7 +482,11 @@ export const DiscordActivityWidget: React.FC = () => {
                     <img
                       src={smallBadgeUrl}
                       alt="badge"
+                      referrerPolicy="no-referrer"
                       className="w-full h-full object-contain rounded-full"
+                      onError={(e) => {
+                        e.currentTarget.style.display = "none";
+                      }}
                     />
                   </div>
                 )}
