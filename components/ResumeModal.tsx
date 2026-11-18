@@ -6,8 +6,8 @@ import { useThemeContext } from "../lib/theme-context";
 import { audioEngine } from "../lib/audio";
 import { PORTFOLIO_DATA } from "../lib/portfolio-data";
 import { ResumeDriveFile } from "../app/api/resumes/route";
+import { ResumeIcon } from "./BrandIcons";
 import {
-  FileText,
   X,
   Download,
   Lock,
@@ -177,7 +177,7 @@ export const ResumeModal: React.FC = () => {
           
           {/* Header Title */}
           <div className="flex items-center gap-2">
-            <FileText className="w-4 h-4 text-white" />
+            <ResumeIcon className="w-4 h-4 shrink-0" />
             <span className="font-extrabold text-sm text-white font-sans tracking-tight">
               Resume PDF Vault
             </span>

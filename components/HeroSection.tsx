@@ -5,8 +5,8 @@ import { PORTFOLIO_DATA } from "../lib/portfolio-data";
 import { useThemeContext } from "../lib/theme-context";
 import { audioEngine } from "../lib/audio";
 import { GithubHoverCard } from "./GithubHoverCard";
-import { XIcon, BlueskyIcon, InstagramIcon, YoutubeIcon, RedditIcon, GmailIcon } from "./BrandIcons";
-import { FileText, Command, Sun, Award } from "lucide-react";
+import { XIcon, BlueskyIcon, InstagramIcon, YoutubeIcon, RedditIcon, GmailIcon, ResumeIcon } from "./BrandIcons";
+import { Command, Sun, Award } from "lucide-react";
 
 export const HeroSection: React.FC = () => {
   const { setResumeOpen, setCommandPaletteOpen, setCertificationsOpen, theme, setTheme } = useThemeContext();
@@ -224,7 +224,7 @@ export const HeroSection: React.FC = () => {
               }}
               className="px-3 py-1.5 rounded-lg bg-neutral-800/90 border border-neutral-700 text-white hover:bg-neutral-700 hover:border-neutral-500 shadow-sm transition-all flex items-center gap-2 text-xs font-mono font-semibold"
             >
-              <FileText className="w-3.5 h-3.5 text-neutral-200 shrink-0" />
+              <ResumeIcon className="w-4 h-4 shrink-0" />
               <span>Resume</span>
             </button>
 
