@@ -620,8 +620,20 @@ export const HobbySection: React.FC = () => {
 
                   <div className="flex items-center gap-3">
                     {/* Vinyl spinning graphic */}
-                    <div className="relative w-12 h-12 rounded-full bg-neutral-900 border-2 border-neutral-700 flex items-center justify-center shrink-0 shadow-lg group-hover/top:rotate-90 transition-transform duration-700">
-                      <div className="w-4 h-4 rounded-full bg-neutral-950 border border-neutral-600 flex items-center justify-center">
+                    <div className="relative w-12 h-12 rounded-full bg-neutral-900 border-2 border-neutral-700 flex items-center justify-center shrink-0 shadow-lg group-hover/top:rotate-90 transition-transform duration-700 overflow-hidden">
+                      {musicData.topTrack.imageUrl ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={musicData.topTrack.imageUrl}
+                          alt={musicData.topTrack.name}
+                          referrerPolicy="no-referrer"
+                          className="w-full h-full object-cover rounded-full opacity-80"
+                          onError={(e) => {
+                            e.currentTarget.style.display = "none";
+                          }}
+                        />
+                      ) : null}
+                      <div className="absolute w-4 h-4 rounded-full bg-neutral-950 border border-neutral-600 flex items-center justify-center">
                         <div className="w-1.5 h-1.5 rounded-full bg-[#D51007]" />
                       </div>
                     </div>
@@ -664,7 +676,21 @@ export const HobbySection: React.FC = () => {
                       className="p-2 rounded-lg bg-neutral-950/60 border border-neutral-850 hover:border-neutral-700 transition-colors flex items-center justify-between gap-3 text-xs"
                     >
                       <div className="flex items-center gap-2.5 min-w-0">
-                        <Disc className="w-3.5 h-3.5 text-neutral-500 shrink-0" />
+                        {track.imageUrl ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={track.imageUrl}
+                            alt={track.name}
+                            referrerPolicy="no-referrer"
+                            className="w-5 h-5 rounded object-cover shrink-0"
+                            loading="lazy"
+                            onError={(e) => {
+                              e.currentTarget.style.display = "none";
+                            }}
+                          />
+                        ) : (
+                          <Disc className="w-3.5 h-3.5 text-neutral-500 shrink-0" />
+                        )}
                         <span className="font-semibold text-neutral-200 truncate font-sans">{track.name}</span>
                         <span className="text-neutral-500 font-mono text-[11px] truncate">— {track.artist}</span>
                       </div>

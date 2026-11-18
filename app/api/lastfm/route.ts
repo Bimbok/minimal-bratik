@@ -82,16 +82,22 @@ export async function GET(request: Request) {
       if (Array.isArray(rawTracks)) {
         recentTracks = rawTracks.map((t: RawLastFmTrack) => {
           const isNowPlaying = t["@attr"]?.nowplaying === "true";
-          const img =
+          const rawImg =
             t.image?.find((i) => i.size === "extralarge")?.["#text"] ||
             t.image?.find((i) => i.size === "large")?.["#text"] ||
             "";
+
+          // Avoid Last.fm's missing artwork placeholder
+          const img =
+            rawImg && !rawImg.includes("2a96cbd8b46e442fc41c2b86b821562f")
+              ? rawImg
+              : undefined;
 
           const trackItem: MusicTrack = {
             name: t.name || "Unknown Track",
             artist: t.artist?.["#text"] || t.artist?.name || "Unknown Artist",
             album: t.album?.["#text"] || "",
-            imageUrl: img || undefined,
+            imageUrl: img,
             url: t.url || `https://www.last.fm/music/${encodeURIComponent(t.artist?.["#text"] || "")}/_/${encodeURIComponent(t.name || "")}`,
             nowPlaying: isNowPlaying,
             playedAt: isNowPlaying ? "Now Playing" : t.date?.["#text"] || "Recently",
