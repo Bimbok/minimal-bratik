@@ -150,6 +150,9 @@ export const DiscordActivityWidget: React.FC = () => {
   const getAppIconUrl = (act: ActivityItem): string | null => {
     const name = act.name.toLowerCase();
 
+    if (name.includes("lastwave") || name.includes("last wave")) {
+      return "/lastwave.svg";
+    }
     if (name.includes("crunchyroll") || name.includes("cranchiroll")) {
       return "https://avatars.githubusercontent.com/u/799638?s=200";
     }
@@ -239,7 +242,7 @@ export const DiscordActivityWidget: React.FC = () => {
           <span className="text-[10px] text-neutral-500">@{discordUsername}</span>
         </div>
         <p className="text-xs text-neutral-300 font-sans">
-          To show your live Discord activity (Neovim, Android Studio, ArchiveTune, YouTube, Crunchyroll, Spotify, Games & Status) on your portfolio, join the Lanyard Discord server once:
+          To show your live Discord activity (Neovim, Android Studio, ArchiveTune, LastWave, YouTube, Crunchyroll, Spotify, Games & Status) on your portfolio, join the Lanyard Discord server once:
         </p>
         <div className="pt-1">
           <a
@@ -351,12 +354,16 @@ export const DiscordActivityWidget: React.FC = () => {
         </div>
       )}
 
-      {/* Render Active App, Watching & Listening Activities (Neovim, Android Studio, ArchiveTune, YouTube, Crunchyroll, Zed, Obsidian, VS Code) */}
+      {/* Render Active App, Watching & Listening Activities (Neovim, Android Studio, ArchiveTune, LastWave, YouTube, Crunchyroll, Zed, Obsidian, VS Code) */}
       {activeAppActivities.map((act) => {
         const appIconUrl = getAppIconUrl(act);
         const thumbnailUrl = getActivityThumbnailUrl(act);
         const smallBadgeUrl = getSmallBadgeUrl(act);
-        const isListening = act.type === 2 || act.name.toLowerCase().includes("archivetune") || act.name.toLowerCase().includes("music");
+        const isListening =
+          act.type === 2 ||
+          act.name.toLowerCase().includes("archivetune") ||
+          act.name.toLowerCase().includes("lastwave") ||
+          act.name.toLowerCase().includes("music");
         const isWatching =
           act.type === 3 ||
           act.name.toLowerCase().includes("crunchyroll") ||
