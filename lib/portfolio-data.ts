@@ -132,6 +132,7 @@ export interface MusicData {
   lastfmProfileUrl: string;
   stats: MusicStats;
   topTrack?: MusicTrack;
+  nowPlaying?: MusicTrack | null;
   recentTracks: MusicTrack[];
   topArtists?: MusicArtist[];
   topGenres?: string[];

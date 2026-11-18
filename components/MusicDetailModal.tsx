@@ -18,18 +18,32 @@ export const MusicDetailModal: React.FC<{ musicData?: MusicData }> = ({ musicDat
   const scrollWrapperRef = useRef<HTMLDivElement>(null);
   const scrollContentRef = useRef<HTMLDivElement>(null);
 
-  // Fetch live scrobbles directly from our Last.fm API endpoint when modal is active
+  // Fetch live scrobbles directly from our Last.fm API endpoint with 4-second real-time polling
   useEffect(() => {
     if (!musicModalOpen) return;
+    let isMounted = true;
 
-    fetch(`/api/lastfm?username=${PORTFOLIO_DATA.hobbies.music?.lastfmUsername || "bimbokmkj"}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data?.success && data?.music) {
+    const fetchLive = async () => {
+      try {
+        const res = await fetch(
+          `/api/lastfm?username=${PORTFOLIO_DATA.hobbies.music?.lastfmUsername || "bimbokmkj"}&t=${Date.now()}`
+        );
+        if (!res.ok) return;
+        const data = await res.json();
+        if (isMounted && data?.success && data?.music) {
           setLiveMusic(data.music);
         }
-      })
-      .catch(() => {});
+      } catch {
+        // Keep existing data
+      }
+    };
+
+    fetchLive();
+    const interval = setInterval(fetchLive, 4000);
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+    };
   }, [musicModalOpen]);
 
   // Lock outer body scroll while modal is active

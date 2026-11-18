@@ -61,7 +61,7 @@ export async function GET(request: Request) {
     )}&api_key=${apiKey}&format=json&period=7day&limit=6`;
 
     const [recentRes, infoRes, artistsRes] = await Promise.allSettled([
-      fetch(recentUrl, { signal: controller.signal, next: { revalidate: 30 } }),
+      fetch(recentUrl, { signal: controller.signal, cache: "no-store" }),
       fetch(infoUrl, { signal: controller.signal, next: { revalidate: 60 } }),
       fetch(topArtistsUrl, { signal: controller.signal, next: { revalidate: 120 } }),
     ]);
@@ -149,7 +149,8 @@ export async function GET(request: Request) {
         lovedTracks: totalLoved,
         scrobblesThisWeek: 125,
       },
-      topTrack: nowPlayingTrack || PORTFOLIO_DATA.hobbies.music?.topTrack,
+      topTrack: PORTFOLIO_DATA.hobbies.music?.topTrack,
+      nowPlaying: nowPlayingTrack,
       recentTracks,
       topArtists,
       topGenres: PORTFOLIO_DATA.hobbies.music?.topGenres || ["Bollywood", "Indian Indie", "Sufi & Acoustic"],

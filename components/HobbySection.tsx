@@ -62,19 +62,33 @@ export const HobbySection: React.FC = () => {
       });
   }, []);
 
-  // Fetch dynamic Last.fm music data via API route
+  // Real-time polling for Last.fm (every 4 seconds, just like Discord presence)
   useEffect(() => {
-    fetch(`/api/lastfm?username=${PORTFOLIO_DATA.hobbies.music?.lastfmUsername || "bimbokmkj"}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data?.success && data?.music) {
+    let isMounted = true;
+    const fetchMusic = async () => {
+      try {
+        const res = await fetch(
+          `/api/lastfm?username=${PORTFOLIO_DATA.hobbies.music?.lastfmUsername || "bimbokmkj"}&t=${Date.now()}`
+        );
+        if (!res.ok) return;
+        const data = await res.json();
+        if (isMounted && data?.success && data?.music) {
           setMusicData(data.music);
           if (data.isLiveSynced) {
             setIsMusicLiveSynced(true);
           }
         }
-      })
-      .catch(() => {});
+      } catch {
+        // Keep fallback data
+      }
+    };
+
+    fetchMusic();
+    const interval = setInterval(fetchMusic, 4000);
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+    };
   }, []);
 
   // Filter 1-2 featured anime: Watching first, then recently completed
@@ -607,60 +621,84 @@ export const HobbySection: React.FC = () => {
             {/* Main Content: Featured Obsession Track + Recent Scrobbles Strip */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 mb-4">
               
-              {/* Left Column: Featured Obsession / Top Track (5 cols) */}
-              {musicData.topTrack && (
-                <div className="lg:col-span-5 p-3.5 rounded-xl bg-neutral-950/90 border border-neutral-800 flex flex-col justify-between space-y-3 relative overflow-hidden group/top">
-                  <div className="flex items-center justify-between text-xs font-mono">
-                    <span className="text-[10px] text-[#D51007] font-bold uppercase tracking-wider flex items-center gap-1.5">
-                      <Heart className="w-3 h-3 fill-current" />
-                      <span>Top All-Time Track</span>
-                    </span>
-                    <Badge variant="subtle" className="text-[9px]">Rank #1</Badge>
-                  </div>
+              {/* Left Column: Live Now Playing or Top All-Time Track */}
+              {(() => {
+                const isNowPlaying = Boolean(musicData.nowPlaying);
+                const spotlight = musicData.nowPlaying || musicData.topTrack;
+                if (!spotlight) return null;
 
-                  <div className="flex items-center gap-3">
-                    {/* Vinyl spinning graphic */}
-                    <div className="relative w-12 h-12 rounded-full bg-neutral-900 border-2 border-neutral-700 flex items-center justify-center shrink-0 shadow-lg group-hover/top:rotate-90 transition-transform duration-700 overflow-hidden">
-                      {musicData.topTrack.imageUrl ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                          src={musicData.topTrack.imageUrl}
-                          alt={musicData.topTrack.name}
-                          referrerPolicy="no-referrer"
-                          className="w-full h-full object-cover rounded-full opacity-80"
-                          onError={(e) => {
-                            e.currentTarget.style.display = "none";
-                          }}
-                        />
-                      ) : null}
-                      <div className="absolute w-4 h-4 rounded-full bg-neutral-950 border border-neutral-600 flex items-center justify-center">
-                        <div className="w-1.5 h-1.5 rounded-full bg-[#D51007]" />
+                return (
+                  <div className="lg:col-span-5 p-3.5 rounded-xl bg-neutral-950/90 border border-neutral-800 flex flex-col justify-between space-y-3 relative overflow-hidden group/top">
+                    <div className="flex items-center justify-between text-xs font-mono">
+                      {isNowPlaying ? (
+                        <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-wider flex items-center gap-1.5">
+                          <span className="flex items-center gap-0.5 h-2.5">
+                            <span className="w-0.5 h-full bg-emerald-400 rounded-full animate-pulse" />
+                            <span className="w-0.5 h-2/3 bg-emerald-400 rounded-full animate-pulse [animation-delay:150ms]" />
+                            <span className="w-0.5 h-4/5 bg-emerald-400 rounded-full animate-pulse [animation-delay:300ms]" />
+                          </span>
+                          <span>Now Playing</span>
+                        </span>
+                      ) : (
+                        <span className="text-[10px] text-[#D51007] font-bold uppercase tracking-wider flex items-center gap-1.5">
+                          <Heart className="w-3 h-3 fill-current" />
+                          <span>Top All-Time Track</span>
+                        </span>
+                      )}
+                      <Badge
+                        variant={isNowPlaying ? "status" : "subtle"}
+                        className={isNowPlaying ? "text-emerald-400 border-emerald-800/60 bg-emerald-950/60 text-[9px]" : "text-[9px]"}
+                      >
+                        {isNowPlaying ? "Live Stream" : "Rank #1"}
+                      </Badge>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      {/* Vinyl spinning graphic - actively spinning when live! */}
+                      <div className={`relative w-12 h-12 rounded-full bg-neutral-900 border-2 border-neutral-700 flex items-center justify-center shrink-0 shadow-lg overflow-hidden transition-transform duration-700 ${
+                        isNowPlaying ? "animate-spin [animation-duration:8s]" : "group-hover/top:rotate-90"
+                      }`}>
+                        {spotlight.imageUrl ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={spotlight.imageUrl}
+                            alt={spotlight.name}
+                            referrerPolicy="no-referrer"
+                            className="w-full h-full object-cover rounded-full opacity-80"
+                            onError={(e) => {
+                              e.currentTarget.style.display = "none";
+                            }}
+                          />
+                        ) : null}
+                        <div className="absolute w-4 h-4 rounded-full bg-neutral-950 border border-neutral-600 flex items-center justify-center">
+                          <div className={`w-1.5 h-1.5 rounded-full ${isNowPlaying ? "bg-emerald-400" : "bg-[#D51007]"}`} />
+                        </div>
+                      </div>
+
+                      <div className="min-w-0">
+                        <h4 className="font-bold text-sm text-white font-sans tracking-tight truncate">
+                          {spotlight.name}
+                        </h4>
+                        <p className="text-xs text-neutral-400 font-mono truncate">
+                          {spotlight.artist} {spotlight.album && <span className="text-neutral-500">• {spotlight.album}</span>}
+                        </p>
                       </div>
                     </div>
 
-                    <div className="min-w-0">
-                      <h4 className="font-bold text-sm text-white font-sans tracking-tight truncate">
-                        {musicData.topTrack.name}
-                      </h4>
-                      <p className="text-xs text-neutral-400 font-mono truncate">
-                        {musicData.topTrack.artist} • <span className="text-neutral-500">{musicData.topTrack.album}</span>
-                      </p>
-                    </div>
+                    {spotlight.url && (
+                      <a
+                        href={spotlight.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-xs text-neutral-300 hover:text-white font-medium hover:underline pt-1"
+                      >
+                        <Play className="w-3 h-3 fill-current text-white" />
+                        <span>{isNowPlaying ? "Listen on Last.fm" : "Explore Track"}</span>
+                      </a>
+                    )}
                   </div>
-
-                  {musicData.topTrack.url && (
-                    <a
-                      href={musicData.topTrack.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-xs text-neutral-300 hover:text-white font-medium hover:underline pt-1"
-                    >
-                      <Play className="w-3 h-3 fill-current text-white" />
-                      <span>Listen on Last.fm</span>
-                    </a>
-                  )}
-                </div>
-              )}
+                );
+              })()}
 
               {/* Right Column: Recent Tracks Mini-Feed (7 cols) */}
               <div className="lg:col-span-7 space-y-1.5">
@@ -694,7 +732,15 @@ export const HobbySection: React.FC = () => {
                         <span className="font-semibold text-neutral-200 truncate font-sans">{track.name}</span>
                         <span className="text-neutral-500 font-mono text-[11px] truncate">— {track.artist}</span>
                       </div>
-                      <span className="text-[10px] font-mono text-neutral-500 shrink-0">{track.playedAt}</span>
+                      <div className="flex items-center gap-1.5 shrink-0">
+                        {track.nowPlaying ? (
+                          <Badge variant="status" className="text-emerald-400 border-emerald-800/60 bg-emerald-950/60 text-[9px] py-0 px-1.5">
+                            Now Playing
+                          </Badge>
+                        ) : (
+                          <span className="text-[10px] font-mono text-neutral-500 shrink-0">{track.playedAt}</span>
+                        )}
+                      </div>
                     </div>
                   ))}
                 </div>
