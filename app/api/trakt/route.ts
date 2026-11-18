@@ -1,12 +1,42 @@
 import { NextResponse } from "next/server";
-import { PORTFOLIO_DATA, TraktData, TraktHistoryItem } from "@/lib/portfolio-data";
+import {
+  PORTFOLIO_DATA,
+  TraktData,
+  TraktHistoryItem,
+  TraktShowItem,
+  TraktMovieItem,
+} from "@/lib/portfolio-data";
 
 export const dynamic = "force-dynamic";
 
-interface RawTraktHistoryItem {
+interface RawTraktWatchedShow {
+  plays: number;
+  show?: {
+    title: string;
+    year?: number;
+    rating?: number;
+    runtime?: number;
+    genres?: string[];
+    network?: string;
+    ids?: { trakt?: number; slug?: string };
+  };
+}
+
+interface RawTraktWatchedMovie {
+  plays: number;
+  movie?: {
+    title: string;
+    year?: number;
+    rating?: number;
+    runtime?: number;
+    genres?: string[];
+    ids?: { trakt?: number; slug?: string };
+  };
+}
+
+interface RawTraktHistoryEntry {
   id: number | string;
   watched_at: string;
-  action: string;
   type: "movie" | "episode";
   episode?: {
     title: string;
@@ -24,7 +54,7 @@ interface RawTraktHistoryItem {
     overview?: string;
     genres?: string[];
     images?: { poster?: string[]; fanart?: string[] };
-    ids?: { slug?: string };
+    ids?: { trakt?: number; slug?: string };
   };
   movie?: {
     title: string;
@@ -33,7 +63,7 @@ interface RawTraktHistoryItem {
     overview?: string;
     genres?: string[];
     images?: { poster?: string[]; fanart?: string[] };
-    ids?: { slug?: string; trakt?: number };
+    ids?: { trakt?: number; slug?: string };
   };
 }
 
@@ -67,31 +97,38 @@ export async function GET(request: Request) {
 
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 6000);
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
 
     // 1. Live Watching (200 = currently playing, 204 = idle)
     const watchingUrl = `https://api.trakt.tv/users/${encodeURIComponent(username)}/watching`;
 
-    // 2. Full History with posters & screenshots
-    const historyUrl = `https://api.trakt.tv/users/${encodeURIComponent(username)}/history?extended=full&limit=15`;
+    // 2. Watched Shows (contains all completed shows and episode counts)
+    const showsUrl = `https://api.trakt.tv/users/${encodeURIComponent(username)}/watched/shows?extended=full`;
 
-    // 3. Lifetime Stats
-    const statsUrl = `https://api.trakt.tv/users/${encodeURIComponent(username)}/stats`;
+    // 3. Watched Movies (contains all 48+ watched movies)
+    const moviesUrl = `https://api.trakt.tv/users/${encodeURIComponent(username)}/watched/movies?extended=full`;
 
-    const [watchingRes, historyRes, statsRes] = await Promise.allSettled([
+    // 4. Recent History (contains chronological feed of episodes & movies)
+    const historyUrl = `https://api.trakt.tv/users/${encodeURIComponent(username)}/history?extended=full&limit=30`;
+
+    const [watchingRes, showsRes, moviesRes, historyRes] = await Promise.allSettled([
       fetch(watchingUrl, { headers, signal: controller.signal, cache: "no-store" }),
+      fetch(showsUrl, { headers, signal: controller.signal, cache: "no-store" }),
+      fetch(moviesUrl, { headers, signal: controller.signal, cache: "no-store" }),
       fetch(historyUrl, { headers, signal: controller.signal, cache: "no-store" }),
-      fetch(statsUrl, { headers, signal: controller.signal, next: { revalidate: 300 } }),
     ]);
 
     clearTimeout(timeoutId);
 
     let nowWatching: TraktHistoryItem | null = null;
     let recentHistory: TraktHistoryItem[] = PORTFOLIO_DATA.hobbies.cinema?.recentHistory || [];
-    let moviesCount = PORTFOLIO_DATA.hobbies.cinema?.stats.moviesWatched || 0;
-    let episodesCount = PORTFOLIO_DATA.hobbies.cinema?.stats.episodesWatched || 16;
-    let showsCount = PORTFOLIO_DATA.hobbies.cinema?.stats.showsWatched || 1;
-    let totalHours = PORTFOLIO_DATA.hobbies.cinema?.stats.totalHours || 13;
+    let showsList: TraktShowItem[] = [];
+    let moviesList: TraktMovieItem[] = [];
+
+    let totalShowsCount = 0;
+    let totalEpisodesCount = 0;
+    let totalMoviesCount = 0;
+    let totalMinutesWatched = 0;
 
     // Parse Live Watching
     if (watchingRes.status === "fulfilled" && watchingRes.value.status === 200) {
@@ -99,8 +136,9 @@ export async function GET(request: Request) {
       if (liveData?.type === "episode" && liveData?.episode && liveData?.show) {
         const ep = liveData.episode;
         const sh = liveData.show;
-        const posterImg = sh.images?.poster?.[0] ? `https://${sh.images.poster[0]}` : undefined;
-        const screenshotImg = ep.images?.screenshot?.[0] ? `https://${ep.images.screenshot[0]}` : undefined;
+        const posterImg = sh.ids?.trakt
+          ? `https://media.trakt.tv/shows/${sh.ids.trakt}/medium/poster.webp`
+          : undefined;
 
         nowWatching = {
           id: ep.ids?.trakt || ep.title,
@@ -112,14 +150,16 @@ export async function GET(request: Request) {
           year: sh.year,
           rating: ep.rating ? Math.round(ep.rating * 10) / 10 : undefined,
           posterUrl: posterImg,
-          screenshotUrl: screenshotImg || posterImg,
+          screenshotUrl: posterImg,
           watchedAt: "Watching Now",
           overview: ep.overview || sh.overview,
           url: `https://trakt.tv/shows/${sh.ids?.slug || "show"}/seasons/${ep.season}/episodes/${ep.number}`,
         };
       } else if (liveData?.type === "movie" && liveData?.movie) {
         const mv = liveData.movie;
-        const posterImg = mv.images?.poster?.[0] ? `https://${mv.images.poster[0]}` : undefined;
+        const posterImg = mv.ids?.trakt
+          ? `https://media.trakt.tv/movies/${mv.ids.trakt}/medium/poster.webp`
+          : undefined;
 
         nowWatching = {
           id: mv.ids?.trakt || mv.title,
@@ -136,16 +176,82 @@ export async function GET(request: Request) {
       }
     }
 
-    // Parse History
+    // Parse Watched Shows
+    if (showsRes.status === "fulfilled" && showsRes.value.ok) {
+      const rawShows = await showsRes.value.json();
+      if (Array.isArray(rawShows)) {
+        totalShowsCount = rawShows.length;
+        showsList = rawShows.map((s: RawTraktWatchedShow) => {
+          const sh = s.show;
+          const plays = s.plays || 0;
+          totalEpisodesCount += plays;
+          const runtime = sh?.runtime || 45;
+          totalMinutesWatched += runtime * plays;
+
+          const posterUrl = sh?.ids?.trakt
+            ? `https://media.trakt.tv/shows/${sh.ids.trakt}/medium/poster.webp`
+            : undefined;
+          const fanartUrl = sh?.ids?.trakt
+            ? `https://media.trakt.tv/shows/${sh.ids.trakt}/medium/fanart.webp`
+            : undefined;
+
+          return {
+            id: sh?.ids?.trakt || sh?.title || "trakt-show",
+            title: sh?.title || "Unknown Show",
+            year: sh?.year,
+            plays,
+            rating: sh?.rating ? Math.round(sh.rating * 10) / 10 : undefined,
+            posterUrl,
+            fanartUrl,
+            genres: sh?.genres || [],
+            network: sh?.network || undefined,
+            url: sh?.ids?.slug ? `https://trakt.tv/shows/${sh.ids.slug}` : undefined,
+          };
+        });
+      }
+    }
+
+    // Parse Watched Movies
+    if (moviesRes.status === "fulfilled" && moviesRes.value.ok) {
+      const rawMovies = await moviesRes.value.json();
+      if (Array.isArray(rawMovies)) {
+        totalMoviesCount = rawMovies.length;
+        moviesList = rawMovies.map((m: RawTraktWatchedMovie) => {
+          const mv = m.movie;
+          const runtime = mv?.runtime || 110;
+          totalMinutesWatched += runtime * (m.plays || 1);
+
+          const posterUrl = mv?.ids?.trakt
+            ? `https://media.trakt.tv/movies/${mv.ids.trakt}/medium/poster.webp`
+            : undefined;
+
+          return {
+            id: mv?.ids?.trakt || mv?.title || "trakt-movie",
+            title: mv?.title || "Unknown Movie",
+            year: mv?.year,
+            rating: mv?.rating ? Math.round(mv.rating * 10) / 10 : undefined,
+            posterUrl,
+            genres: mv?.genres || [],
+            url: mv?.ids?.slug ? `https://trakt.tv/movies/${mv.ids.slug}` : undefined,
+          };
+        });
+      }
+    }
+
+    // Parse Recent History
     if (historyRes.status === "fulfilled" && historyRes.value.ok) {
       const historyData = await historyRes.value.json();
       if (Array.isArray(historyData) && historyData.length > 0) {
-        recentHistory = historyData.map((item: RawTraktHistoryItem) => {
+        recentHistory = historyData.map((item: RawTraktHistoryEntry) => {
           if (item.type === "episode" && item.episode && item.show) {
             const ep = item.episode;
             const sh = item.show;
-            const posterImg = sh.images?.poster?.[0] ? `https://${sh.images.poster[0]}` : undefined;
-            const screenshotImg = ep.images?.screenshot?.[0] ? `https://${ep.images.screenshot[0]}` : undefined;
+            const posterImg = sh.ids?.trakt
+              ? `https://media.trakt.tv/shows/${sh.ids.trakt}/medium/poster.webp`
+              : undefined;
+            const screenshotImg = ep.images?.screenshot?.[0]
+              ? `https://${ep.images.screenshot[0]}`
+              : posterImg;
 
             return {
               id: item.id || ep.ids?.trakt || `${sh.title}-${ep.season}-${ep.number}`,
@@ -157,15 +263,19 @@ export async function GET(request: Request) {
               year: sh.year,
               rating: ep.rating ? Math.round(ep.rating * 10) / 10 : (sh.rating ? Math.round(sh.rating * 10) / 10 : 7.8),
               posterUrl: posterImg,
-              screenshotUrl: screenshotImg || posterImg,
-              watchedAt: item.watched_at ? new Date(item.watched_at).toLocaleDateString("en-US", { month: "short", day: "numeric" }) : "Recently",
+              screenshotUrl: screenshotImg,
+              watchedAt: item.watched_at
+                ? new Date(item.watched_at).toLocaleDateString("en-US", { month: "short", day: "numeric" })
+                : "Recently",
               overview: ep.overview || sh.overview,
-              genres: sh.genres || ["Drama", "Thriller"],
+              genres: sh.genres || ["Drama"],
               url: `https://trakt.tv/shows/${sh.ids?.slug || "show"}/seasons/${ep.season}/episodes/${ep.number}`,
             };
           } else if (item.type === "movie" && item.movie) {
             const mv = item.movie;
-            const posterImg = mv.images?.poster?.[0] ? `https://${mv.images.poster[0]}` : undefined;
+            const posterImg = mv.ids?.trakt
+              ? `https://media.trakt.tv/movies/${mv.ids.trakt}/medium/poster.webp`
+              : undefined;
 
             return {
               id: item.id || mv.ids?.trakt || `${mv.title}-${mv.year}`,
@@ -175,7 +285,9 @@ export async function GET(request: Request) {
               rating: mv.rating ? Math.round(mv.rating * 10) / 10 : 8.0,
               posterUrl: posterImg,
               screenshotUrl: posterImg,
-              watchedAt: item.watched_at ? new Date(item.watched_at).toLocaleDateString("en-US", { month: "short", day: "numeric" }) : "Recently",
+              watchedAt: item.watched_at
+                ? new Date(item.watched_at).toLocaleDateString("en-US", { month: "short", day: "numeric" })
+                : "Recently",
               overview: mv.overview,
               genres: mv.genres || ["Cinema"],
               url: `https://trakt.tv/movies/${mv.ids?.slug || "movie"}`,
@@ -183,7 +295,7 @@ export async function GET(request: Request) {
           }
 
           return {
-            id: item.id,
+            id: item.id || "history-item",
             type: "episode",
             title: "Watched Entry",
             watchedAt: "Recently",
@@ -192,29 +304,35 @@ export async function GET(request: Request) {
       }
     }
 
-    // Parse Stats
-    if (statsRes.status === "fulfilled" && statsRes.value.ok) {
-      const statsData = await statsRes.value.json();
-      if (statsData) {
-        if (statsData.movies?.watched !== undefined) moviesCount = statsData.movies.watched;
-        if (statsData.episodes?.watched !== undefined) episodesCount = statsData.episodes.watched;
-        if (statsData.shows?.watched !== undefined) showsCount = statsData.shows.watched;
-        if (statsData.episodes?.minutes) totalHours = Math.round(statsData.episodes.minutes / 60);
-      }
-    }
+    // Determine Dynamic Featured Spotlight (Latest watched show from showsList or fallback)
+    const featuredShow = showsList[0];
+    const featured = featuredShow
+      ? {
+          title: featuredShow.title,
+          year: featuredShow.year || 2021,
+          posterUrl: featuredShow.posterUrl || PORTFOLIO_DATA.hobbies.cinema?.featured?.posterUrl || "",
+          bannerUrl: featuredShow.fanartUrl || PORTFOLIO_DATA.hobbies.cinema?.featured?.bannerUrl,
+          rating: featuredShow.rating || 8.2,
+          genres: featuredShow.genres && featuredShow.genres.length > 0 ? featuredShow.genres : ["Sci-Fi", "Drama"],
+          overview: `Completed ${featuredShow.plays} episodes of ${featuredShow.title} on Trakt.`,
+          url: featuredShow.url || `https://trakt.tv/shows/${encodeURIComponent(featuredShow.title)}`,
+        }
+      : PORTFOLIO_DATA.hobbies.cinema?.featured;
 
     const payload: TraktData = {
       traktUsername: username,
       traktProfileUrl: `https://trakt.tv/users/${encodeURIComponent(username)}`,
       stats: {
-        moviesWatched: moviesCount,
-        episodesWatched: episodesCount || recentHistory.filter(h => h.type === "episode").length,
-        showsWatched: showsCount || 1,
-        totalHours: totalHours || 13,
+        moviesWatched: totalMoviesCount || PORTFOLIO_DATA.hobbies.cinema?.stats.moviesWatched || 48,
+        episodesWatched: totalEpisodesCount || PORTFOLIO_DATA.hobbies.cinema?.stats.episodesWatched || 123,
+        showsWatched: totalShowsCount || PORTFOLIO_DATA.hobbies.cinema?.stats.showsWatched || 6,
+        totalHours: Math.round(totalMinutesWatched / 60) || PORTFOLIO_DATA.hobbies.cinema?.stats.totalHours || 224,
       },
       nowWatching,
-      featured: PORTFOLIO_DATA.hobbies.cinema?.featured,
+      featured,
       recentHistory,
+      shows: showsList,
+      movies: moviesList,
     };
 
     return NextResponse.json({

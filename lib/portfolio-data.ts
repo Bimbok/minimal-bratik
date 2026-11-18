@@ -162,6 +162,29 @@ export interface TraktStats {
   totalHours: number;
 }
 
+export interface TraktShowItem {
+  id: string | number;
+  title: string;
+  year?: number;
+  plays: number;
+  rating?: number;
+  posterUrl?: string;
+  fanartUrl?: string;
+  genres?: string[];
+  network?: string;
+  url?: string;
+}
+
+export interface TraktMovieItem {
+  id: string | number;
+  title: string;
+  year?: number;
+  rating?: number;
+  posterUrl?: string;
+  genres?: string[];
+  url?: string;
+}
+
 export interface TraktData {
   traktUsername: string;
   traktProfileUrl: string;
@@ -178,6 +201,8 @@ export interface TraktData {
     url: string;
   };
   recentHistory: TraktHistoryItem[];
+  shows?: TraktShowItem[];
+  movies?: TraktMovieItem[];
 }
 
 export interface HobbyData {
@@ -1812,10 +1837,10 @@ GitHub: github.com/Bimbok | LinkedIn: linkedin.com/in/bimbok
       traktUsername: "bimbok",
       traktProfileUrl: "https://trakt.tv/users/bimbok",
       stats: {
-        moviesWatched: 0,
-        episodesWatched: 16,
-        showsWatched: 1,
-        totalHours: 13,
+        moviesWatched: 48,
+        episodesWatched: 123,
+        showsWatched: 6,
+        totalHours: 224,
       },
       featured: {
         title: "Asur: Welcome to Your Dark Side",
