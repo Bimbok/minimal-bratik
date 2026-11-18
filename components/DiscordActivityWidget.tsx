@@ -163,7 +163,7 @@ export const DiscordActivityWidget: React.FC = () => {
       return "/youtube.svg";
     }
     if (name.includes("zed")) {
-      return "https://avatars.githubusercontent.com/u/100072895?s=200";
+      return "/zed.svg";
     }
     if (name.includes("android studio") || name.includes("androidstudio") || name.includes("android")) {
       return "https://skillicons.dev/icons?i=androidstudio&theme=dark";
