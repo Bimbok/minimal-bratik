@@ -5,8 +5,8 @@ import { PORTFOLIO_DATA } from "../lib/portfolio-data";
 import { useThemeContext } from "../lib/theme-context";
 import { audioEngine } from "../lib/audio";
 import { GithubHoverCard } from "./GithubHoverCard";
-import { XIcon, BlueskyIcon, InstagramIcon, YoutubeIcon, RedditIcon } from "./BrandIcons";
-import { Mail, FileText, Command, Sun, Award } from "lucide-react";
+import { XIcon, BlueskyIcon, InstagramIcon, YoutubeIcon, RedditIcon, GmailIcon } from "./BrandIcons";
+import { FileText, Command, Sun, Award } from "lucide-react";
 
 export const HeroSection: React.FC = () => {
   const { setResumeOpen, setCommandPaletteOpen, setCertificationsOpen, theme, setTheme } = useThemeContext();
@@ -119,7 +119,7 @@ export const HeroSection: React.FC = () => {
             href={`mailto:${PORTFOLIO_DATA.profile.socials.email}`}
             className="px-3.5 py-2 rounded-lg bg-neutral-900 border border-neutral-800 text-neutral-200 hover:border-neutral-700 hover:bg-neutral-800 transition-all flex items-center gap-2"
           >
-            <Mail className="w-3.5 h-3.5 text-neutral-400" />
+            <GmailIcon className="w-4 h-4 shrink-0" />
             <span>Send an email</span>
           </a>
         </div>
