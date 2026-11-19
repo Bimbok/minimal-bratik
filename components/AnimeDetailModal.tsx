@@ -5,8 +5,8 @@ import Lenis from "lenis";
 import { useThemeContext } from "../lib/theme-context";
 import { PORTFOLIO_DATA, AnimeItem } from "../lib/portfolio-data";
 import { audioEngine } from "../lib/audio";
+import { MyAnimeListIcon } from "./BrandIcons";
 import {
-  Tv,
   X,
   Star,
   ExternalLink,
@@ -132,11 +132,14 @@ export const AnimeDetailModal: React.FC = () => {
       {/* Modal Container */}
       <div className="relative w-full max-w-3xl max-h-[90vh] rounded-2xl bg-[#0e0f12] border border-neutral-700 shadow-2xl overflow-hidden z-10 flex flex-col text-neutral-200">
         
+        {/* Subtle Top Gradient Accent */}
+        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#2E51A2] to-transparent z-20" />
+
         {/* Header */}
         <div className="px-5 py-4 bg-neutral-950 border-b border-neutral-800 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-neutral-900 border border-neutral-800 flex items-center justify-center text-white">
-              <Tv className="w-4 h-4" />
+              <MyAnimeListIcon className="w-4.5 h-4.5 text-[#2E51A2]" />
             </div>
             <div>
               <div className="flex items-center gap-2">
@@ -159,8 +162,9 @@ export const AnimeDetailModal: React.FC = () => {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => audioEngine.playKeyClick("enter")}
-              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 text-xs font-semibold text-white transition-colors"
+              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#2E51A2]/10 hover:bg-[#2E51A2]/20 border border-[#2E51A2]/40 text-xs font-semibold text-white transition-colors"
             >
+              <MyAnimeListIcon className="w-3.5 h-3.5 text-[#2E51A2]" />
               <span>View MAL Profile</span>
               <ExternalLink className="w-3 h-3 text-neutral-400" />
             </a>
@@ -431,8 +435,9 @@ export const AnimeDetailModal: React.FC = () => {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => audioEngine.playKeyClick("enter")}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 text-xs font-semibold text-white transition-colors"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#2E51A2]/10 hover:bg-[#2E51A2]/20 border border-[#2E51A2]/40 text-xs font-semibold text-white transition-colors"
           >
+            <MyAnimeListIcon className="w-3.5 h-3.5 text-[#2E51A2]" />
             <span>View Full Profile on MyAnimeList</span>
             <ExternalLink className="w-3.5 h-3.5 text-neutral-400" />
           </a>

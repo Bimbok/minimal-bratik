@@ -5,6 +5,7 @@ import { Command } from "cmdk";
 import { PORTFOLIO_DATA } from "../lib/portfolio-data";
 import { useThemeContext, SectionId, ThemeMode } from "../lib/theme-context";
 import { audioEngine } from "../lib/audio";
+import { MyAnimeListIcon } from "./BrandIcons";
 import {
   Search,
   Terminal,
@@ -22,7 +23,6 @@ import {
   HelpCircle,
   Play,
   UserPlus,
-  Tv,
   Heart,
   Monitor,
   Music,
@@ -271,7 +271,7 @@ END:VCARD`;
                 className="flex items-center justify-between p-2.5 rounded-md hover:bg-neutral-800 text-neutral-200 cursor-pointer aria-selected:bg-neutral-800 aria-selected:text-white"
               >
                 <div className="flex items-center gap-2">
-                  <Tv className="w-4 h-4 text-neutral-300" />
+                  <MyAnimeListIcon className="w-4 h-4 text-[#2E51A2]" />
                   <span>cat anime (View Anime Watchlist & MAL Profile)</span>
                 </div>
               </Command.Item>
