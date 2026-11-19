@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useThemeContext, SectionId } from "../lib/theme-context";
 import { audioEngine } from "../lib/audio";
+import { cn } from "../lib/utils";
 import { GitBranch, Clock, Volume2, VolumeX, Terminal } from "lucide-react";
 
 export const StatusBar: React.FC = () => {
@@ -15,6 +16,9 @@ export const StatusBar: React.FC = () => {
   } = useThemeContext();
 
   const [timeStr, setTimeStr] = useState<string>("");
+  const [isVisible, setIsVisible] = useState(false);
+  const isHoveringBarRef = useRef(false);
+  const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const updateTime = () => {
@@ -28,6 +32,64 @@ export const StatusBar: React.FC = () => {
     const interval = setInterval(updateTime, 1000);
     return () => clearInterval(interval);
   }, []);
+
+  // Auto-hide on desktop: Show when hovering near bottom of viewport, hide when leaving
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      // Only active on desktop screens (>= 768px)
+      if (window.innerWidth < 768) return;
+
+      const threshold = window.innerHeight - 45;
+      if (e.clientY >= threshold) {
+        if (hideTimeoutRef.current) {
+          clearTimeout(hideTimeoutRef.current);
+          hideTimeoutRef.current = null;
+        }
+        setIsVisible(true);
+      } else if (!isHoveringBarRef.current) {
+        if (!hideTimeoutRef.current) {
+          hideTimeoutRef.current = setTimeout(() => {
+            setIsVisible(false);
+            hideTimeoutRef.current = null;
+          }, 300);
+        }
+      }
+    };
+
+    const handleMouseLeaveDoc = () => {
+      isHoveringBarRef.current = false;
+      setIsVisible(false);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    document.addEventListener("mouseleave", handleMouseLeaveDoc);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseleave", handleMouseLeaveDoc);
+      if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
+    };
+  }, []);
+
+  const handleMouseEnter = () => {
+    isHoveringBarRef.current = true;
+    if (hideTimeoutRef.current) {
+      clearTimeout(hideTimeoutRef.current);
+      hideTimeoutRef.current = null;
+    }
+    setIsVisible(true);
+  };
+
+  const handleMouseLeave = () => {
+    isHoveringBarRef.current = false;
+    if (hideTimeoutRef.current) {
+      clearTimeout(hideTimeoutRef.current);
+    }
+    hideTimeoutRef.current = setTimeout(() => {
+      setIsVisible(false);
+      hideTimeoutRef.current = null;
+    }, 300);
+  };
 
   const sectionFileMap: Record<SectionId, string> = {
     home: "1: home.ts",
@@ -46,7 +108,18 @@ export const StatusBar: React.FC = () => {
   };
 
   return (
-    <footer className="fixed bottom-3 left-1/2 -translate-x-1/2 z-40 max-w-4xl w-[94%] sm:w-auto px-3.5 py-1.5 rounded-2xl bg-[#0b0c0e]/90 border border-neutral-800/90 shadow-2xl backdrop-blur-xl font-mono text-[11px] select-none flex items-center justify-between gap-4 transition-all duration-300">
+    <footer
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onFocus={handleMouseEnter}
+      onBlur={handleMouseLeave}
+      className={cn(
+        "hidden md:flex fixed bottom-3 left-1/2 -translate-x-1/2 z-40 max-w-4xl w-auto px-3.5 py-1.5 rounded-2xl bg-[#0b0c0e]/95 border border-neutral-800/90 shadow-2xl backdrop-blur-xl font-mono text-[11px] select-none items-center justify-between gap-4 transition-all duration-300 ease-out",
+        isVisible
+          ? "translate-y-0 opacity-100 pointer-events-auto"
+          : "translate-y-16 opacity-0 pointer-events-none"
+      )}
+    >
       
       {/* Left Group: Vim mode & Active Buffer section */}
       <div className="flex items-center gap-2">

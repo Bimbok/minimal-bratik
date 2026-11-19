@@ -5,3 +5,4 @@ export * from "./section";
 export * from "./modal";
 export * from "./marquee";
 export * from "./TabNavigation";
+export * from "./CrystalizedBall";

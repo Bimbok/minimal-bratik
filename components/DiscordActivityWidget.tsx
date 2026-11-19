@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { PORTFOLIO_DATA } from "../lib/portfolio-data";
 import { Code2, Disc, ExternalLink, Radio } from "lucide-react";
+import CrystalizedBall, { BallPreset } from "./ui/CrystalizedBall";
 
 interface SpotifyData {
   track_id: string;
@@ -341,13 +342,14 @@ export const DiscordActivityWidget: React.FC = () => {
     return null;
   }
 
-  const statusColorMap = {
-    online: "bg-emerald-400 shadow-emerald-500/50",
-    idle: "bg-amber-400 shadow-amber-500/50",
-    dnd: "bg-red-500 shadow-red-500/50",
-    offline: "bg-neutral-600 shadow-neutral-600/50",
+  const ballPresetMap: Record<string, BallPreset> = {
+    online: "aurora",
+    idle: "solar",
+    dnd: "ember",
+    offline: "frost",
   };
-  const statusColor = statusColorMap[lanyardData?.discord_status || "online"];
+  const ballPreset: BallPreset =
+    ballPresetMap[lanyardData?.discord_status || "online"] || "aurora";
 
   return (
     <div className="rounded-2xl bg-[#0b0c0f]/95 border border-neutral-800/90 p-4 sm:p-5 shadow-2xl space-y-4 font-mono relative overflow-hidden group backdrop-blur-xl">
@@ -358,13 +360,14 @@ export const DiscordActivityWidget: React.FC = () => {
       {/* Header Bar */}
       <div className="flex items-center justify-between text-xs border-b border-neutral-800/70 pb-3">
         <div className="flex items-center gap-2.5">
-          <div className="relative flex items-center justify-center">
-            <span
-              className={`w-2.5 h-2.5 rounded-full ${statusColor} shadow-sm`}
+          <div className="relative flex items-center justify-center w-6 h-6 shrink-0">
+            <CrystalizedBall
+              preset={ballPreset}
+              size={0.9}
+              particleCount={2500}
+              interactive={true}
+              hoverStrength={0.8}
             />
-            {lanyardData?.discord_status === "online" && (
-              <span className="absolute w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping opacity-75" />
-            )}
           </div>
 
           <div className="flex items-center gap-1.5">
