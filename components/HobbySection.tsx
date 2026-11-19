@@ -27,7 +27,6 @@ export const HobbySection: React.FC = () => {
 
   const [animeData, setAnimeData] = useState<AnimeItem[]>(PORTFOLIO_DATA.hobbies.anime);
   const [profileUrl, setProfileUrl] = useState<string>(PORTFOLIO_DATA.hobbies.animeProfileUrl);
-  const [isLiveSynced, setIsLiveSynced] = useState<boolean>(false);
 
   const [musicData, setMusicData] = useState<MusicData | undefined>(() => {
     if (typeof window !== "undefined") {
@@ -43,7 +42,6 @@ export const HobbySection: React.FC = () => {
     }
     return PORTFOLIO_DATA.hobbies.music;
   });
-  const [isMusicLiveSynced, setIsMusicLiveSynced] = useState<boolean>(false);
 
   const [cinemaData, setCinemaData] = useState<TraktData | undefined>(() => {
     if (typeof window !== "undefined") {
@@ -59,7 +57,6 @@ export const HobbySection: React.FC = () => {
     }
     return PORTFOLIO_DATA.hobbies.cinema;
   });
-  const [isCinemaLiveSynced, setIsCinemaLiveSynced] = useState<boolean>(false);
   const [stats, setStats] = useState(
     PORTFOLIO_DATA.hobbies.stats || {
       daysWatched: 7.2,
@@ -78,7 +75,6 @@ export const HobbySection: React.FC = () => {
       .then((data) => {
         if (Array.isArray(data?.anime) && data.anime.length > 0) {
           setAnimeData(data.anime);
-          setIsLiveSynced(true);
         }
         if (data?.profileUrl) {
           setProfileUrl(data.profileUrl);
@@ -108,9 +104,6 @@ export const HobbySection: React.FC = () => {
             sessionStorage.setItem("bimbok_lastfm_cache", JSON.stringify(data.music));
           } catch {
             // ignore
-          }
-          if (data.isLiveSynced) {
-            setIsMusicLiveSynced(true);
           }
         }
       } catch {
@@ -142,9 +135,6 @@ export const HobbySection: React.FC = () => {
             sessionStorage.setItem("bimbok_trakt_cache", JSON.stringify(data.cinema));
           } catch {
             // ignore
-          }
-          if (data.isLiveSynced) {
-            setIsCinemaLiveSynced(true);
           }
         }
       } catch {
@@ -185,13 +175,6 @@ export const HobbySection: React.FC = () => {
             <Heart className="w-5 h-5 text-neutral-400" />
             <span>Hobbies & Personal Life</span>
           </h2>
-        </div>
-
-        <div className="flex items-center gap-2 self-start sm:self-auto">
-          <Badge variant="subtle" className="text-[11px] px-2.5 py-1 gap-1.5 font-mono">
-            <span className={`w-2 h-2 rounded-full ${isLiveSynced ? "bg-emerald-400 animate-pulse" : "bg-[#2E51A2]"}`} />
-            <span>{isLiveSynced ? "MAL Live Synced" : "MAL Cached"} (@{PORTFOLIO_DATA.hobbies.myAnimeListUsername})</span>
-          </Badge>
         </div>
       </div>
 
@@ -660,13 +643,17 @@ export const HobbySection: React.FC = () => {
                 </div>
               </div>
 
-              {/* Header Right: Live Sync Pill */}
-              <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
-                <Badge variant="subtle" className="text-[11px] px-2.5 py-1 gap-1.5 font-mono">
-                  <span className={`w-2 h-2 rounded-full ${isMusicLiveSynced ? "bg-emerald-400 animate-pulse" : "bg-[#D51007]"}`} />
-                  <span>{isMusicLiveSynced ? "Last.fm Live Synced" : "Last.fm Scrobbler"} (@{musicData.lastfmUsername})</span>
-                </Badge>
-              </div>
+              {/* Header Action: Open Full Modal */}
+              <button
+                onClick={() => {
+                  audioEngine.playKeyClick("enter");
+                  setMusicModalOpen(true);
+                }}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-neutral-950 hover:bg-neutral-800 border border-neutral-800 hover:border-[#D51007]/40 text-xs font-semibold text-white transition-all shadow-sm self-start sm:self-auto group/btn cursor-pointer"
+              >
+                <span>Explore Music Vault</span>
+                <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
+              </button>
             </div>
 
             {/* Stats Row */}
@@ -886,13 +873,17 @@ export const HobbySection: React.FC = () => {
                 </div>
               </div>
 
-              {/* Header Right: Live Sync Pill */}
-              <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
-                <Badge variant="subtle" className="text-[11px] px-2.5 py-1 gap-1.5 font-mono">
-                  <span className={`w-2 h-2 rounded-full ${isCinemaLiveSynced ? "bg-emerald-400 animate-pulse" : "bg-[#7349CC]"}`} />
-                  <span>{isCinemaLiveSynced ? "Trakt.tv Live Synced" : "Trakt.tv Scrobbler"} (@{cinemaData.traktUsername})</span>
-                </Badge>
-              </div>
+              {/* Header Action: Open Full Modal */}
+              <button
+                onClick={() => {
+                  audioEngine.playKeyClick("enter");
+                  setMovieModalOpen(true);
+                }}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-neutral-950 hover:bg-neutral-800 border border-neutral-800 hover:border-[#7349CC]/40 text-xs font-semibold text-white transition-all shadow-sm self-start sm:self-auto group/btn cursor-pointer"
+              >
+                <span>Explore Cinema Vault</span>
+                <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
+              </button>
             </div>
 
             {/* Stats Row */}
