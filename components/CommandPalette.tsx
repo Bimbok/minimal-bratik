@@ -5,7 +5,7 @@ import { Command } from "cmdk";
 import { PORTFOLIO_DATA } from "../lib/portfolio-data";
 import { useThemeContext, SectionId, ThemeMode } from "../lib/theme-context";
 import { audioEngine } from "../lib/audio";
-import { MyAnimeListIcon } from "./BrandIcons";
+import { MyAnimeListIcon, HyprlandIcon } from "./BrandIcons";
 import {
   Search,
   Terminal,
@@ -24,7 +24,6 @@ import {
   Play,
   UserPlus,
   Heart,
-  Monitor,
   Music,
   Clapperboard,
 } from "lucide-react";
@@ -313,7 +312,7 @@ END:VCARD`;
                 className="flex items-center justify-between p-2.5 rounded-md hover:bg-neutral-800 text-neutral-200 cursor-pointer aria-selected:bg-neutral-800 aria-selected:text-white"
               >
                 <div className="flex items-center gap-2">
-                  <Monitor className="w-4 h-4 text-neutral-300" />
+                  <HyprlandIcon className="w-4 h-4 text-[#58E1FF]" />
                   <span>cat rice (Linux & Hyprland Rice Lightbox & Dotfiles)</span>
                 </div>
               </Command.Item>

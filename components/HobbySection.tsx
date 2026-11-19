@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useThemeContext } from "../lib/theme-context";
 import { PORTFOLIO_DATA, AnimeItem, MusicData, TraktData } from "../lib/portfolio-data";
 import { audioEngine } from "../lib/audio";
-import { LastFmIcon, TraktIcon, MyAnimeListIcon } from "./BrandIcons";
+import { LastFmIcon, TraktIcon, MyAnimeListIcon, HyprlandIcon } from "./BrandIcons";
 import {
   Heart,
   Tv,
@@ -12,7 +12,6 @@ import {
   ExternalLink,
   ArrowRight,
   Play,
-  Monitor,
   FolderGit2,
   Copy,
   Check,
@@ -406,22 +405,22 @@ export const HobbySection: React.FC = () => {
           <Card variant="interactive" className="p-5 sm:p-6 bg-neutral-900/40 border-neutral-800 relative">
             
             {/* Subtle Top Gradient Accent */}
-            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-40 group-hover:opacity-100 transition-opacity" />
+            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#58E1FF] to-transparent opacity-50 group-hover:opacity-100 transition-opacity" />
 
             {/* Module Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-neutral-950 border border-neutral-800 flex items-center justify-center text-white shadow-inner">
-                  <Monitor className="w-5 h-5" />
+                <div className="w-10 h-10 rounded-xl bg-neutral-950 border border-neutral-800 flex items-center justify-center text-white shadow-inner group-hover:border-[#58E1FF]/40 transition-colors">
+                  <HyprlandIcon className="w-5.5 h-5.5 text-[#58E1FF]" />
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
                     <h3 className="text-base sm:text-lg font-bold text-white font-sans tracking-tight">
                       Linux & Hyprland Rice Showcase
                     </h3>
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-neutral-950 border border-neutral-800 text-neutral-400">
+                    <Badge variant="subtle" className="text-[10px]">
                       Hobby 02
-                    </span>
+                    </Badge>
                   </div>
                   <p className="text-xs text-neutral-400 font-sans mt-0.5">
                     Customized Arch Linux Wayland desktop featuring Quickshell Tide-island dynamic island & modular dotfiles.
@@ -466,7 +465,7 @@ export const HobbySection: React.FC = () => {
                     setRiceModalTab("gallery");
                     setRiceModalOpen(true);
                   }}
-                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-neutral-950 hover:bg-neutral-800 border border-neutral-800 text-xs font-semibold text-white transition-all shadow-sm group/btn"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-neutral-950 hover:bg-neutral-800 border border-neutral-800 hover:border-[#58E1FF]/40 text-xs font-semibold text-white transition-all shadow-sm group/btn"
                 >
                   <span>View Full Rice Gallery</span>
                   <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
@@ -478,7 +477,7 @@ export const HobbySection: React.FC = () => {
             <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 mb-4 p-2.5 rounded-xl bg-neutral-950/70 border border-neutral-800/80 text-center font-mono">
               <div className="px-2 py-1">
                 <div className="text-[10px] text-neutral-400 uppercase tracking-wider">Compositor</div>
-                <div className="text-xs sm:text-sm font-bold text-white mt-0.5">Hyprland</div>
+                <div className="text-xs sm:text-sm font-bold text-[#58E1FF] mt-0.5">Hyprland</div>
               </div>
               <div className="px-2 py-1 border-l border-neutral-800/80">
                 <div className="text-[10px] text-neutral-400 uppercase tracking-wider">Dynamic Island</div>
@@ -620,10 +619,11 @@ export const HobbySection: React.FC = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => audioEngine.playKeyClick("enter")}
-                  className="text-xs text-neutral-400 hover:text-white font-medium flex items-center gap-1 hover:underline"
+                  className="text-xs text-neutral-400 hover:text-white font-medium flex items-center gap-1.5 hover:underline"
                 >
+                  <HyprlandIcon className="w-3.5 h-3.5 text-[#58E1FF]" />
                   <span>All Dotfiles on GitHub</span>
-                  <ExternalLink className="w-3 h-3" />
+                  <ExternalLink className="w-3 h-3 text-neutral-500" />
                 </a>
               </div>
             </div>
