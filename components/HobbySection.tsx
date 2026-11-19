@@ -28,35 +28,8 @@ export const HobbySection: React.FC = () => {
   const [animeData, setAnimeData] = useState<AnimeItem[]>(PORTFOLIO_DATA.hobbies.anime);
   const [profileUrl, setProfileUrl] = useState<string>(PORTFOLIO_DATA.hobbies.animeProfileUrl);
 
-  const [musicData, setMusicData] = useState<MusicData | undefined>(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const cached = sessionStorage.getItem("bimbok_lastfm_cache");
-        if (cached) {
-          const parsed = JSON.parse(cached);
-          if (parsed?.stats) return parsed;
-        }
-      } catch {
-        // Ignore
-      }
-    }
-    return PORTFOLIO_DATA.hobbies.music;
-  });
-
-  const [cinemaData, setCinemaData] = useState<TraktData | undefined>(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const cached = sessionStorage.getItem("bimbok_trakt_cache");
-        if (cached) {
-          const parsed = JSON.parse(cached);
-          if (parsed?.stats) return parsed;
-        }
-      } catch {
-        // Ignore
-      }
-    }
-    return PORTFOLIO_DATA.hobbies.cinema;
-  });
+  const [musicData, setMusicData] = useState<MusicData | undefined>(PORTFOLIO_DATA.hobbies.music);
+  const [cinemaData, setCinemaData] = useState<TraktData | undefined>(PORTFOLIO_DATA.hobbies.cinema);
   const [stats, setStats] = useState(
     PORTFOLIO_DATA.hobbies.stats || {
       daysWatched: 7.2,
@@ -91,7 +64,20 @@ export const HobbySection: React.FC = () => {
   // Real-time polling for Last.fm (every 4 seconds, just like Discord presence)
   useEffect(() => {
     let isMounted = true;
+
     const fetchMusic = async () => {
+      try {
+        const cached = sessionStorage.getItem("bimbok_lastfm_cache");
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (parsed?.stats && isMounted) {
+            setMusicData(parsed);
+          }
+        }
+      } catch {
+        // ignore
+      }
+
       try {
         const res = await fetch(
           `/api/lastfm?username=${PORTFOLIO_DATA.hobbies.music?.lastfmUsername || "bimbokmkj"}&t=${Date.now()}`
@@ -122,7 +108,20 @@ export const HobbySection: React.FC = () => {
   // Real-time polling for Trakt.tv Cinema & Series (every 4 seconds, just like Discord & Last.fm)
   useEffect(() => {
     let isMounted = true;
+
     const fetchCinema = async () => {
+      try {
+        const cached = sessionStorage.getItem("bimbok_trakt_cache");
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (parsed?.stats && isMounted) {
+            setCinemaData(parsed);
+          }
+        }
+      } catch {
+        // ignore
+      }
+
       try {
         const res = await fetch(
           `/api/trakt?username=${PORTFOLIO_DATA.hobbies.cinema?.traktUsername || "bimbok"}&t=${Date.now()}`
@@ -659,19 +658,19 @@ export const HobbySection: React.FC = () => {
             {/* Stats Row */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4 font-mono text-center">
               <div className="p-2.5 rounded-xl bg-neutral-950/70 border border-neutral-800/80">
-                <div className="text-base font-extrabold text-white">{musicData.stats.scrobbles.toLocaleString()}</div>
+                <div suppressHydrationWarning className="text-base font-extrabold text-white">{musicData.stats.scrobbles.toLocaleString()}</div>
                 <div className="text-[10px] text-neutral-500 uppercase tracking-wider">Scrobbles</div>
               </div>
               <div className="p-2.5 rounded-xl bg-neutral-950/70 border border-neutral-800/80">
-                <div className="text-base font-extrabold text-white">{musicData.stats.artists}</div>
+                <div suppressHydrationWarning className="text-base font-extrabold text-white">{musicData.stats.artists}</div>
                 <div className="text-[10px] text-neutral-500 uppercase tracking-wider">Artists</div>
               </div>
               <div className="p-2.5 rounded-xl bg-neutral-950/70 border border-neutral-800/80">
-                <div className="text-base font-extrabold text-white">{musicData.stats.lovedTracks}</div>
+                <div suppressHydrationWarning className="text-base font-extrabold text-white">{musicData.stats.lovedTracks}</div>
                 <div className="text-[10px] text-neutral-500 uppercase tracking-wider">Loved Tracks</div>
               </div>
               <div className="p-2.5 rounded-xl bg-neutral-950/70 border border-neutral-800/80">
-                <div className="text-base font-extrabold text-white">125</div>
+                <div suppressHydrationWarning className="text-base font-extrabold text-white">125</div>
                 <div className="text-[10px] text-neutral-500 uppercase tracking-wider">This Week</div>
               </div>
             </div>
@@ -833,10 +832,11 @@ export const HobbySection: React.FC = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => audioEngine.playKeyClick("enter")}
-                  className="text-xs text-neutral-400 hover:text-white font-medium flex items-center gap-1 hover:underline"
+                  className="text-xs text-neutral-400 hover:text-white font-medium flex items-center gap-1.5 hover:underline"
                 >
+                  <LastFmIcon className="w-3.5 h-3.5 text-[#D51007]" />
                   <span>Last.fm Profile</span>
-                  <ExternalLink className="w-3 h-3" />
+                  <ExternalLink className="w-3 h-3 text-neutral-500" />
                 </a>
               </div>
             </div>
@@ -889,19 +889,19 @@ export const HobbySection: React.FC = () => {
             {/* Stats Row */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4 font-mono text-center">
               <div className="p-2.5 rounded-xl bg-neutral-950/70 border border-neutral-800/80">
-                <div className="text-base font-extrabold text-white">{cinemaData.stats.episodesWatched}</div>
+                <div suppressHydrationWarning className="text-base font-extrabold text-white">{cinemaData.stats.episodesWatched}</div>
                 <div className="text-[10px] text-neutral-500 uppercase tracking-wider">Episodes</div>
               </div>
               <div className="p-2.5 rounded-xl bg-neutral-950/70 border border-neutral-800/80">
-                <div className="text-base font-extrabold text-white">{cinemaData.stats.showsWatched}</div>
+                <div suppressHydrationWarning className="text-base font-extrabold text-white">{cinemaData.stats.showsWatched}</div>
                 <div className="text-[10px] text-neutral-500 uppercase tracking-wider">Shows</div>
               </div>
               <div className="p-2.5 rounded-xl bg-neutral-950/70 border border-neutral-800/80">
-                <div className="text-base font-extrabold text-white">{cinemaData.stats.totalHours}h</div>
+                <div suppressHydrationWarning className="text-base font-extrabold text-white">{cinemaData.stats.totalHours}h</div>
                 <div className="text-[10px] text-neutral-500 uppercase tracking-wider">Hours Watched</div>
               </div>
               <div className="p-2.5 rounded-xl bg-neutral-950/70 border border-neutral-800/80">
-                <div className="text-base font-extrabold text-white">{cinemaData.stats.moviesWatched}</div>
+                <div suppressHydrationWarning className="text-base font-extrabold text-white">{cinemaData.stats.moviesWatched}</div>
                 <div className="text-[10px] text-neutral-500 uppercase tracking-wider">Movies</div>
               </div>
             </div>
@@ -1073,10 +1073,11 @@ export const HobbySection: React.FC = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => audioEngine.playKeyClick("enter")}
-                  className="text-xs text-neutral-400 hover:text-white font-medium flex items-center gap-1 hover:underline"
+                  className="text-xs text-neutral-400 hover:text-white font-medium flex items-center gap-1.5 hover:underline"
                 >
+                  <TraktIcon className="w-3.5 h-3.5 text-[#7349CC]" />
                   <span>Trakt Profile</span>
-                  <ExternalLink className="w-3 h-3" />
+                  <ExternalLink className="w-3 h-3 text-neutral-500" />
                 </a>
               </div>
             </div>
