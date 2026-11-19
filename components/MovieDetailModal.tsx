@@ -14,7 +14,20 @@ export const MovieDetailModal: React.FC<{ cinemaData?: TraktData }> = ({ cinemaD
   const { movieModalOpen, setMovieModalOpen } = useThemeContext();
   const [activeTab, setActiveTab] = useState<"history" | "shows" | "movies">("movies");
   const [searchQuery, setSearchQuery] = useState("");
-  const [liveCinema, setLiveCinema] = useState<TraktData | undefined>(propData || PORTFOLIO_DATA.hobbies.cinema);
+  const [liveCinema, setLiveCinema] = useState<TraktData | undefined>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const cached = sessionStorage.getItem("bimbok_trakt_cache");
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (parsed?.stats) return parsed;
+        }
+      } catch {
+        // Ignore
+      }
+    }
+    return propData || PORTFOLIO_DATA.hobbies.cinema;
+  });
 
   const scrollWrapperRef = useRef<HTMLDivElement>(null);
   const scrollContentRef = useRef<HTMLDivElement>(null);
@@ -33,6 +46,11 @@ export const MovieDetailModal: React.FC<{ cinemaData?: TraktData }> = ({ cinemaD
         const data = await res.json();
         if (isMounted && data?.success && data?.cinema) {
           setLiveCinema(data.cinema);
+          try {
+            sessionStorage.setItem("bimbok_trakt_cache", JSON.stringify(data.cinema));
+          } catch {
+            // ignore
+          }
         }
       } catch {
         // Keep fallback

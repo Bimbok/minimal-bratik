@@ -29,9 +29,37 @@ export const HobbySection: React.FC = () => {
   const [animeData, setAnimeData] = useState<AnimeItem[]>(PORTFOLIO_DATA.hobbies.anime);
   const [profileUrl, setProfileUrl] = useState<string>(PORTFOLIO_DATA.hobbies.animeProfileUrl);
   const [isLiveSynced, setIsLiveSynced] = useState<boolean>(false);
-  const [musicData, setMusicData] = useState<MusicData | undefined>(PORTFOLIO_DATA.hobbies.music);
+
+  const [musicData, setMusicData] = useState<MusicData | undefined>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const cached = sessionStorage.getItem("bimbok_lastfm_cache");
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (parsed?.stats) return parsed;
+        }
+      } catch {
+        // Ignore
+      }
+    }
+    return PORTFOLIO_DATA.hobbies.music;
+  });
   const [isMusicLiveSynced, setIsMusicLiveSynced] = useState<boolean>(false);
-  const [cinemaData, setCinemaData] = useState<TraktData | undefined>(PORTFOLIO_DATA.hobbies.cinema);
+
+  const [cinemaData, setCinemaData] = useState<TraktData | undefined>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const cached = sessionStorage.getItem("bimbok_trakt_cache");
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (parsed?.stats) return parsed;
+        }
+      } catch {
+        // Ignore
+      }
+    }
+    return PORTFOLIO_DATA.hobbies.cinema;
+  });
   const [isCinemaLiveSynced, setIsCinemaLiveSynced] = useState<boolean>(false);
   const [stats, setStats] = useState(
     PORTFOLIO_DATA.hobbies.stats || {
@@ -77,6 +105,11 @@ export const HobbySection: React.FC = () => {
         const data = await res.json();
         if (isMounted && data?.success && data?.music) {
           setMusicData(data.music);
+          try {
+            sessionStorage.setItem("bimbok_lastfm_cache", JSON.stringify(data.music));
+          } catch {
+            // ignore
+          }
           if (data.isLiveSynced) {
             setIsMusicLiveSynced(true);
           }
@@ -106,6 +139,11 @@ export const HobbySection: React.FC = () => {
         const data = await res.json();
         if (isMounted && data?.success && data?.cinema) {
           setCinemaData(data.cinema);
+          try {
+            sessionStorage.setItem("bimbok_trakt_cache", JSON.stringify(data.cinema));
+          } catch {
+            // ignore
+          }
           if (data.isLiveSynced) {
             setIsCinemaLiveSynced(true);
           }
@@ -1016,12 +1054,14 @@ export const HobbySection: React.FC = () => {
 
             {/* Module Bottom Bar */}
             <div className="pt-3 border-t border-neutral-800/80 flex flex-col sm:flex-row items-center justify-between gap-2.5 text-xs">
-              <div className="flex items-center gap-2 text-neutral-400 text-[11px] font-sans">
-                <span className="text-white font-semibold">Asur Season 2</span>
+              <div className="flex items-center gap-2 text-neutral-400 text-[11px] font-sans truncate">
+                <span className="text-white font-semibold">{cinemaData.stats.showsWatched} TV Shows</span>
                 <span>•</span>
-                <span>16 Episodes</span>
+                <span>{cinemaData.stats.episodesWatched} Episodes</span>
                 <span>•</span>
-                <span className="text-neutral-500">JioCinema • Crime Thriller</span>
+                <span>{cinemaData.stats.moviesWatched} Movies</span>
+                <span>•</span>
+                <span className="text-neutral-500">{cinemaData.stats.totalHours}h Screen Time</span>
               </div>
 
               <div className="flex items-center gap-3">
