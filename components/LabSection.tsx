@@ -88,7 +88,7 @@ export const LabSection: React.FC = () => {
           output = <p className="text-xs text-red-400 font-bold">Opening Last.fm Music Vault modal...</p>;
         } else if (arg === "cinema" || arg === "movies" || arg === "trakt") {
           setMovieModalOpen(true);
-          output = <p className="text-xs text-[#ED1C24] font-bold">Opening Trakt.tv Cinema & Series Vault modal...</p>;
+          output = <p className="text-xs text-[#7349CC] font-bold">Opening Trakt.tv Cinema & Series Vault modal...</p>;
         } else if (arg === "bio" || arg === "bio.md") {
           output = <p className="text-xs">{PORTFOLIO_DATA.profile.bio}</p>;
         } else if (arg === "skills" || arg === "skills.yml") {
@@ -109,7 +109,7 @@ export const LabSection: React.FC = () => {
       case "movies":
       case "trakt":
         setMovieModalOpen(true);
-        output = <p className="text-xs text-[#ED1C24] font-bold">Opening Trakt.tv Cinema & Series Vault modal...</p>;
+        output = <p className="text-xs text-[#7349CC] font-bold">Opening Trakt.tv Cinema & Series Vault modal...</p>;
         break;
 
       case "fetch":

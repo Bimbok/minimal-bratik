@@ -149,7 +149,7 @@ export const MovieDetailModal: React.FC<{ cinemaData?: TraktData }> = ({ cinemaD
       isOpen={movieModalOpen}
       onClose={() => setMovieModalOpen(false)}
       title="Cinema & TV Series Vault"
-      icon={<TraktIcon className="w-4.5 h-4.5 text-[#ED1C24]" />}
+      icon={<TraktIcon className="w-4.5 h-4.5 text-[#7349CC]" />}
       maxWidth="4xl"
       className="bg-[#0c0d10] border-neutral-800 text-neutral-200"
       headerActions={
@@ -182,7 +182,7 @@ export const MovieDetailModal: React.FC<{ cinemaData?: TraktData }> = ({ cinemaD
                 }}
               />
               <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-neutral-950 border border-neutral-700 flex items-center justify-center">
-                <TraktIcon className="w-3 h-3 text-[#ED1C24]" />
+                <TraktIcon className="w-3 h-3 text-[#7349CC]" />
               </div>
             </div>
 
@@ -238,7 +238,7 @@ export const MovieDetailModal: React.FC<{ cinemaData?: TraktData }> = ({ cinemaD
               size="sm"
               onClick={() => setActiveTab("shows")}
             >
-              <Tv className="w-3.5 h-3.5 text-[#ED1C24]" />
+              <Tv className="w-3.5 h-3.5 text-[#7349CC]" />
               <span>TV Series ({shows.length})</span>
             </Button>
             <Button

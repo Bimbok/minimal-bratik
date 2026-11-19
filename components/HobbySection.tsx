@@ -862,13 +862,13 @@ export const HobbySection: React.FC = () => {
         {cinemaData && (
           <Card variant="interactive" className="p-5 sm:p-6 bg-neutral-900/40 border-neutral-800 relative">
             {/* Subtle Top Gradient Accent */}
-            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#ED1C24] to-transparent opacity-40 group-hover:opacity-100 transition-opacity" />
+            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#7349CC] to-transparent opacity-40 group-hover:opacity-100 transition-opacity" />
 
             {/* Module Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-neutral-950 border border-neutral-800 flex items-center justify-center text-white shadow-inner">
-                  <TraktIcon className="w-5 h-5 text-[#ED1C24]" />
+                  <TraktIcon className="w-6 h-6 text-[#7349CC]" />
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
@@ -888,7 +888,7 @@ export const HobbySection: React.FC = () => {
               {/* Header Right: Live Sync Pill */}
               <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
                 <Badge variant="subtle" className="text-[11px] px-2.5 py-1 gap-1.5 font-mono">
-                  <span className={`w-2 h-2 rounded-full ${isCinemaLiveSynced ? "bg-emerald-400 animate-pulse" : "bg-[#ED1C24]"}`} />
+                  <span className={`w-2 h-2 rounded-full ${isCinemaLiveSynced ? "bg-emerald-400 animate-pulse" : "bg-[#7349CC]"}`} />
                   <span>{isCinemaLiveSynced ? "Trakt.tv Live Synced" : "Trakt.tv Scrobbler"} (@{cinemaData.traktUsername})</span>
                 </Badge>
               </div>
@@ -944,8 +944,8 @@ export const HobbySection: React.FC = () => {
                           <span>Now Watching</span>
                         </span>
                       ) : (
-                        <span className="text-[10px] text-[#ED1C24] font-bold uppercase tracking-wider flex items-center gap-1.5">
-                          <Film className="w-3 h-3 text-[#ED1C24]" />
+                        <span className="text-[10px] text-[#7349CC] font-bold uppercase tracking-wider flex items-center gap-1.5">
+                          <Film className="w-3 h-3 text-[#7349CC]" />
                           <span>Currently Binging</span>
                         </span>
                       )}

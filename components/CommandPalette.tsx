@@ -299,7 +299,7 @@ END:VCARD`;
                 className="flex items-center justify-between p-2.5 rounded-md hover:bg-neutral-800 text-neutral-200 cursor-pointer aria-selected:bg-neutral-800 aria-selected:text-white"
               >
                 <div className="flex items-center gap-2">
-                  <Clapperboard className="w-4 h-4 text-[#ED1C24]" />
+                  <Clapperboard className="w-4 h-4 text-[#7349CC]" />
                   <span>cat cinema (View Cinema & Trakt.tv Series Watchlist)</span>
                 </div>
               </Command.Item>
