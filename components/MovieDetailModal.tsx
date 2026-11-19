@@ -7,6 +7,7 @@ import { PORTFOLIO_DATA, TraktData } from "../lib/portfolio-data";
 import { Modal } from "./ui/modal";
 import { Button, LinkButton } from "./ui/button";
 import { Badge } from "./ui/badge";
+import { TabNavigation } from "./ui";
 import { TraktIcon } from "./BrandIcons";
 import { Clapperboard, Film, Tv, Star, ExternalLink, Search } from "lucide-react";
 
@@ -223,32 +224,31 @@ export const MovieDetailModal: React.FC<{ cinemaData?: TraktData }> = ({ cinemaD
 
         {/* Tab Navigation & Search Bar */}
         <div className="flex items-center justify-between border-b border-neutral-800/80 pb-3 gap-2 flex-wrap shrink-0">
-          <div className="flex items-center gap-1.5 font-mono text-xs flex-wrap">
-            <Button
-              variant={activeTab === "movies" ? "primary" : "secondary"}
-              size="sm"
-              onClick={() => setActiveTab("movies")}
-            >
-              <Film className="w-3.5 h-3.5 text-amber-400" />
-              <span>Movies ({movies.length})</span>
-            </Button>
-            <Button
-              variant={activeTab === "shows" ? "primary" : "secondary"}
-              size="sm"
-              onClick={() => setActiveTab("shows")}
-            >
-              <Tv className="w-3.5 h-3.5 text-[#7349CC]" />
-              <span>TV Series ({shows.length})</span>
-            </Button>
-            <Button
-              variant={activeTab === "history" ? "primary" : "secondary"}
-              size="sm"
-              onClick={() => setActiveTab("history")}
-            >
-              <Clapperboard className="w-3.5 h-3.5" />
-              <span>Watch History ({history.length})</span>
-            </Button>
-          </div>
+          <TabNavigation
+            layoutId="movie-detail-tabs"
+            size="sm"
+            tabs={[
+              {
+                id: "movies",
+                label: `Movies (${movies.length})`,
+                icon: <Film className="w-3.5 h-3.5 text-amber-400 shrink-0" />,
+              },
+              {
+                id: "shows",
+                label: `TV Series (${shows.length})`,
+                icon: <Tv className="w-3.5 h-3.5 text-[#7349CC] shrink-0" />,
+              },
+              {
+                id: "history",
+                label: `Watch History (${history.length})`,
+                icon: (isActive) => (
+                  <Clapperboard className={`w-3.5 h-3.5 ${isActive ? "text-black" : "text-neutral-400"}`} />
+                ),
+              },
+            ]}
+            activeTab={activeTab}
+            onChange={(id) => setActiveTab(id as "history" | "shows" | "movies")}
+          />
 
           {/* Quick Search */}
           <div className="relative w-full sm:w-52 shrink-0 font-mono text-xs">

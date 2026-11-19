@@ -6,7 +6,7 @@ import { audioEngine } from "../lib/audio";
 import { Marquee } from "./ui/marquee";
 import { Cpu, Search } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Section, Badge, Button } from "./ui";
+import { Section, Badge, Button, TabNavigation } from "./ui";
 
 interface SkillItemWithCategory {
   name: string;
@@ -94,20 +94,19 @@ export const SkillsSection: React.FC = () => {
       </div>
 
       {/* Category Filter Pills */}
-      <div className="flex items-center gap-1.5 flex-wrap font-mono">
-        {["All", "Languages", "Frameworks", "Tools & Linux"].map((cat) => {
-          const isActive = activeCategory === cat;
-          return (
-            <Button
-              key={cat}
-              variant={isActive ? "primary" : "secondary"}
-              size="sm"
-              onClick={() => setActiveCategory(cat)}
-            >
-              {cat}
-            </Button>
-          );
-        })}
+      <div>
+        <TabNavigation
+          layoutId="skills-category-tabs"
+          size="sm"
+          tabs={[
+            { id: "All", label: "All" },
+            { id: "Languages", label: "Languages" },
+            { id: "Frameworks", label: "Frameworks" },
+            { id: "Tools & Linux", label: "Tools & Linux" },
+          ]}
+          activeTab={activeCategory}
+          onChange={setActiveCategory}
+        />
       </div>
 
       {/* Infinite Scrolling Marquee Container */}

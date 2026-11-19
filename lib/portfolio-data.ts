@@ -95,6 +95,7 @@ export interface LinuxRiceData {
   description: string;
   githubUser: string;
   videoUrl?: string;
+  playlistUrl?: string;
   localVideoUrl?: string;
   youtubeId?: string;
   screenshots: RiceScreenshot[];
@@ -1457,6 +1458,7 @@ GitHub: github.com/Bimbok | LinkedIn: linkedin.com/in/bimbok
         "A customized Arch Linux Wayland desktop environment featuring Quickshell Tide-island dynamic island, custom Waybar pills, SwayNC control center with media player, Rofi wallpaper theme selector, and Kitty terminal with fish shell.",
       githubUser: "Bimbok",
       videoUrl: "https://youtu.be/6C1CMt7nFLE?si=Swthz417QdhwBvl4",
+      playlistUrl: "https://youtube.com/playlist?list=PLdLisF9QzZiI&si=zx7VxfsdG9rHEsQD",
       localVideoUrl: "/rice/rice-showcase.mp4",
       youtubeId: "6C1CMt7nFLE",
       screenshots: [

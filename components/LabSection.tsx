@@ -5,7 +5,7 @@ import { useThemeContext } from "../lib/theme-context";
 import { audioEngine } from "../lib/audio";
 import { PORTFOLIO_DATA } from "../lib/portfolio-data";
 import { Terminal as TermIcon, Sparkles } from "lucide-react";
-import { Button } from "./ui";
+import { Button, TabNavigation } from "./ui";
 
 interface HistoryEntry {
   command: string;
@@ -207,22 +207,16 @@ export const LabSection: React.FC = () => {
         </div>
 
         {/* Tab switcher */}
-        <div className="flex items-center gap-2 font-mono text-xs">
-          <Button
-            variant={activeTab === "terminal" ? "primary" : "secondary"}
-            size="sm"
-            onClick={() => setActiveTab("terminal")}
-          >
-            [CLI Shell]
-          </Button>
-          <Button
-            variant={activeTab === "utility" ? "primary" : "secondary"}
-            size="sm"
-            onClick={() => setActiveTab("utility")}
-          >
-            [Dev Utils]
-          </Button>
-        </div>
+        <TabNavigation
+          layoutId="lab-terminal-tabs"
+          size="sm"
+          tabs={[
+            { id: "terminal", label: "[CLI Shell]" },
+            { id: "utility", label: "[Dev Utils]" },
+          ]}
+          activeTab={activeTab}
+          onChange={(id) => setActiveTab(id as "terminal" | "utility")}
+        />
       </div>
 
       {activeTab === "terminal" ? (

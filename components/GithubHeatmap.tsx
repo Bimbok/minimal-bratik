@@ -4,6 +4,7 @@ import React, { useState, useEffect, useSyncExternalStore } from "react";
 import { GitHubCalendar } from "react-github-calendar";
 import { Activity, ExternalLink, Code2, Users, FolderGit2, Flame } from "lucide-react";
 import { GithubIcon } from "./BrandIcons";
+import { TabNavigation } from "./ui";
 
 const emptySubscribe = () => () => {};
 
@@ -64,28 +65,16 @@ export const GithubHeatmap: React.FC = () => {
 
         <div className="flex items-center gap-3">
           {/* View Toggle */}
-          <div className="flex items-center gap-1 p-0.5 rounded-lg bg-neutral-900 border border-neutral-800 font-mono text-xs">
-            <button
-              onClick={() => setActiveView("calendar")}
-              className={`px-2.5 py-1 rounded-md transition-all font-bold ${
-                activeView === "calendar"
-                  ? "bg-white text-black shadow-md"
-                  : "text-neutral-400 hover:text-white"
-              }`}
-            >
-              Contributions
-            </button>
-            <button
-              onClick={() => setActiveView("stats")}
-              className={`px-2.5 py-1 rounded-md transition-all font-bold ${
-                activeView === "stats"
-                  ? "bg-white text-black shadow-md"
-                  : "text-neutral-400 hover:text-white"
-              }`}
-            >
-              Live Profile Stats
-            </button>
-          </div>
+          <TabNavigation
+            layoutId="github-heatmap-view-tabs"
+            size="sm"
+            tabs={[
+              { id: "calendar", label: "Contributions" },
+              { id: "stats", label: "Live Profile Stats" },
+            ]}
+            activeTab={activeView}
+            onChange={(id) => setActiveView(id as "calendar" | "stats")}
+          />
 
           <a
             href="https://github.com/Bimbok"

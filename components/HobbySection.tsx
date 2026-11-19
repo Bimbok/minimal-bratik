@@ -162,15 +162,7 @@ export const HobbySection: React.FC = () => {
       {/* Section Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-neutral-800/80">
         <div>
-          <div className="flex items-center gap-2">
-            <Badge variant="subtle" className="text-xs px-2 py-0.5">
-              ~/.config/hobbies
-            </Badge>
-            <span className="text-xs text-neutral-400 font-mono hidden sm:inline">
-              {"// personal interests & creative outlets"}
-            </span>
-          </div>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-white mt-1.5 tracking-tight font-sans flex items-center gap-2">
+          <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight font-sans flex items-center gap-2">
             <Heart className="w-5 h-5 text-neutral-400" />
             <span>Hobbies & Personal Life</span>
           </h2>
@@ -189,7 +181,7 @@ export const HobbySection: React.FC = () => {
           <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#2E51A2] to-transparent opacity-50 group-hover:opacity-100 transition-opacity" />
 
           {/* Module Header */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+          <div className="flex items-center justify-between gap-3 mb-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-neutral-950 border border-neutral-800 flex items-center justify-center text-white shadow-inner group-hover:border-[#2E51A2]/40 transition-colors">
                 <MyAnimeListIcon className="w-5.5 h-5.5 text-[#2E51A2]" />
@@ -208,18 +200,6 @@ export const HobbySection: React.FC = () => {
                 </p>
               </div>
             </div>
-
-            {/* Header Action: Open Full Modal */}
-            <button
-              onClick={() => {
-                audioEngine.playKeyClick("enter");
-                setAnimeModalOpen(true);
-              }}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-neutral-950 hover:bg-neutral-800 border border-neutral-800 hover:border-[#2E51A2]/40 text-xs font-semibold text-white transition-all shadow-sm self-start sm:self-auto group/btn"
-            >
-              <span>Explore All {stats.totalEntries} Titles</span>
-              <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
-            </button>
           </div>
 
           {/* Quick Profile Stat Bar */}
@@ -391,12 +371,12 @@ export const HobbySection: React.FC = () => {
 
             {/* Module Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-neutral-950 border border-neutral-800 flex items-center justify-center text-white shadow-inner group-hover:border-[#58E1FF]/40 transition-colors">
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="w-10 h-10 rounded-xl bg-neutral-950 border border-neutral-800 flex items-center justify-center text-white shadow-inner group-hover:border-[#58E1FF]/40 transition-colors shrink-0">
                   <HyprlandIcon className="w-5.5 h-5.5 text-[#58E1FF]" />
                 </div>
-                <div>
-                  <div className="flex items-center gap-2">
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <h3 className="text-base sm:text-lg font-bold text-white font-sans tracking-tight">
                       Linux & Hyprland Rice Showcase
                     </h3>
@@ -410,48 +390,30 @@ export const HobbySection: React.FC = () => {
                 </div>
               </div>
 
-              {/* Header Action: Watch Video & Open Full Rice Lightbox Modal */}
-              <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
-                {(riceData.localVideoUrl || riceData.youtubeId) && (
-                  <button
-                    onClick={() => {
-                      audioEngine.playKeyClick("enter");
-                      setRiceModalTab("video");
-                      setRiceModalOpen(true);
-                    }}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-red-950/40 hover:bg-red-900/60 border border-red-800/80 text-xs font-semibold text-red-200 hover:text-white transition-all shadow-sm group/yt"
-                  >
-                    <Play className="w-3.5 h-3.5 text-red-400 fill-current group-hover/yt:scale-110 transition-transform" />
-                    <span>Watch Rice Video</span>
-                  </button>
-                )}
-                {riceData.videoUrl && (
+              {/* Header Action: Open YouTube Link */}
+              <div className="flex items-center gap-2 self-start sm:self-auto shrink-0">
+                {(riceData.playlistUrl || riceData.videoUrl) && (
                   <a
-                    href={riceData.videoUrl}
+                    href={riceData.playlistUrl || riceData.videoUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => {
                       e.stopPropagation();
                       audioEngine.playKeyClick("enter");
                     }}
-                    className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-neutral-950 hover:bg-neutral-800 border border-neutral-800 text-xs font-semibold text-neutral-300 hover:text-white transition-all shadow-sm"
-                    title="Watch on YouTube"
+                    className="h-8 inline-flex items-center gap-1.5 px-3 rounded-xl bg-neutral-950 hover:bg-neutral-800 border border-neutral-800 hover:border-neutral-700 text-xs font-semibold text-neutral-300 hover:text-white transition-all shadow-sm group/ytlink shrink-0"
+                    title="Watch Rice Playlist on YouTube"
                   >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src="/youtube.svg"
+                      alt="YouTube"
+                      className="w-4 h-3 object-contain shrink-0"
+                    />
                     <span>YouTube</span>
-                    <ExternalLink className="w-3 h-3 text-neutral-400" />
+                    <ExternalLink className="w-3 h-3 text-neutral-400 group-hover/ytlink:text-white transition-colors" />
                   </a>
                 )}
-                <button
-                  onClick={() => {
-                    audioEngine.playKeyClick("enter");
-                    setRiceModalTab("gallery");
-                    setRiceModalOpen(true);
-                  }}
-                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-neutral-950 hover:bg-neutral-800 border border-neutral-800 hover:border-[#58E1FF]/40 text-xs font-semibold text-white transition-all shadow-sm group/btn"
-                >
-                  <span>View Full Rice Gallery</span>
-                  <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
-                </button>
               </div>
             </div>
 
@@ -622,7 +584,7 @@ export const HobbySection: React.FC = () => {
             <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#D51007] to-transparent opacity-40 group-hover:opacity-100 transition-opacity" />
 
             {/* Module Header */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+            <div className="flex items-center justify-between gap-3 mb-4">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-neutral-950 border border-neutral-800 flex items-center justify-center text-white shadow-inner">
                   <LastFmIcon className="w-5 h-5 text-[#D51007]" />
@@ -641,18 +603,6 @@ export const HobbySection: React.FC = () => {
                   </p>
                 </div>
               </div>
-
-              {/* Header Action: Open Full Modal */}
-              <button
-                onClick={() => {
-                  audioEngine.playKeyClick("enter");
-                  setMusicModalOpen(true);
-                }}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-neutral-950 hover:bg-neutral-800 border border-neutral-800 hover:border-[#D51007]/40 text-xs font-semibold text-white transition-all shadow-sm self-start sm:self-auto group/btn cursor-pointer"
-              >
-                <span>Explore Music Vault</span>
-                <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
-              </button>
             </div>
 
             {/* Stats Row */}
@@ -853,7 +803,7 @@ export const HobbySection: React.FC = () => {
             <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#7349CC] to-transparent opacity-40 group-hover:opacity-100 transition-opacity" />
 
             {/* Module Header */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+            <div className="flex items-center justify-between gap-3 mb-4">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-neutral-950 border border-neutral-800 flex items-center justify-center text-white shadow-inner">
                   <TraktIcon className="w-6 h-6 text-[#7349CC]" />
@@ -872,18 +822,6 @@ export const HobbySection: React.FC = () => {
                   </p>
                 </div>
               </div>
-
-              {/* Header Action: Open Full Modal */}
-              <button
-                onClick={() => {
-                  audioEngine.playKeyClick("enter");
-                  setMovieModalOpen(true);
-                }}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-neutral-950 hover:bg-neutral-800 border border-neutral-800 hover:border-[#7349CC]/40 text-xs font-semibold text-white transition-all shadow-sm self-start sm:self-auto group/btn cursor-pointer"
-              >
-                <span>Explore Cinema Vault</span>
-                <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
-              </button>
             </div>
 
             {/* Stats Row */}

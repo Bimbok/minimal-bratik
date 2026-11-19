@@ -6,6 +6,7 @@ import { useThemeContext } from "../lib/theme-context";
 import { PORTFOLIO_DATA, RiceScreenshot, DotfileRepo } from "../lib/portfolio-data";
 import { audioEngine } from "../lib/audio";
 import { HyprlandIcon } from "./BrandIcons";
+import { TabNavigation } from "./ui";
 import {
   X,
   ChevronLeft,
@@ -152,9 +153,9 @@ export const RiceDetailModal: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-2">
-            {riceData.videoUrl && (
+            {(riceData.playlistUrl || riceData.videoUrl) && (
               <a
-                href={riceData.videoUrl}
+                href={riceData.playlistUrl || riceData.videoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => audioEngine.playKeyClick("enter")}
@@ -216,55 +217,41 @@ export const RiceDetailModal: React.FC = () => {
 
         {/* Tab Switcher */}
         <div className="px-4 sm:px-5 py-2.5 bg-[#08090b] border-b border-neutral-800/80 flex items-center justify-between gap-3 shrink-0 overflow-x-auto">
-          <div className="flex items-center gap-1.5 shrink-0">
-            <button
-              onClick={() => {
-                setActiveTab("gallery");
-                audioEngine.playKeyClick("down");
-              }}
-              className={`px-3 py-1 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 shrink-0 ${
-                activeTab === "gallery"
-                  ? "bg-white text-black font-bold shadow-sm"
-                  : "bg-neutral-900/60 hover:bg-neutral-800 text-neutral-400 hover:text-white border border-neutral-800/80"
-              }`}
-            >
-              <HyprlandIcon className={`w-3.5 h-3.5 ${activeTab === "gallery" ? "text-black" : "text-[#58E1FF]"}`} />
-              <span>Gallery ({riceData.screenshots.length})</span>
-            </button>
-
-            {(riceData.localVideoUrl || riceData.youtubeId) && (
-              <button
-                onClick={() => {
-                  setActiveTab("video");
-                  setRiceModalTab("video");
-                  audioEngine.playKeyClick("down");
-                }}
-                className={`px-3 py-1 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 shrink-0 ${
-                  activeTab === "video"
-                    ? "bg-red-600 text-white font-bold shadow-sm"
-                    : "bg-neutral-900/60 hover:bg-neutral-800 text-neutral-400 hover:text-white border border-neutral-800/80"
-                }`}
-              >
-                <Play className="w-3.5 h-3.5 text-red-500 fill-current" />
-                <span>Showcase Video</span>
-              </button>
-            )}
-
-            <button
-              onClick={() => {
-                setActiveTab("dotfiles");
-                audioEngine.playKeyClick("down");
-              }}
-              className={`px-3 py-1 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 shrink-0 ${
-                activeTab === "dotfiles"
-                  ? "bg-white text-black font-bold shadow-sm"
-                  : "bg-neutral-900/60 hover:bg-neutral-800 text-neutral-400 hover:text-white border border-neutral-800/80"
-              }`}
-            >
-              <FolderGit2 className="w-3.5 h-3.5" />
-              <span>Dotfiles ({riceData.dotfiles.length})</span>
-            </button>
-          </div>
+          <TabNavigation
+            layoutId="rice-modal-tabs"
+            size="sm"
+            tabs={[
+              {
+                id: "gallery",
+                label: `Gallery (${riceData.screenshots.length})`,
+                icon: (isActive) => (
+                  <HyprlandIcon className={`w-3.5 h-3.5 ${isActive ? "text-black" : "text-[#58E1FF]"}`} />
+                ),
+              },
+              ...((riceData.localVideoUrl || riceData.youtubeId)
+                ? [
+                    {
+                      id: "video" as const,
+                      label: "Showcase Video",
+                      icon: (isActive: boolean) => (
+                        <Play className={`w-3.5 h-3.5 fill-current ${isActive ? "text-red-600" : "text-red-500"}`} />
+                      ),
+                    },
+                  ]
+                : []),
+              {
+                id: "dotfiles",
+                label: `Dotfiles (${riceData.dotfiles.length})`,
+                icon: (isActive) => (
+                  <FolderGit2 className={`w-3.5 h-3.5 ${isActive ? "text-black" : "text-neutral-400"}`} />
+                ),
+              },
+            ]}
+            activeTab={activeTab}
+            onChange={(id) => {
+              setActiveTab(id as "gallery" | "video" | "dotfiles");
+            }}
+          />
 
           <span className="text-[10px] text-neutral-500 font-mono hidden sm:inline shrink-0">
             Use <kbd className="px-1 py-0.5 rounded bg-neutral-900 border border-neutral-800 text-neutral-400">←</kbd> / <kbd className="px-1 py-0.5 rounded bg-neutral-900 border border-neutral-800 text-neutral-400">→</kbd> to switch

@@ -6,6 +6,7 @@ import { useThemeContext } from "../lib/theme-context";
 import { PORTFOLIO_DATA, AnimeItem } from "../lib/portfolio-data";
 import { audioEngine } from "../lib/audio";
 import { MyAnimeListIcon } from "./BrandIcons";
+import { TabNavigation } from "./ui";
 import {
   X,
   Star,
@@ -208,65 +209,33 @@ export const AnimeDetailModal: React.FC = () => {
         <div className="px-5 py-3 bg-[#08090b] border-b border-neutral-800/80 flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
           
           {/* Quick Filter Tabs */}
-          <div className="flex items-center gap-1.5 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0">
-            <button
-              onClick={() => {
-                setFilter("all");
-                audioEngine.playKeyClick("down");
-              }}
-              className={`px-3 py-1 rounded-lg text-xs font-medium transition-all ${
-                filter === "all"
-                  ? "bg-white text-black font-bold shadow-sm"
-                  : "bg-neutral-900/60 hover:bg-neutral-800 text-neutral-400 hover:text-white border border-neutral-800/80"
-              }`}
-            >
-              All ({animeList.length})
-            </button>
-
-            <button
-              onClick={() => {
-                setFilter("watching");
-                audioEngine.playKeyClick("down");
-              }}
-              className={`px-3 py-1 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 ${
-                filter === "watching"
-                  ? "bg-white text-black font-bold shadow-sm"
-                  : "bg-neutral-900/60 hover:bg-neutral-800 text-neutral-400 hover:text-white border border-neutral-800/80"
-              }`}
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span>Watching ({watchingCount})</span>
-            </button>
-
-            <button
-              onClick={() => {
-                setFilter("completed");
-                audioEngine.playKeyClick("down");
-              }}
-              className={`px-3 py-1 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 ${
-                filter === "completed"
-                  ? "bg-white text-black font-bold shadow-sm"
-                  : "bg-neutral-900/60 hover:bg-neutral-800 text-neutral-400 hover:text-white border border-neutral-800/80"
-              }`}
-            >
-              <CheckCircle2 className="w-3 h-3 text-neutral-400" />
-              <span>Completed ({completedCount})</span>
-            </button>
-
-            <button
-              onClick={() => {
-                setFilter("favorites");
-                audioEngine.playKeyClick("down");
-              }}
-              className={`px-3 py-1 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 ${
-                filter === "favorites"
-                  ? "bg-white text-black font-bold shadow-sm"
-                  : "bg-neutral-900/60 hover:bg-neutral-800 text-neutral-400 hover:text-white border border-neutral-800/80"
-              }`}
-            >
-              <Star className="w-3 h-3 text-amber-400 fill-amber-400" />
-              <span>Top Rated ({favoritesCount})</span>
-            </button>
+          <div className="w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0">
+            <TabNavigation
+              layoutId="anime-detail-filter-tabs"
+              size="sm"
+              tabs={[
+                { id: "all", label: `All (${animeList.length})` },
+                {
+                  id: "watching",
+                  label: `Watching (${watchingCount})`,
+                  icon: <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0" />,
+                },
+                {
+                  id: "completed",
+                  label: `Completed (${completedCount})`,
+                  icon: (isActive) => (
+                    <CheckCircle2 className={`w-3 h-3 ${isActive ? "text-black" : "text-neutral-400"}`} />
+                  ),
+                },
+                {
+                  id: "favorites",
+                  label: `Top Rated (${favoritesCount})`,
+                  icon: <Star className="w-3 h-3 text-amber-400 fill-amber-400 shrink-0" />,
+                },
+              ]}
+              activeTab={filter}
+              onChange={(id) => setFilter(id as typeof filter)}
+            />
           </div>
 
           {/* Search Box */}

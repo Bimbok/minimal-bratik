@@ -7,6 +7,7 @@ import { PORTFOLIO_DATA, MusicData } from "../lib/portfolio-data";
 import { Modal } from "./ui/modal";
 import { Button, LinkButton } from "./ui/button";
 import { Badge } from "./ui/badge";
+import { TabNavigation } from "./ui";
 import { LastFmIcon } from "./BrandIcons";
 import { Music, Disc, Heart, ExternalLink, Play, Users } from "lucide-react";
 
@@ -166,32 +167,29 @@ export const MusicDetailModal: React.FC<{ musicData?: MusicData }> = ({ musicDat
 
         {/* Tab Navigation */}
         <div className="flex items-center justify-between border-b border-neutral-800/80 pb-3 gap-2 flex-wrap shrink-0">
-          <div className="flex items-center gap-1.5 font-mono text-xs">
-            <Button
-              variant={activeTab === "recent" ? "primary" : "secondary"}
-              size="sm"
-              onClick={() => setActiveTab("recent")}
-            >
-              <Disc className="w-3.5 h-3.5" />
-              <span>Recent Scrobbles ({recentTracks.length})</span>
-            </Button>
-            <Button
-              variant={activeTab === "artists" ? "primary" : "secondary"}
-              size="sm"
-              onClick={() => setActiveTab("artists")}
-            >
-              <Users className="w-3.5 h-3.5" />
-              <span>Top Artists</span>
-            </Button>
-            <Button
-              variant={activeTab === "topTracks" ? "primary" : "secondary"}
-              size="sm"
-              onClick={() => setActiveTab("topTracks")}
-            >
-              <Heart className="w-3.5 h-3.5 text-[#D51007]" />
-              <span>Obsessions & Favorites</span>
-            </Button>
-          </div>
+          <TabNavigation
+            layoutId="music-detail-tabs"
+            size="sm"
+            tabs={[
+              {
+                id: "recent",
+                label: `Recent Scrobbles (${recentTracks.length})`,
+                icon: (isActive) => <Disc className={`w-3.5 h-3.5 ${isActive ? "text-black" : "text-neutral-400"}`} />,
+              },
+              {
+                id: "artists",
+                label: "Top Artists",
+                icon: (isActive) => <Users className={`w-3.5 h-3.5 ${isActive ? "text-black" : "text-neutral-400"}`} />,
+              },
+              {
+                id: "topTracks",
+                label: "Obsessions & Favorites",
+                icon: <Heart className="w-3.5 h-3.5 text-[#D51007] fill-current shrink-0" />,
+              },
+            ]}
+            activeTab={activeTab}
+            onChange={(id) => setActiveTab(id as "recent" | "artists" | "topTracks")}
+          />
 
           <span className="text-[10px] text-neutral-500 font-mono hidden sm:inline">
             Scrobbling from LastWave & YouTube Music
